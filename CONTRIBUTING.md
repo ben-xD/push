@@ -1,7 +1,8 @@
 # Contributing
 
-## Running codegen
-- Run `flutter pub run pigeon --input pigeons/push_api.dart`
+## Introduction
+
+If you find a bug, want a feature or anything else, create a GitHub issue or contribute the work yourself.
 
 ## Concepts
 
@@ -22,4 +23,4 @@ Pigeon is used to generate code which serializes and deserializes data, includin
 - Implementation of methods called from the other side are called `PushXHandlers`, for example `PushHostHandlers` and `PushFlutterHandlers`.
 - Instances used to call methods on the other side of the serialization barrier have been called: `PushXApi`, for example `PushHostApi` and `PushFlutterApi`.
 
-The command used is to (re)generate pigeon files is: `flutter pub run pigeon --input pigeons/push_api.dart` 
+The command used is to (re)generate pigeon files is: `cd push && flutter pub run pigeon --input pigeons/push_api.dart` 
