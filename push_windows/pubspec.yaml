@@ -1,5 +1,5 @@
 name: push_windows
-description: Handle push notifications in Flutter without firebase_messaging package.
+description: Push notifications in Flutter without firebase_messaging.
 version: 0.0.1
 homepage: https://push.orth.uk/
 
