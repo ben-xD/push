@@ -90,6 +90,26 @@ Warning: Setting up push notifications is more difficult than most features, bec
     - See [example app files](example/android/app/build.gradle) for an example.
 - Add `push` to your `pubspec.yaml`
 - Download/update dependencies by running `flutter pub get`
+- Flutter applications with custom Android code (native code defined in `MainActivity`):
+  - `Push` manually launches your Flutter application in response to a push notification being sent to your app when it is not yet running.
+  - In this case, code defined in `MainActivity` won't run when your Flutter application
+  - This may prevent your Flutter application from initializing successfully when push notifications are received when the app is terminated
+  - You should instead move the custom code out of your `MainActivity`, into a new custom, `Application` class. For example, a `ExampleApplication.kt` would look like:
+```kotlin
+package com.example.push_example
+
+import io.flutter.app.FlutterApplication
+
+class ExampleApplication : FlutterApplication() {
+    override fun onCreate() {
+        // Run custom native code for your Android application
+        super.onCreate()
+    }
+}
+```
+  - Passing data back to your Flutter application will need to be carefully designed. You don't want to attempt to communicate with the Flutter application when it has not been launched yet.
+  - In your `AndroidManifest.xml`, [declare this class to handle your application lifecycle methods using `android:name=".ExampleApplication"`](https://stackoverflow.com/a/13949737/7365866).
+  - This is not necessary on iOS, because your Flutter application is always available when a push notification is received, even when your app is in the terminated state.
 
 #### iOS
 
@@ -239,11 +259,7 @@ override fun onNewToken(registrationToken: String) {
 
 ## Credits
 
-The architecture of this package was originally designed by me as part
-of [`ably_flutter`](https://pub.dev/packages/ably_flutter). `ably_flutter` is a Flutter plugin for
-Ably, a realtime messaging service that powers synchronized digital experiences in realtime.
-However, this package is simpler and written in Swift, Kotlin and Pigeon (Dart codegenerator)
-instead of Objective-C, Java and manual serialization code.
+The architecture of this package is inspired by the work I did in [`ably_flutter`](https://pub.dev/packages/ably_flutter) related to push notifications. However, this package is a complete rewrite, containing a simpler architecture and uses modern languages (Swift, Kotlin) and modern tools (e.g. Pigeon (Dart codegenerator).
 
 ## Contributing
 
