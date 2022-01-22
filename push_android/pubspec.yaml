@@ -11,6 +11,14 @@ dependencies:
   flutter:
     sdk: flutter
 
+  # Federated package dependencies
+  push_platform_interface: ^0.0.1
+
+  # Local development dependencies
+#  push_platform_interface:
+#    path: "../push_platform_interface"
+  # End of local development dependencies
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -29,8 +37,8 @@ flutter:
     implements: push
     platforms:
       android:
-        package: com.example.push_android
-        pluginClass: PushAndroidPlugin
+        package: uk.orth.push
+        pluginClass: PushPlugin
 
   # To add assets to your plugin package, add an assets section, like this:
   # assets:
