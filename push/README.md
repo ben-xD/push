@@ -2,7 +2,7 @@
 
 Handles push notifications - including background notification, alert notifications and notification taps - all without installing Firebase on Flutter running on any host platform (except for Android).
 
-- Look at the features [features](#features) if you want to see if `push` will provide it.
+- Look at the [features](#features) if you want to see if `push` will provide it.
 - Look at [comparisons](#comparisons) if you want to compare `Push` with other push notification packages for Flutter.
 
 ## Features
