@@ -275,6 +275,29 @@
             </list>
           </value>
         </entry>
+        <entry key="push_android">
+          <value>
+            <list>
+              <option value="/opt/flutter/.pub-cache/hosted/pub.dartlang.org/push_android-0.0.2/lib" />
+              <option value="/opt/flutter/.pub-cache/hosted/pub.dartlang.org/push_android-0.0.1/lib" />
+            </list>
+          </value>
+        </entry>
+        <entry key="push_ios">
+          <value>
+            <list>
+              <option value="/opt/flutter/.pub-cache/hosted/pub.dartlang.org/push_ios-0.0.2/lib" />
+              <option value="/opt/flutter/.pub-cache/hosted/pub.dartlang.org/push_ios-0.0.1/lib" />
+            </list>
+          </value>
+        </entry>
+        <entry key="push_platform_interface">
+          <value>
+            <list>
+              <option value="/opt/flutter/.pub-cache/hosted/pub.dartlang.org/push_platform_interface-0.0.2/lib" />
+            </list>
+          </value>
+        </entry>
         <entry key="share_plus">
           <value>
             <list>
@@ -510,6 +533,11 @@
       <root url="file:///opt/flutter/.pub-cache/hosted/pub.dartlang.org/plugin_platform_interface-2.1.2/lib" />
       <root url="file:///opt/flutter/.pub-cache/hosted/pub.dartlang.org/process-4.2.4/lib" />
       <root url="file:///opt/flutter/.pub-cache/hosted/pub.dartlang.org/pub_semver-2.1.0/lib" />
+      <root url="file:///opt/flutter/.pub-cache/hosted/pub.dartlang.org/push_android-0.0.1/lib" />
+      <root url="file:///opt/flutter/.pub-cache/hosted/pub.dartlang.org/push_android-0.0.2/lib" />
+      <root url="file:///opt/flutter/.pub-cache/hosted/pub.dartlang.org/push_ios-0.0.1/lib" />
+      <root url="file:///opt/flutter/.pub-cache/hosted/pub.dartlang.org/push_ios-0.0.2/lib" />
+      <root url="file:///opt/flutter/.pub-cache/hosted/pub.dartlang.org/push_platform_interface-0.0.2/lib" />
       <root url="file:///opt/flutter/.pub-cache/hosted/pub.dartlang.org/share_plus-2.2.0/lib" />
       <root url="file:///opt/flutter/.pub-cache/hosted/pub.dartlang.org/share_plus_linux-2.0.4/lib" />
       <root url="file:///opt/flutter/.pub-cache/hosted/pub.dartlang.org/share_plus_macos-2.0.2/lib" />

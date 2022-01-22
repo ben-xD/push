@@ -1,8 +1,8 @@
 library push;
 
-export 'package:push_platform_interface/push.dart' show Push;
-export 'package:push_platform_interface/push.dart'
+export 'package:push_platform_interface/push_platform_interface.dart'
     show
+        Push,
         RemoteMessage,
         Notification,
         UNNotificationSettings,
