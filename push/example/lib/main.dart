@@ -26,7 +26,13 @@ class MyApp extends HookWidget {
     useEffect(() {
       configureAndroidPushNotificationChannels();
 
-      // First get the notification that launched the app.
+      // To be informed that the device's token has been updated by the operating system
+      // You should update your servers with this token
+      Push.instance.onNewToken.listen((token) {
+        print("Just got a new FCM registration token: ${token}");
+      });
+
+      // Handle notification launching app from terminated state
       Push.instance.notificationTapWhichLaunchedAppFromTerminated.then((data) {
         if (data == null) {
           print("App was not launched by tapping a notification");
@@ -37,10 +43,14 @@ class MyApp extends HookWidget {
         notificationWhichLaunchedApp.value = data;
       });
 
-      Push.instance.onNewToken.listen((token) {
-        print("Just got a new FCM registration token: ${token}");
+      // Handle notification taps
+      Push.instance.onNotificationTap.listen((data) {
+        print('Notification was tapped:\n'
+            'Data: ${data} \n');
+        tappedNotificationPayloads.value += [data];
       });
 
+      // Handle push notifications
       Push.instance.onMessage.listen((message) {
         print('RemoteMessage received while app is in foreground:\n'
             'RemoteMessage.Notification: ${message.notification} \n'
@@ -50,6 +60,7 @@ class MyApp extends HookWidget {
         messagesReceived.value += [message];
       });
 
+      // Handle push notifications
       Push.instance.onBackgroundMessage.listen((message) {
         print('RemoteMessage received while app is in background:\n'
             'RemoteMessage.Notification: ${message.notification} \n'
@@ -57,12 +68,6 @@ class MyApp extends HookWidget {
             ' body: ${message.notification?.body.toString()}\n'
             'RemoteMessage.Data: ${message.data}');
         backgroundMessagesReceived.value += [message];
-      });
-
-      Push.instance.onNotificationTap.listen((data) {
-        print('Notification was tapped:\n'
-            'Data: ${data} \n');
-        tappedNotificationPayloads.value += [data];
       });
     }, []);
 

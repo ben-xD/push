@@ -107,23 +107,65 @@ notification is received, any side effects caused by your handlers must complete
 completing the handler. This is because the Flutter application may be terminated as soon as the
 Future of the handler completes.
 
+**3 concepts:**
+- Notifications are shown to the user automatically
+  - Notifications which contain a title and a body are shown to the user when the app is in the background or terminated state.
+  - Notifications are not shown to the user when the app is in the foreground. If you want to show the user a notification, you should send a background notification to your app, and create a local notification.
+- You can handle the notifications in your Flutter app
+  - when the app is in the foreground
+  - when the app is in the background
+- You can handle notification taps
+
+All of this is shown in the following code snippet:
+```dart
+      // To be informed that the device's token has been updated by the operating system
+      // You should update your servers with this token
+      Push.instance.onNewToken.listen((token) {
+        print("Just got a new FCM registration token: ${token}");
+      });
+
+      // Handle notification launching app from terminated state
+      Push.instance.notificationTapWhichLaunchedAppFromTerminated.then((data) {
+        if (data == null) {
+          print("App was not launched by tapping a notification");
+        } else {
+          print('Notification tap launched app from terminated state:\n'
+              'Data: ${data} \n');
+        }
+        notificationWhichLaunchedApp.value = data;
+      });
+
+      // Handle notification taps
+      Push.instance.onNotificationTap.listen((data) {
+        print('Notification was tapped:\n'
+            'Data: ${data} \n');
+        tappedNotificationPayloads.value += [data];
+      });
+
+      // Handle push notifications
+      Push.instance.onMessage.listen((message) {
+        print('RemoteMessage received while app is in foreground:\n'
+            'RemoteMessage.Notification: ${message.notification} \n'
+            ' title: ${message.notification?.title.toString()}\n'
+            ' body: ${message.notification?.body.toString()}\n'
+            'RemoteMessage.Data: ${message.data}');
+        messagesReceived.value += [message];
+      });
+
+      // Handle push notifications
+      Push.instance.onBackgroundMessage.listen((message) {
+        print('RemoteMessage received while app is in background:\n'
+            'RemoteMessage.Notification: ${message.notification} \n'
+            ' title: ${message.notification?.title.toString()}\n'
+            ' body: ${message.notification?.body.toString()}\n'
+            'RemoteMessage.Data: ${message.data}');
+        backgroundMessagesReceived.value += [message];
+      });
+```
+
 ## Manual testing and debugging
 
-### iOS
-
-- Manual testing:
-    - Set up your developer account
-    - Copy `test_manual/ios/send_ios_example.sh` into a new file which won't be committed to git (
-      in `.gitignore`) by
-      running: `cp test_manual/ios/send_ios_example.sh test_manual.ios/send_ios.sh`
-    - Make the file executable: `chmod +x test_manual/ios/send_ios.sh`
-    - Run the script to send the push notification: `./test_manual/ios/send_ios.sh`
-- Debugging: Take a look at my
-  guide, [Debugging Push Notifications on iOS](https://orth.uk/ios-push-notifications-debugging).
-
-### Android
-
-- Set up the FCM push notification project in `test_manual/android`
+Take a look at the [`tools/`](https://github.com/ben-xD/push/tree/main/tools/) folder in the GitHub repository.
 
 ## Architecture
 
