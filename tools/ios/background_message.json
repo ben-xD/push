@@ -1,0 +1,10 @@
+{
+  "aps": {
+    "content-available": 1,
+    "objects_detected": [
+      "car",
+      "dog"
+    ],
+    "image_url": "http://example.com/image.png"
+  }
+}
