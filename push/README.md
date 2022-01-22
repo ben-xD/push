@@ -165,7 +165,7 @@ All of this is shown in the following code snippet:
 
 ## Manual testing and debugging
 
-Take a look at the [`tools/`](https://github.com/ben-xD/push/tree/main/tools/) folder in the GitHub repository.
+Take a look at the [`tools/`](https://github.com/ben-xD/push/tree/main/tools/) folder in the GitHub repository. It contains links to resources and tools to help you debug quickly.
 
 ## Architecture
 
