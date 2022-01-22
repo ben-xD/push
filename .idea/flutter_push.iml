@@ -56,6 +56,9 @@
       <excludeFolder url="file://$MODULE_DIR$/push/example/ios/.symlinks/plugins/url_launcher_ios/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/push/example/ios/.symlinks/plugins/url_launcher_ios/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/push/example/ios/.symlinks/plugins/url_launcher_ios/build" />
+      <excludeFolder url="file://$MODULE_DIR$/push/example/ios/.symlinks/plugins/push_ios/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/push/example/ios/.symlinks/plugins/push_ios/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/push/example/ios/.symlinks/plugins/push_ios/build" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
