@@ -1,3 +1,7 @@
+## 0.0.4
+
+- docs: fix broken links in documentation
+
 ## 0.0.3
 
 - fix: Use latest release of platform implementations
