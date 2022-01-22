@@ -1,0 +1,168 @@
+import Foundation
+
+class PushHostHandlers: NSObject, PUPushHostApi {
+    func requestPermissionBadge(_ badge: NSNumber?,
+                                sound: NSNumber?,
+                                alert: NSNumber?,
+                                carPlay: NSNumber?,
+                                criticalAlert: NSNumber?,
+                                provisional: NSNumber?,
+                                providesAppNotificationSettings: NSNumber?,
+                                announcement: NSNumber?,
+                                completion: @escaping (NSNumber?, FlutterError?) -> Void) {
+        var options: UNAuthorizationOptions = []
+
+        if badge as! Bool {
+            options.insert(.badge)
+        }
+        if sound as! Bool {
+            options.insert(.sound)
+        }
+        if alert as! Bool {
+            options.insert(.alert)
+        }
+        if carPlay as! Bool {
+            options.insert(.carPlay)
+        }
+        if #available(iOS 12.0, *) {
+            if criticalAlert as! Bool {
+                options.insert(.criticalAlert)
+            }
+            if provisional as! Bool {
+                options.insert(.provisional)
+            }
+            if providesAppNotificationSettings as! Bool {
+                options.insert(.providesAppNotificationSettings)
+            }
+        }
+        if #available(iOS 13.0, *) {
+            if announcement as! Bool {
+                options.insert(.announcement)
+            }
+        }
+
+        UNUserNotificationCenter.current().requestAuthorization(options: options) { granted, error in
+            guard error == nil else {
+                completion(nil, FlutterError(code: "requestPermission", message: error.debugDescription, details: error))
+                return
+            }
+            completion(granted as NSNumber, nil)
+        }
+    }
+
+    func getNotificationSettings(completion: @escaping (PUUNNotificationSettings?, FlutterError?) -> Void) {
+        UNUserNotificationCenter.current().getNotificationSettings { settings in
+            completion(PUUNNotificationSettings.from(unSettings: settings), nil)
+        }
+    }
+
+    private let delegate: UNUserNotificationCenterDelegate
+    private let pushFlutterApi: PUPushFlutterApi
+    public static var notificationTapWhichLaunchedAppUserInfo: Dictionary<AnyHashable, Any>? = nil
+
+    let deviceTokenReadyDispatchGroup = DispatchGroup()
+
+    // TODO double check that the delegate is still the same later, in case the user had set it? and log error.
+    init(binaryMessenger: FlutterBinaryMessenger, originalDelegate: UNUserNotificationCenterDelegate?) {
+        deviceTokenReadyDispatchGroup.enter() // DeviceToken is not yet ready
+        pushFlutterApi = PUPushFlutterApi(binaryMessenger: binaryMessenger)
+        delegate = UserNotificationCenterDelegateHandlers(with: originalDelegate, pushFlutterApi: pushFlutterApi)
+        UNUserNotificationCenter.current().delegate = delegate
+        super.init()
+        PUPushHostApiSetup(binaryMessenger, self)
+
+    }
+
+    func notificationTapLaunchedTerminatedAppWithError(_ error: AutoreleasingUnsafeMutablePointer<FlutterError?>) -> NSNumber? {
+        if PushHostHandlers.notificationTapWhichLaunchedAppUserInfo != nil {
+            return true
+        } else {
+            return false
+        }
+    }
+
+    func getNotificationTapWhichLaunchedTerminatedAppWithError(_ error: AutoreleasingUnsafeMutablePointer<FlutterError?>) -> [String : Any]? {
+        guard let userInfo = PushHostHandlers.notificationTapWhichLaunchedAppUserInfo else {
+            error.pointee = FlutterError(code: "getNotificationTapWhichLaunchedTerminatedAppWithError", message: "notificationTapWhichLaunchedAppUserInfo was nil, be sure to check if there is a remote message by first calling notificationTapLaunchedTerminatedAppWithError before ", details: nil)
+            return nil
+        }
+        return userInfo as! [String: Any]
+    }
+
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        onNewToken(deviceToken)
+        deviceTokenReadyDispatchGroup.leave()
+    }
+
+    func getTokenWithCompletion(_ completion: @escaping (String?, FlutterError?) -> Void) {
+        if let deviceToken = deviceToken {
+            completion(convertTokenToString(deviceToken: deviceToken), nil)
+        } else {
+            print("DeviceToken is not available (it is \(String(describing: deviceToken)). " +
+            "Your application might not be configured for push notifications, or there is a " +
+            "delay in getting the device token because of network issues. " +
+            "Background thread is now waiting for it to be set.")
+            DispatchQueue.global(qos: .userInitiated).async { [self] in
+                deviceTokenReadyDispatchGroup.notify(queue: DispatchQueue.global(qos: .background)) { [self] in
+                    DispatchQueue.main.async {
+                        completion(convertTokenToString(deviceToken: self.deviceToken!), nil)
+                    }
+                }
+                self.deviceTokenReadyDispatchGroup.wait()
+            }
+            return
+        }
+    }
+
+    // Ignored on iOS, since the Flutter application doesn't need to be manually launched.
+    func backgroundFlutterApplicationReadyWithError(_ error: AutoreleasingUnsafeMutablePointer<FlutterError?>) {
+    }
+
+    func didReceiveRemoteNotification(_ application: UIApplication,
+                                      didReceiveRemoteNotification userInfo: [AnyHashable: Any],
+                                      fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> ()) -> Bool {
+        // App in background or terminated
+        let message = PURemoteMessage.from(userInfo: userInfo)
+        if (application.applicationState == .background || application.applicationState == .inactive) {
+            pushFlutterApi.onBackgroundMessageMessage(message) { _ in
+            }
+        } else {
+            pushFlutterApi.onMessageMessage(message) { _ in
+            }
+        }
+        completionHandler(.newData)
+        return true
+    }
+
+    private var deviceToken: Data? = nil
+
+    private func convertTokenToString(deviceToken: Data) -> String {
+        let token = deviceToken.map {
+            String(format: "%02.2hhx", $0)
+        }.joined()
+        return token
+    }
+
+    // TODO handle the case where deviceToken is nil (not yet created)
+    // TODO what about other cases, e.g. error (onError?)
+    var isOnNewTokenListened = false
+
+    func onNewToken(_ deviceToken: Data) {
+        self.deviceToken = deviceToken
+        let deviceTokenString = convertTokenToString(deviceToken: deviceToken)
+        // TODO replace this with log levels, verbose logging:
+        print("APNs Device Token: \(deviceTokenString)")
+        if (isOnNewTokenListened) {
+            pushFlutterApi.onNewTokenToken(deviceTokenString) { _ in
+            }
+        }
+    }
+
+    func onListenToOnNewTokenWithError(_ error: AutoreleasingUnsafeMutablePointer<FlutterError?>) {
+        isOnNewTokenListened = true
+    }
+
+    func onCancelToOnNewTokenWithError(_ error: AutoreleasingUnsafeMutablePointer<FlutterError?>) {
+        isOnNewTokenListened = false
+    }
+}
