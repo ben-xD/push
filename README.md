@@ -1,9 +1,8 @@
-# Push
+# `Push`, for Flutter
 
-This is a federated package. 
+Handles push notifications - including background notification, alert notifications and notification taps - all without installing Firebase on Flutter running on any host platform (except for Android).
 
-- For usage, take a look at the push "app-facing" package, [Push](push).
-- For installation, see the platform specific package.
+- For information about `Push`, take a look at the [push "app-facing" package](push/README.md).
 
 # Why federated?
 
