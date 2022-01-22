@@ -3,7 +3,7 @@ description: Push notifications in Flutter without firebase_messaging.
 version: 0.0.2
 repository: https://github.com/ben-xD/push
 issue_tracker: https://github.com/ben-xD/push/issues?q=is%3Aissue+is%3Aopen
-homepage: https://push.orth.uk/
+homepage: https://orth.uk/push
 
 environment:
   sdk: ">=2.12.0 <3.0.0"

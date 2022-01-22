@@ -1,7 +1,7 @@
 name: push_macos
 description: Push notifications in Flutter without firebase_messaging.
 version: 0.0.1
-homepage: https://push.orth.uk/
+homepage: https://orth.uk/push
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
