@@ -1,7 +1,11 @@
 library push;
 
-/// A Calculator.
-class Calculator {
-  /// Returns [value] plus 1.
-  int addOne(int value) => value + 1;
-}
+export 'package:push_platform_interface/push.dart' show Push;
+export 'package:push_platform_interface/push.dart'
+    show
+        RemoteMessage,
+        Notification,
+        UNNotificationSettings,
+        UNNotificationSetting,
+        UNAlertStyle,
+        UNAuthorizationStatus;
