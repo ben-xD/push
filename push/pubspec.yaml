@@ -22,7 +22,12 @@ dev_dependencies:
 
 # The following section is specific to Flutter.
 flutter:
-
+  plugin:
+    platforms:
+      android:
+        default_package: push_android
+      ios:
+        default_package: push_ios
   # To add assets to your package, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg

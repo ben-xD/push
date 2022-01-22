@@ -21,6 +21,7 @@ dev_dependencies:
 
 # The following section is specific to Flutter.
 flutter:
+  implements: push
   # This section identifies this Flutter project as a plugin project.
   # The 'pluginClass' and Android 'package' identifiers should not ordinarily
   # be modified. They are used by the tooling to maintain consistency when
