@@ -1,6 +1,5 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:push_android/push_android.dart';
 
 void main() {
   const MethodChannel channel = MethodChannel('push_android');
@@ -15,9 +14,5 @@ void main() {
 
   tearDown(() {
     channel.setMockMethodCallHandler(null);
-  });
-
-  test('getPlatformVersion', () async {
-    expect(await PushAndroid.platformVersion, '42');
   });
 }
