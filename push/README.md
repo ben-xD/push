@@ -1,6 +1,6 @@
 # Push
 
-Handles push notifications - including background notification, alert notifications and notification taps - all without installing Firebase on Flutter running on any host platform (except for Android).
+`Push` is a flutter package designed to handle push notifications - including background notification, alert notifications and notification taps. Users can avoid using Firebase on all platforms except Android - for example, on iOS, they can use APNs directly.
 
 - Look at the [features](#features) if you want to see if `push` will provide it.
 - Look at [comparisons](#comparisons) if you want to compare `Push` with other push notification packages for Flutter.
@@ -256,6 +256,10 @@ override fun onNewToken(registrationToken: String) {
     PushPlugin.onNewToken(this, registrationToken)
 }
 ```
+
+## Why federated?
+
+You can provide a custom implementation for a specific platform by releasing your own package which implements the interface provided by [push_platform_interface](https://pub.dev/packages/push_platform_interface). Even if your package is not endorsed in `push`, other users of this package can use your implementation by modifying their `pubspec.yaml`.
 
 ## Credits
 
