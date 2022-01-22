@@ -38,6 +38,24 @@
       <excludeFolder url="file://$MODULE_DIR$/push/example/build" />
       <excludeFolder url="file://$MODULE_DIR$/push/example/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/push/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/push/example/ios/.symlinks/plugins/url_launcher_ios/example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/push/example/ios/.symlinks/plugins/url_launcher_ios/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/push/example/ios/.symlinks/plugins/url_launcher_ios/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/push/example/ios/.symlinks/plugins/flutter_local_notifications/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/push/example/ios/.symlinks/plugins/flutter_local_notifications/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/push/example/ios/.symlinks/plugins/flutter_local_notifications/example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/push/example/ios/.symlinks/plugins/share_plus/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/push/example/ios/.symlinks/plugins/share_plus/build" />
+      <excludeFolder url="file://$MODULE_DIR$/push/example/ios/.symlinks/plugins/share_plus/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/push/example/ios/.symlinks/plugins/flutter_local_notifications/build" />
+      <excludeFolder url="file://$MODULE_DIR$/push/example/ios/.symlinks/plugins/flutter_local_notifications/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/push/example/ios/.symlinks/plugins/flutter_local_notifications/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/push/example/ios/.symlinks/plugins/share_plus/example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/push/example/ios/.symlinks/plugins/share_plus/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/push/example/ios/.symlinks/plugins/share_plus/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/push/example/ios/.symlinks/plugins/url_launcher_ios/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/push/example/ios/.symlinks/plugins/url_launcher_ios/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/push/example/ios/.symlinks/plugins/url_launcher_ios/build" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
