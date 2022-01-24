@@ -1,6 +1,6 @@
 # Push
 
-`Push` is a flutter package designed to handle push notifications - including background notification, alert notifications and notification taps. Users can avoid using Firebase on all platforms except Android - for example, on iOS, they can use APNs directly.
+`Push` is a flutter package designed to handle push notifications - including background notification, alert notifications and notification taps. This package allows users to **avoid using Firebase on all platforms except Android** - for example, on **iOS, they can use APNs directly**. If you don't need this feature, you should probably be using [firebase_messaging](https://pub.dev/packages/firebase_messaging). 
 
 - Look at the [features](#features) if you want to see if `push` will provide it.
 - Look at [comparisons](#comparisons) if you want to compare `Push` with other push notification packages for Flutter.
@@ -34,7 +34,9 @@ with your request.
 
 #### [firebase_messaging](https://pub.dev/packages/firebase_messaging)
 
-- You must use firebase_messaging
+- You must use firebase_messaging, even on iOS. 
+  - There *might* be increased latency, as messages need to go from your server, to FCM, then to APNs (extra step), and finally to the user's device. 
+  - If Firebase Messaging servers goes down (unlikely), your notifications will stop working on iOS too.
 - It uses a deprecated Android
   component ([JobIntentService](https://developer.android.com/reference/androidx/core/app/JobIntentService))
   which is a service which runs at all times, listening for messages even when no messages are
@@ -68,7 +70,20 @@ with your request.
 
 ## Getting started
 
-There are 2 things you need to do.
+To run the example app, you should:
+- Clone the project
+- Open the `push` package (`$repo_folder/push`) in Android Studio or Visual Studio Code, not the root folder.
+- Download dependencies: `flutter pub get`
+- Create and open a Firebase project
+  - Add an Android application with the applicationId: `uk.orth.push.example`
+  - Download the `google-services.json` and place it in `push/android/app`
+  - Run the example app
+- Get the FCM registration token from the app
+  - This is the token which you can use to send messages to this device from your server
+  - The FCM registration token is printed in the example app, but you can also share the token with another app (e.g. Google Keep)
+- Send messages to the device by using it's FCM registration token, through [Firebase Admin SDK](https://firebase.google.com/docs/admin/setup).
+
+To install this package into your own application, you should:
 - [Install/configure your app for push notification](#installation)
 - [Write code to handle push notifications](#usage)
 
@@ -82,7 +97,7 @@ Warning: Setting up push notifications is more difficult than most features, bec
 
 #### Android
 
-- Set up your firebase project, add your Android app to the project, and follow the steps in the Firebase web console. For example,
+- Set up your firebase project, add your Android app to the Firebase project (using the `applicationId` defined in your `build.gradle`), and follow the steps in the Firebase web console. For example,
     - download the `google-services.json` into the `android/app/` folder.
     - Modify your Android project to include the following 2 lines - you can check exactly where this needs to go by looking at the example app:
         - Add `apply plugin: 'com.google.gms.google-services'` to your app's `android/app/build.gradle`.
