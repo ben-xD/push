@@ -1,3 +1,7 @@
+## 0.0.4
+
+- fix: update Android code to handle nullable case
+
 ## 0.0.3
 
 - feat: update Pigeon to 2.x and remove the now-unnecessary methods to check for null

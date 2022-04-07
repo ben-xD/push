@@ -33,7 +33,7 @@ class PushHostHandlers(context: Context,
         broadcastReceiver.close(context)
     }
 
-    override fun getNotificationTapWhichLaunchedTerminatedApp(): Map<String, Any> {
+    override fun getNotificationTapWhichLaunchedTerminatedApp(): Map<String, Any>? {
         return notificationTapPayloadWhichLaunchedApp
     }
 
@@ -97,7 +97,7 @@ class PushHostHandlers(context: Context,
     }
 
     fun onNotificationTap(message: RemoteMessage) {
-        pushFlutterApi.onNotificationTap(message.toPushRemoteMessage().data) {}
+        pushFlutterApi.onNotificationTap(message.toPushRemoteMessage().data ?: emptyMap()) {}
     }
 
     companion object {
