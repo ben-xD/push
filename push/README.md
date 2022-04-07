@@ -1,6 +1,6 @@
 # Push
 
-`Push` is a flutter package designed to handle push notifications - including background notification, alert notifications and notification taps. This package allows users to **avoid using Firebase on all platforms except Android** - for example, on **iOS, they can use APNs directly**. If you don't need this feature, you should probably be using [firebase_messaging](https://pub.dev/packages/firebase_messaging). 
+`Push` is a flutter package designed to handle push notifications - including background notification, alert notifications and notification taps. Users can avoid using Firebase on all platforms except Android - for example, on iOS, they can use APNs directly. In most cases, you should use Flutterfire's [Firebase Messaging](https://pub.dev/packages/firebase_messaging) package. The only case you should use `Push` is if you do not / cannot use FCM on iOS. For example, [Ably](https://ably.com/documentation/general/push/activate-subscribe) and [OneSignal](https://onesignal.com/blog/firebase-vs-onesignal/) do not use FCM on iOS. This package allows you to handle push notifications regardless of the platform specific services. However, this results in a "lowest common denominator" API: you can't expect to receive FCM message IDs or senders, as some platforms do not use FCM, so don't have FCM message IDs or "sender" fields. 
 
 - Look at the [features](#features) if you want to see if `push` will provide it.
 - Look at [comparisons](#comparisons) if you want to compare `Push` with other push notification packages for Flutter.
@@ -165,7 +165,7 @@ All of this is shown in the following code snippet:
           print("App was not launched by tapping a notification");
         } else {
           print('Notification tap launched app from terminated state:\n'
-              'Data: ${data} \n');
+              'RemoteMessage: ${remoteMessage} \n');
         }
         notificationWhichLaunchedApp.value = data;
       });
@@ -197,6 +197,7 @@ All of this is shown in the following code snippet:
         backgroundMessagesReceived.value += [message];
       });
 ```
+- When using a `StatefulWidget`, you should store each stream you listen to (`listen()`) in your  state. You should listen to these streams in `initState`, and `cancel()` them in `dispose`.
 
 ## Manual testing and debugging
 
