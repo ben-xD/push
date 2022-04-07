@@ -26,7 +26,7 @@ You can give also contribute feature implementations to the project. If the feat
 
 ### Data types
 
-iOS and Android have different representations of push notifications.
+iOS and Android have different structures for push notifications.
 Android's [RemoteMessage](https://firebase.google.com/docs/reference/android/com/google/firebase/messaging/RemoteMessage)
 has a lot more metadata than iOS's [userInfo dictionary](https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1623013-application).
 
@@ -44,6 +44,9 @@ Pigeon is used to generate code which serializes and deserializes data, includin
 To (re)generate pigeon files:
 - Run `cd push_platform_interface`
 - Run `flutter pub run pigeon --input pigeons/push_api.dart`
+
+#### Manual adjustments
+- When re-generating Pigeon code, it might break. I made 1 small adjustment to the generated code to fix the issue reported in https://github.com/flutter/flutter/issues/101515
 
 ## Useful commands
 

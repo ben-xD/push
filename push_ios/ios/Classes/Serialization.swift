@@ -3,14 +3,14 @@ import Foundation
 extension PURemoteMessage {
     static func from(userInfo: [AnyHashable: Any]) -> PURemoteMessage {
         let message = PURemoteMessage()
-        message.data = userInfo as! [String: Any]
+        message.data = userInfo as? [String: Any]
         message.notification = PUNotification.from(userInfo: userInfo)
         return message
     }
 
     static func fromNotificationContent(content: UNNotificationContent) -> PURemoteMessage {
         let message = PURemoteMessage()
-        message.data = content.userInfo as! [String: Any]
+        message.data = content.userInfo as? [String: Any]
 
         let notification = PUNotification()
         notification.title = content.title

@@ -15,7 +15,6 @@ import 'package:pigeon/pigeon.dart';
 class RemoteMessage {
   Notification? notification;
   Map<String?, Object?>? data;
-  bool? isNotificationNull;
 }
 
 class Notification {
@@ -25,13 +24,9 @@ class Notification {
 
 @HostApi()
 abstract class PushHostApi {
-  /// This method only exists because Pigeon doesn't support nullable return values without removing null safety.
-  /// If Pigeon supports this, we can just make [getNotificationTapWhichLaunchedTerminatedApp] return `RemoteMessage?`
-  bool notificationTapLaunchedTerminatedApp();
-
-  /// Throws an exception if it doesn't exist, so you should first check if it exists using [NotificationTapLaunchedTerminatedApp]
+  /// Returns null if it doesn't exist.
   /// See [PushFlutterApi.onNotificationTap] to understand why a RemoteMessage is not provided here.
-  Map<String?, Object?> getNotificationTapWhichLaunchedTerminatedApp();
+  Map<String?, Object?>? getNotificationTapWhichLaunchedTerminatedApp();
 
   @async
   String getToken();

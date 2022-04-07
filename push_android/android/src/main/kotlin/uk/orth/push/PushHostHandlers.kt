@@ -33,17 +33,8 @@ class PushHostHandlers(context: Context,
         broadcastReceiver.close(context)
     }
 
-    override fun notificationTapLaunchedTerminatedApp(): Boolean {
-        return notificationTapPayloadWhichLaunchedApp != null
-    }
-
     override fun getNotificationTapWhichLaunchedTerminatedApp(): Map<String, Any> {
-        notificationTapPayloadWhichLaunchedApp?.let {
-            return it
-        }
-        throw IllegalAccessException("notificationTapWhichLaunchedTerminatedAppRemoteMessage was " +
-                "null, check if it exists first using `notificationTapLaunchedTerminatedApp`. " +
-                "This is a workaround because Pigeon does not support nullable return values yet.")
+        return notificationTapPayloadWhichLaunchedApp
     }
 
     override fun getToken(result: PushApi.Result<String>) {

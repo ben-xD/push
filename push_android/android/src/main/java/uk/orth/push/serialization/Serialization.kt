@@ -7,7 +7,6 @@ fun RemoteMessage.toMap(): Map<String, Any?> {
     //     Workaround because null crashes the app during serialization
             ?: return mapOf<String, Any?>(
                     "data" to data,
-                    "isNotificationNull" to (true),
                     "notification" to mapOf(
                             "title" to "",
                             "body" to ""
@@ -17,7 +16,6 @@ fun RemoteMessage.toMap(): Map<String, Any?> {
     return mapOf<String, Any?>(
             "data" to data,
             "notification" to notificationMap,
-            "isNotificationNull" to true
     )
 }
 

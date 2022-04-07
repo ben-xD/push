@@ -3,14 +3,14 @@ import Foundation
 class PushHostHandlers: NSObject, PUPushHostApi {
     private var deviceTokenReadyDispatchGroupEnters: Int = 0
 
-    func requestPermissionBadge(_ badge: NSNumber?,
-                                sound: NSNumber?,
-                                alert: NSNumber?,
-                                carPlay: NSNumber?,
-                                criticalAlert: NSNumber?,
-                                provisional: NSNumber?,
-                                providesAppNotificationSettings: NSNumber?,
-                                announcement: NSNumber?,
+    func requestPermissionBadge(_ badge: NSNumber,
+                                sound: NSNumber,
+                                alert: NSNumber,
+                                carPlay: NSNumber,
+                                criticalAlert: NSNumber,
+                                provisional: NSNumber,
+                                providesAppNotificationSettings: NSNumber,
+                                announcement: NSNumber,
                                 completion: @escaping (NSNumber?, FlutterError?) -> Void) {
         var options: UNAuthorizationOptions = []
       
@@ -85,11 +85,8 @@ class PushHostHandlers: NSObject, PUPushHostApi {
     }
 
     func getNotificationTapWhichLaunchedTerminatedAppWithError(_ error: AutoreleasingUnsafeMutablePointer<FlutterError?>) -> [String : Any]? {
-        guard let userInfo = PushHostHandlers.notificationTapWhichLaunchedAppUserInfo else {
-            error.pointee = FlutterError(code: "getNotificationTapWhichLaunchedTerminatedAppWithError", message: "notificationTapWhichLaunchedAppUserInfo was nil, be sure to check if there is a remote message by first calling notificationTapLaunchedTerminatedAppWithError before ", details: nil)
-            return nil
-        }
-        return userInfo as! [String: Any]
+        let userInfo = PushHostHandlers.notificationTapWhichLaunchedAppUserInfo
+        return userInfo as? [String: Any]
     }
 
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {

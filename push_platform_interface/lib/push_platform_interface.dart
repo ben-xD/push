@@ -89,11 +89,7 @@ class Push extends PlatformInterface {
   /// tapping a notification.
   Future<Map<String?, Object?>?>
       get notificationTapWhichLaunchedAppFromTerminated async {
-    if (await _pushHostApi.notificationTapLaunchedTerminatedApp()) {
-      return await _pushHostApi.getNotificationTapWhichLaunchedTerminatedApp();
-    } else {
-      return null;
-    }
+    return await _pushHostApi.getNotificationTapWhichLaunchedTerminatedApp();
   }
 
   /// Get the token identifying the device for push notifications.

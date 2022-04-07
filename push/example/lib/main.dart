@@ -29,7 +29,7 @@ class MyApp extends HookWidget {
       // To be informed that the device's token has been updated by the operating system
       // You should update your servers with this token
       Push.instance.onNewToken.listen((token) {
-        print("Just got a new FCM registration token: ${token}");
+        print("Just got a new token: $token");
       });
 
       // Handle notification launching app from terminated state
