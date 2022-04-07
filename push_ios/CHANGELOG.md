@@ -1,3 +1,7 @@
+## 0.0.3
+
+- fix: `leave` token `DispatchGroup` more times than there are `enter`s
+
 ## 0.0.2
 
 - feat: handle push notifications whilst app is terminated, in the background or in the foreground.

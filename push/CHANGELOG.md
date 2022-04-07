@@ -1,6 +1,6 @@
 ## 0.0.5
 
-- fix: `leave` token `DispatchGroup` more times than there are `enter`s
+- Use latest `push_ios` package
 
 ## 0.0.4
 
