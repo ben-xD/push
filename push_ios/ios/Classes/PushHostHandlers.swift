@@ -170,6 +170,9 @@ class PushHostHandlers: NSObject, PUPushHostApi {
     }
         
     private func enterDeviceTokenReadyDispatchGroup(){
+        if(deviceTokenReadyDispatchGroupEnters < 0){
+            deviceTokenReadyDispatchGroupEnters = 0
+        }
         deviceTokenReadyDispatchGroupEnters += 1;
         deviceTokenReadyDispatchGroup.enter()
     }
@@ -177,7 +180,7 @@ class PushHostHandlers: NSObject, PUPushHostApi {
     private func leaveDeviceTokenReadyDispatchGroup(){
         deviceTokenReadyDispatchGroupEnters -= 1;
         if(deviceTokenReadyDispatchGroupEnters >= 0){
-            deviceTokenReadyDispatchGroup.leave();
+            deviceTokenReadyDispatchGroup.leave()
         }
     }
 }
