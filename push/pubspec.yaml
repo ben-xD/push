@@ -1,6 +1,6 @@
 name: push
 description: Push notifications in Flutter without firebase_messaging.
-version: 0.0.5
+version: 0.0.6
 repository: https://github.com/ben-xD/push
 issue_tracker: https://github.com/ben-xD/push/issues?q=is%3Aissue+is%3Aopen
 homepage: https://orth.uk/
@@ -16,7 +16,7 @@ dependencies:
   # Federated package dependencies
   push_platform_interface: ^0.0.2
   push_android: ^0.0.2
-  push_ios: ^0.0.2
+  push_ios: ^0.0.3
   # End of federated package dependencies
 
   # Local development dependencies -

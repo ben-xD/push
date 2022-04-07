@@ -1,3 +1,8 @@
+## 0.1.0
+
+- update to Pigeon 2.0.3
+- fix: Use latest `push_ios` package
+
 ## 0.0.5
 
 - Use latest `push_ios` package

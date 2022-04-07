@@ -13,4 +13,4 @@ key.properties
 **/*.jks
 
 # Firebase configuration - you need to create your own
-app/google-services.json
+google-services.json
