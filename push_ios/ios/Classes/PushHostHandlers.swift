@@ -1,6 +1,8 @@
 import Foundation
 
 class PushHostHandlers: NSObject, PUPushHostApi {
+    private var deviceTokenReadyDispatchGroupEnters: Int = 0
+
     func requestPermissionBadge(_ badge: NSNumber?,
                                 sound: NSNumber?,
                                 alert: NSNumber?,
@@ -11,6 +13,7 @@ class PushHostHandlers: NSObject, PUPushHostApi {
                                 announcement: NSNumber?,
                                 completion: @escaping (NSNumber?, FlutterError?) -> Void) {
         var options: UNAuthorizationOptions = []
+      
 
         if badge as! Bool {
             options.insert(.badge)
@@ -64,11 +67,11 @@ class PushHostHandlers: NSObject, PUPushHostApi {
 
     // TODO double check that the delegate is still the same later, in case the user had set it? and log error.
     init(binaryMessenger: FlutterBinaryMessenger, originalDelegate: UNUserNotificationCenterDelegate?) {
-        deviceTokenReadyDispatchGroup.enter() // DeviceToken is not yet ready
         pushFlutterApi = PUPushFlutterApi(binaryMessenger: binaryMessenger)
         delegate = UserNotificationCenterDelegateHandlers(with: originalDelegate, pushFlutterApi: pushFlutterApi)
         UNUserNotificationCenter.current().delegate = delegate
         super.init()
+        enterDeviceTokenReadyDispatchGroup() // DeviceToken is not yet ready
         PUPushHostApiSetup(binaryMessenger, self)
 
     }
@@ -91,7 +94,7 @@ class PushHostHandlers: NSObject, PUPushHostApi {
 
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         onNewToken(deviceToken)
-        deviceTokenReadyDispatchGroup.leave()
+        leaveDeviceTokenReadyDispatchGroup()
     }
 
     func getTokenWithCompletion(_ completion: @escaping (String?, FlutterError?) -> Void) {
@@ -164,5 +167,17 @@ class PushHostHandlers: NSObject, PUPushHostApi {
 
     func onCancelToOnNewTokenWithError(_ error: AutoreleasingUnsafeMutablePointer<FlutterError?>) {
         isOnNewTokenListened = false
+    }
+        
+    private func enterDeviceTokenReadyDispatchGroup(){
+        deviceTokenReadyDispatchGroupEnters += 1;
+        deviceTokenReadyDispatchGroup.enter()
+    }
+    
+    private func leaveDeviceTokenReadyDispatchGroup(){
+        deviceTokenReadyDispatchGroupEnters -= 1;
+        if(deviceTokenReadyDispatchGroupEnters >= 0){
+            deviceTokenReadyDispatchGroup.leave();
+        }
     }
 }
