@@ -14,9 +14,9 @@ dependencies:
     sdk: flutter
 
   # Federated package dependencies
-  push_platform_interface: ^0.0.2
-  push_android: ^0.0.2
-  push_ios: ^0.0.3
+  push_platform_interface: ^0.0.3
+  push_android: ^0.0.3
+  push_ios: ^0.0.4
   # End of federated package dependencies
 
   # Local development dependencies -

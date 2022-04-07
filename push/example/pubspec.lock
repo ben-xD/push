@@ -110,7 +110,7 @@ packages:
       name: flutter_local_notifications
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "9.2.0"
+    version: "9.4.0"
   flutter_local_notifications_linux:
     dependency: transitive
     description:
@@ -218,27 +218,27 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "0.0.5"
+    version: "0.0.6"
   push_android:
     dependency: transitive
     description:
-      name: push_android
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "../../push_android"
+      relative: true
+    source: path
     version: "0.0.2"
   push_ios:
     dependency: transitive
     description:
-      name: push_ios
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.0.2"
+      path: "../../push_ios"
+      relative: true
+    source: path
+    version: "0.0.3"
   push_platform_interface:
     dependency: transitive
     description:
-      name: push_platform_interface
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "../../push_platform_interface"
+      relative: true
+    source: path
     version: "0.0.2"
   share_plus:
     dependency: "direct main"
@@ -246,42 +246,42 @@ packages:
       name: share_plus
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.2.0"
+    version: "4.0.3"
   share_plus_linux:
     dependency: transitive
     description:
       name: share_plus_linux
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.4"
+    version: "3.0.0"
   share_plus_macos:
     dependency: transitive
     description:
       name: share_plus_macos
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.2"
+    version: "3.0.0"
   share_plus_platform_interface:
     dependency: transitive
     description:
       name: share_plus_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.1"
+    version: "3.0.2"
   share_plus_web:
     dependency: transitive
     description:
       name: share_plus_web
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.4"
+    version: "3.0.0"
   share_plus_windows:
     dependency: transitive
     description:
       name: share_plus_windows
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.3"
+    version: "3.0.0"
   sky_engine:
     dependency: transitive
     description: flutter

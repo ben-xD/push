@@ -1,3 +1,7 @@
+## 0.0.4
+
+- feat: update Pigeon to 2.x and remove the now-unnecessary methods to check for null
+
 ## 0.0.3
 
 - fix: `leave` token `DispatchGroup` more times than there are `enter`s
