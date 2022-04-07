@@ -1,3 +1,7 @@
+## 0.0.5
+
+- fix: `leave` token `DispatchGroup` more times than there are `enter`s
+
 ## 0.0.4
 
 - docs: fix broken links in documentation
