@@ -74,9 +74,6 @@ abstract class PushFlutterApi {
   void onNewToken(String token);
 
   void onOpenNotificationSettings();
-
-  @async
-  bool showNotificationInForeground(RemoteMessage message);
 }
 
 /// # iOS UN (UserNotification) symbols

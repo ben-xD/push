@@ -98,9 +98,6 @@ class Push extends PlatformInterface {
   /// On iOS, this is the APNs device token.
   Future<String?> get token => _pushHostApi.getToken();
 
-  Future<bool> Function(RemoteMessage message)?
-      onShowNotificationInForegroundHandler;
-
   VoidCallback? onOpenSettingsHandler;
 
   /// If the flutter application was launched manually, this method tells the
@@ -178,12 +175,5 @@ class PushFlutterHandlers extends PushFlutterApi {
   void onOpenNotificationSettings() {
     final handler = push.onOpenSettingsHandler;
     if (handler != null) handler();
-  }
-
-  @override
-  Future<bool> showNotificationInForeground(RemoteMessage message) async {
-    final handler = push.onShowNotificationInForegroundHandler;
-    if (handler != null) return handler(message);
-    return false;
   }
 }
