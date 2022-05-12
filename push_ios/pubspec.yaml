@@ -14,7 +14,7 @@ dependencies:
     sdk: flutter
 
   # Federated package dependencies
-  push_platform_interface: ^0.0.3
+  push_platform_interface: ^0.1.0
 
   # Local development dependencies
 #  push_platform_interface:

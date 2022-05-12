@@ -11,23 +11,19 @@ class UserNotificationCenterDelegateHandlers: NSObject, UNUserNotificationCenter
     }
 
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UserNotifications.UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> ()) {
-        let message = PURemoteMessage.fromNotificationContent(content: notification.request.content)
-        pushFlutterApi.showNotification(inForegroundMessage: message) { isShowNotificationSelected, error in
-            guard error != nil else {
-                print("userNotificationCenter:willPresent: received error: \(String(describing: error)), defaulting to hide notification.")
-                completionHandler([])
-                return
-            }
-            if isShowNotificationSelected as! Bool {
-                if #available(iOS 14.0, *) {
-                    completionHandler(.banner)
-                } else {
-                    completionHandler(.alert)
-                }
+        // When a foreground notification is delivered and the user schedules a local notification, this is called twice.
+        // - First, when the notification is received from APNs directly. To be consistent with Android behaviour, we ignore it. In this case, notification.request.trigger is a `UNPushNotificationTrigger`
+        // - When received from flutter_local_notifications, I want to display it. In this case, notification.request.trigger is nil.
+        if (notification.request.trigger != nil) {
+            // Ignore the notification received from APNs
+            completionHandler([])
+        } else {
+            // Display the local notification.
+            if #available(iOS 14.0, *) {
+                completionHandler(.banner)
             } else {
-                completionHandler([])
+                completionHandler(.alert)
             }
-
         }
     }
 
