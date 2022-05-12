@@ -222,66 +222,66 @@ packages:
   push_android:
     dependency: transitive
     description:
-      path: "../../push_android"
-      relative: true
-    source: path
-    version: "0.0.2"
+      name: push_android
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.4"
   push_ios:
     dependency: transitive
     description:
-      path: "../../push_ios"
-      relative: true
-    source: path
-    version: "0.0.3"
+      name: push_ios
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.4"
   push_platform_interface:
     dependency: transitive
     description:
-      path: "../../push_platform_interface"
-      relative: true
-    source: path
-    version: "0.0.2"
+      name: push_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.3"
   share_plus:
     dependency: "direct main"
     description:
       name: share_plus
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.0.3"
+    version: "2.2.0"
   share_plus_linux:
     dependency: transitive
     description:
       name: share_plus_linux
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.0"
+    version: "2.0.4"
   share_plus_macos:
     dependency: transitive
     description:
       name: share_plus_macos
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.0"
+    version: "2.1.0"
   share_plus_platform_interface:
     dependency: transitive
     description:
       name: share_plus_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.2"
+    version: "2.1.0"
   share_plus_web:
     dependency: transitive
     description:
       name: share_plus_web
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.0"
+    version: "2.0.4"
   share_plus_windows:
     dependency: transitive
     description:
       name: share_plus_windows
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.0"
+    version: "2.0.3"
   sky_engine:
     dependency: transitive
     description: flutter
