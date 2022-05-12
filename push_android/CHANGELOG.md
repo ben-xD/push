@@ -1,3 +1,7 @@
+## 0.0.5
+
+- chore: use push_platform_interface 0.1.0
+
 ## 0.0.4
 
 - fix: update Android code to handle nullable case

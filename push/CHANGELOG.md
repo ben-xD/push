@@ -1,3 +1,9 @@
+## 0.1.1
+
+- update to Pigeon 3.0.3
+- fix: allow users to use other packages for local notifications (e.g. `flutter_local_notifications`)
+- feat: add checkbox to example app to allow users to configure foreground notifications to be shown.
+
 ## 0.1.0
 
 - update to Pigeon 2.0.3

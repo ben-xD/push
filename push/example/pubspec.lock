@@ -218,28 +218,28 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "0.1.0"
+    version: "0.1.1"
   push_android:
     dependency: transitive
     description:
-      path: "../../push_android"
-      relative: true
-    source: path
-    version: "0.0.4"
+      name: push_android
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.5"
   push_ios:
     dependency: transitive
     description:
-      path: "../../push_ios"
-      relative: true
-    source: path
-    version: "0.0.4"
+      name: push_ios
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.5"
   push_platform_interface:
     dependency: transitive
     description:
-      path: "../../push_platform_interface"
-      relative: true
-    source: path
-    version: "0.0.3"
+      name: push_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.0"
   share_plus:
     dependency: "direct main"
     description:

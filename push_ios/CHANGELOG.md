@@ -1,3 +1,7 @@
+## 0.0.5
+
+- fix: allow other packages to display local notifications
+
 ## 0.0.4
 
 - feat: update Pigeon to 2.x and remove the now-unnecessary methods to check for null
