@@ -9,9 +9,30 @@ import 'package:push_example/remote_messages_widget.dart';
 import 'package:push_example/text_row.dart';
 import 'notification_permission_sliver.dart';
 
-void main() {
+void main() async {
+  // Need to "ensureInitialized" before initializing `flutter_local_notifications`
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(MyApp(await initializeFlutterLocalNotifications()));
+}
+
+// Only needed for foreground notifications.
+Future<FlutterLocalNotificationsPlugin>
+    initializeFlutterLocalNotifications() async {
   final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-  runApp(MyApp(flutterLocalNotificationsPlugin));
+// initialise the plugin. app_icon needs to be a added as a drawable resource to the Android head project
+  // 'mipmap/ic_launcher' taken from https://github.com/MaikuB/flutter_local_notifications/issues/32#issuecomment-389542800
+  const AndroidInitializationSettings initializationSettingsAndroid =
+      AndroidInitializationSettings('mipmap/ic_launcher');
+  final IOSInitializationSettings initializationSettingsIOS =
+      IOSInitializationSettings();
+  final MacOSInitializationSettings initializationSettingsMacOS =
+      MacOSInitializationSettings();
+  final InitializationSettings initializationSettings = InitializationSettings(
+      android: initializationSettingsAndroid,
+      iOS: initializationSettingsIOS,
+      macOS: initializationSettingsMacOS);
+  await flutterLocalNotificationsPlugin.initialize(initializationSettings);
+  return flutterLocalNotificationsPlugin;
 }
 
 class MyApp extends HookWidget {
@@ -204,19 +225,21 @@ class MyApp extends HookWidget {
   }
 
   void displayForegroundNotification(push.Notification notification) async {
-    final androidOptions = AndroidNotificationDetails(
-        debugChannel.id,
-        debugChannel.name,
-        channelDescription: debugChannel.description,
-        importance: Importance.max,
-        priority: Priority.high,
-        ticker: "A manually-sent push notification.");
+    final androidOptions =
+        AndroidNotificationDetails(debugChannel.id, debugChannel.name,
+            channelDescription: debugChannel.description,
+            importance: Importance.max,
+            priority: Priority.high,
+            ticker: "A manually-sent push notification.",
+            styleInformation: const DefaultStyleInformation(
+              false,
+              false,
+            ));
     const iosOptions = IOSNotificationDetails(
         presentAlert: true, presentBadge: true, presentSound: true);
     final platformChannelSpecifics =
         NotificationDetails(android: androidOptions, iOS: iosOptions);
     await flutterLocalNotificationsPlugin.show(
-        0, notification.title, notification.body, platformChannelSpecifics,
-        payload: "payload");
+        0, notification.title, notification.body, platformChannelSpecifics);
   }
 }
