@@ -1,3 +1,7 @@
+## 0.1.2
+
+- fix: android local notifications. They weren't showing because `flutter_local_notifications` needed more configuration.
+
 ## 0.1.1
 
 - update to Pigeon 3.0.3
