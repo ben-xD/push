@@ -14,8 +14,11 @@ class UserNotificationCenterDelegateHandlers: NSObject, UNUserNotificationCenter
         // When a foreground notification is delivered and the user schedules a local notification, this is called twice.
         // - First, when the notification is received from APNs directly. To be consistent with Android behaviour, we ignore it. In this case, notification.request.trigger is a `UNPushNotificationTrigger`
         // - When received from flutter_local_notifications, I want to display it. In this case, notification.request.trigger is nil.
-        if (notification.request.trigger != nil) {
-            // Ignore the notification received from APNs
+        if (notification.request.trigger is UNPushNotificationTrigger) {
+            let message = PURemoteMessage.from(userInfo: notification.request.content.userInfo)
+                pushFlutterApi.onMessageMessage(message) { _ in
+             }
+            // Do not display the notification received from APNs
             completionHandler([])
         } else {
             // Display the local notification.

@@ -1,3 +1,7 @@
+## 0.0.6
+
+- fix: allow APNs messages to be handled in onMessage (when app is in foreground) even when `content-available` is not `1`.
+
 ## 0.0.5
 
 - fix: allow other packages to display local notifications
