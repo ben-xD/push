@@ -4,8 +4,12 @@ import 'package:pigeon/pigeon.dart';
 @ConfigurePigeon(PigeonOptions(
   dartOut: '../push_platform_interface/lib/src/serialization/push_api.dart',
   dartTestOut: '../push_platform_interface/test/push_api_test.dart',
+  // for iOS
   objcHeaderOut: '../push_ios/ios/Classes/serialization/PushApi.h',
   objcSourceOut: '../push_ios/ios/Classes/serialization/PushApi.m',
+  // for macOS
+  // objcHeaderOut: '../push_macos/macos/Classes/serialization/PushApi.h',
+  // objcSourceOut: '../push_macos/macos/Classes/serialization/PushApi.m',
   objcOptions: ObjcOptions(prefix: "PU"),
   javaOut: '../push_android/android/src/main/java/uk/orth/push/serialization/PushApi.java',
   javaOptions: JavaOptions(package: 'uk.orth.push.serialization'),
