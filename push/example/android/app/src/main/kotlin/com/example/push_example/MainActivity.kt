@@ -1,4 +1,4 @@
-package com.example.push_example
+package uk.orth.push.example
 
 import io.flutter.embedding.android.FlutterActivity
 
