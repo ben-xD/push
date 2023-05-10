@@ -41,5 +41,7 @@ public class SwiftPushPlugin: NSObject, FlutterPlugin {
         )
     }
     
-    // TODO implement didFailToRegisterForRemoteNotificationsWithError once Flutter releases bug fix
+    public func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        pushHostHandlers.application(application, didFailToRegisterForRemoteNotificationsWithError: error)
+    }
 }

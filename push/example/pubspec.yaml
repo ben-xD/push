@@ -17,9 +17,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_hooks: ^0.18.2
-  share_plus: ^2.0.0 # Using 2.0.0 because a bug exists in latest (3.0.4) which means the sharesheet only contains Airdrop - which itself doesn't work
-  flutter_local_notifications: ^9.5.2
+  flutter_hooks: ^0.18.5+1
+  share_plus: ^4.4.0
+  flutter_local_notifications: ^11.0.1
 
   push:
     # When depending on this package from a real application you should use:

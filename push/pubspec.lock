@@ -151,8 +151,12 @@ packages:
     dependency: "direct main"
     description:
       name: push_macos
+<<<<<<< HEAD
       sha256: "800997d1d6ca19aa957ab237a25074a732a7e36ef917ef4546fc75ec9aa1b9da"
       url: "https://pub.dev"
+=======
+      url: "https://pub.dartlang.org"
+>>>>>>> 195e0d2 (chore: update dependencies in example app)
     source: hosted
     version: "0.0.1"
   push_platform_interface:

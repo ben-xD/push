@@ -60,6 +60,7 @@ class NotificationPermissionSliver extends HookWidget {
               child: const Text("Request Permission"),
               onPressed: () async {
                 final isGranted = await Push.instance.requestPermission();
+                debugPrint("Push permission granted: $isGranted");
                 notificationSettings.value =
                 await Push.instance.getNotificationSettings();
               },
