@@ -23,14 +23,16 @@ Future<FlutterLocalNotificationsPlugin>
   // 'mipmap/ic_launcher' taken from https://github.com/MaikuB/flutter_local_notifications/issues/32#issuecomment-389542800
   const AndroidInitializationSettings initializationSettingsAndroid =
       AndroidInitializationSettings('mipmap/ic_launcher');
-  final IOSInitializationSettings initializationSettingsIOS =
-      IOSInitializationSettings();
-  final MacOSInitializationSettings initializationSettingsMacOS =
-      MacOSInitializationSettings();
+  // Prevent FLN from requesting permission from the user when the app launches.
+  final DarwinInitializationSettings initializationSettingsApple =
+      DarwinInitializationSettings(
+          requestAlertPermission: false,
+          requestSoundPermission: false,
+          requestBadgePermission: false);
   final InitializationSettings initializationSettings = InitializationSettings(
       android: initializationSettingsAndroid,
-      iOS: initializationSettingsIOS,
-      macOS: initializationSettingsMacOS);
+      iOS: initializationSettingsApple,
+      macOS: initializationSettingsApple);
   await flutterLocalNotificationsPlugin.initialize(initializationSettings);
   return flutterLocalNotificationsPlugin;
 }
@@ -235,7 +237,7 @@ class MyApp extends HookWidget {
               false,
               false,
             ));
-    const iosOptions = IOSNotificationDetails(
+    const iosOptions = DarwinNotificationDetails(
         presentAlert: true, presentBadge: true, presentSound: true);
     final platformChannelSpecifics =
         NotificationDetails(android: androidOptions, iOS: iosOptions);

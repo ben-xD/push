@@ -105,7 +105,7 @@ class PushHostHandlers: NSObject, PUPushHostApi {
             DispatchQueue.global(qos: .userInitiated).async { [self] in
                 deviceTokenReadyDispatchGroup.notify(queue: DispatchQueue.global(qos: .background)) { [self] in
                     DispatchQueue.main.async {
-                        completion(convertTokenToString(deviceToken: self.deviceToken!), nil)
+                        completion(self.convertTokenToString(deviceToken: self.deviceToken!), nil)
                     }
                 }
                 self.deviceTokenReadyDispatchGroup.wait()
@@ -168,6 +168,11 @@ class PushHostHandlers: NSObject, PUPushHostApi {
 
     func onCancelToOnNewTokenWithError(_ error: AutoreleasingUnsafeMutablePointer<FlutterError?>) {
         isOnNewTokenListened = false
+    }
+    
+    public func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        // Log an error.
+        print("Failed to register device for remote notifications. Error: \(error)")
     }
         
     private func enterDeviceTokenReadyDispatchGroup(){

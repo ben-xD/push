@@ -9,6 +9,7 @@ class MetadataSliver extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final pushToken = usePushToken();
+    final shareButtonGlobalKey = GlobalKey();
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
@@ -20,13 +21,17 @@ class MetadataSliver extends HookWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               IconButton(
+                key: shareButtonGlobalKey,
                 icon: const Icon(
                   Icons.share,
                   color: Colors.blue,
                 ),
                 onPressed: () {
                   print("The push token is: ${pushToken.value}");
-                  Share.share("${pushToken.value}");
+                  final box = shareButtonGlobalKey.currentContext?.findRenderObject() as RenderBox;
+                  final position = box.localToGlobal(Offset.zero);
+                  final rect = Rect.fromLTWH(position.dx, position.dy, 200, 200);
+                  Share.share("The push token is: ${pushToken.value}", sharePositionOrigin: rect);
                 },
               ),
               Expanded(child: Text(pushToken.value.toString()))
