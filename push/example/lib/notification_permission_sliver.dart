@@ -52,15 +52,14 @@ class NotificationPermissionSliver extends HookWidget {
 
     Widget buildRequestPermissionsSliver(BuildContext context,
         ValueNotifier<UNNotificationSettings?> notificationSettings) {
-      if (Platform.isIOS) {
+      if (Platform.isIOS || Platform.isAndroid) {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-                "Since this iOS, you need permission to show notifications to the user"),
             TextButton(
               child: const Text("Request Permission"),
               onPressed: () async {
+                // On Android, this is only necessary on Android 13 or newer.
                 final isGranted = await Push.instance.requestPermission();
                 debugPrint("Push permission granted: $isGranted");
                 notificationSettings.value =
@@ -74,14 +73,8 @@ class NotificationPermissionSliver extends HookWidget {
             buildNotificationSettingsSliver(notificationSettings.value)
           ],
         );
-      } else {
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: const [
-            Text("No permissions are needed on this platform."),
-          ],
-        );
       }
+      return buildNoPermissionsNeededSliver();
     }
 
     return Padding(
@@ -89,10 +82,20 @@ class NotificationPermissionSliver extends HookWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text('Permissions', style: Theme.of(context).textTheme.headlineMedium),
+          Text('Permissions',
+              style: Theme.of(context).textTheme.headlineMedium),
           buildRequestPermissionsSliver(context, notificationSettings),
         ],
       ),
+    );
+  }
+
+  Widget buildNoPermissionsNeededSliver() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: const [
+        Text("No permissions are needed on this platform."),
+      ],
     );
   }
 }

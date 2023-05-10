@@ -18,6 +18,7 @@ Doesn't support push notifications for Android apps that target Android 13 yet (
 - Avoids using deprecated Android classes.
 - Receive push notifications when the app is in the foreground, background or terminated on Android
   and iOS.
+- Request permission to show notifications to the user, on iOS and Android (including Android 13+).
 - Handle notifications being tapped by users.
 - Set your message handlers anywhere you want, however you want. Unlike other packages, these
   restrictions do not apply:

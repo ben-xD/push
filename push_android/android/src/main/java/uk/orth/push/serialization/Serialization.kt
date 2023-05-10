@@ -17,5 +17,7 @@ fun RemoteMessage.Notification.toMap(): Map<String, Any?> {
 }
 
 fun RemoteMessage.toPushRemoteMessage(): PushApi.RemoteMessage {
-    return PushApi.RemoteMessage.fromMap(this.toMap())
+    val message = PushApi.RemoteMessage()
+    message.data = this.toMap()
+    return message
 }

@@ -1,6 +1,6 @@
 import 'package:pigeon/pigeon.dart';
 
-// Regenerate the output files by running `cd push && flutter pub run pigeon --input pigeons/push_api.dart`
+// Regenerate the output files by running `dart run pigeon --input pigeons/push_api.dart`
 @ConfigurePigeon(PigeonOptions(
   dartOut: '../push_platform_interface/lib/src/serialization/push_api.dart',
   dartTestOut: '../push_platform_interface/test/push_api_test.dart',
@@ -11,7 +11,8 @@ import 'package:pigeon/pigeon.dart';
   // objcHeaderOut: '../push_macos/macos/Classes/serialization/PushApi.h',
   // objcSourceOut: '../push_macos/macos/Classes/serialization/PushApi.m',
   objcOptions: ObjcOptions(prefix: "PU"),
-  javaOut: '../push_android/android/src/main/java/uk/orth/push/serialization/PushApi.java',
+  javaOut:
+      '../push_android/android/src/main/java/uk/orth/push/serialization/PushApi.java',
   javaOptions: JavaOptions(package: 'uk.orth.push.serialization'),
 ))
 // End of configuration
@@ -55,8 +56,13 @@ abstract class PushHostApi {
     bool announcement,
   );
 
+  // iOS only
   @async
   UNNotificationSettings getNotificationSettings();
+
+  // Android only
+  @async
+  bool areNotificationsEnabled();
 }
 
 @FlutterApi()

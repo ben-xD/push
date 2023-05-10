@@ -1,10 +1,13 @@
 package uk.orth.push
 
+import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.util.Log
-import androidx.annotation.NonNull
+import androidx.core.app.NotificationManagerCompat
 import com.google.firebase.messaging.RemoteMessage
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
@@ -13,23 +16,45 @@ import io.flutter.plugin.common.PluginRegistry
 import uk.orth.push.serialization.PushApi
 import uk.orth.push.serialization.toPushRemoteMessage
 
-class PushPlugin : FlutterPlugin, ActivityAware, PluginRegistry.NewIntentListener {
+
+class PushPlugin : FlutterPlugin, ActivityAware, PluginRegistry.NewIntentListener, PluginRegistry.RequestPermissionsResultListener {
     private var pushHostHandlers: PushHostHandlers? = null
     private var mainActivity: Activity? = null
     private var applicationContext: Context? = null
 
-    override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
+    override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
         val binaryMessenger = flutterPluginBinding.binaryMessenger
         applicationContext = flutterPluginBinding.applicationContext
-        pushHostHandlers = PushHostHandlers.getInstance(applicationContext!!, binaryMessenger)
+        pushHostHandlers = PushHostHandlers.getInstance(applicationContext!!, binaryMessenger, ::onRequestPushNotificationsPermission)
         PushApi.PushHostApi.setup(binaryMessenger, pushHostHandlers)
     }
 
-    override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {
+    private var isPushNotificationsPermissionPending = false
+    private var requestPermissionsResult: PushApi.Result<Boolean>? = null
+    private fun onRequestPushNotificationsPermission(result: PushApi.Result<Boolean>) {
+        // if already granted, skip and return successful immediately. Log something though.
+        val areNotificationsEnabled = NotificationManagerCompat.from(applicationContext!!).areNotificationsEnabled()
+        if (areNotificationsEnabled) {
+            Log.i(TAG, "onRequestPushNotificationsPermission: Notifications are already enabled")
+            result.success(true)
+            return
+        }
+
+        requestPermissionsResult?.error(IllegalAccessException("requestPermission was already running. Only call this function once."))
+        requestPermissionsResult = result
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            mainActivity?.requestPermissions(arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+                POST_NOTIFICATION_REQUEST_CODE
+            )
+            isPushNotificationsPermissionPending = true
+        }
+    }
+
+    override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {
         // TODO how do i undo/close resources done initialized in PushApi.PushHostApi.setup
         // I could modify the code generated file to try to do clean up, and e.g. then call this.
 //        PushApi.PushHostApi.setup(null, null)
-        pushHostHandlers!!.close(applicationContext!!)
+        pushHostHandlers!!.close()
         pushHostHandlers = null
     }
 
@@ -55,7 +80,7 @@ class PushPlugin : FlutterPlugin, ActivityAware, PluginRegistry.NewIntentListene
     override fun onReattachedToActivityForConfigChanges(binding: ActivityPluginBinding) {
         Log.v(TAG, "ActivityAware#onReattachedToActivityForConfigChanges called")
         mainActivity = binding.activity
-        binding.addOnNewIntentListener(this);
+        binding.addOnNewIntentListener(this)
     }
 
     // This method gets called when an Activity is detached from the FlutterEngine, either when
@@ -89,6 +114,28 @@ class PushPlugin : FlutterPlugin, ActivityAware, PluginRegistry.NewIntentListene
         }
     }
 
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ): Boolean {
+        if (requestCode == POST_NOTIFICATION_REQUEST_CODE) {
+            if (requestPermissionsResult == null) {
+                Log.w(TAG, "Developer error. onRequestPermissionsResult called with POST_NOTIFICATION_REQUEST_CODE but requestPermissionsResult is null")
+                // Not handled by this plugin
+                return false
+            }
+            val granted = grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED
+            requestPermissionsResult?.success(granted)
+            requestPermissionsResult = null
+            isPushNotificationsPermissionPending = false
+            // Handled by this plugin
+            return true
+        }
+        // Not handled by this plugin
+        return false
+    }
+
     companion object {
         private val TAG = PushPlugin::class.qualifiedName
         internal var isMainActivityRunning = false
@@ -99,5 +146,8 @@ class PushPlugin : FlutterPlugin, ActivityAware, PluginRegistry.NewIntentListene
             // Send intent so running application can get it.
             PushHostHandlers.onNewToken(context, fcmRegistrationToken)
         }
+
+        // An arbitrary number
+        private const val POST_NOTIFICATION_REQUEST_CODE = 8
     }
 }
