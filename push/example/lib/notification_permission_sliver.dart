@@ -17,6 +17,8 @@ class NotificationPermissionSliver extends HookWidget {
             .getNotificationSettings()
             .then((settings) => notificationSettings.value = settings);
       }
+
+      return () {};
     }, []);
 
     Widget buildNotificationSettingsSliver(UNNotificationSettings? settings) {
@@ -67,7 +69,7 @@ class NotificationPermissionSliver extends HookWidget {
             ),
             Text(
               "Current permissions:",
-              style: Theme.of(context).textTheme.headline5,
+              style: Theme.of(context).textTheme.headlineSmall,
             ),
             buildNotificationSettingsSliver(notificationSettings.value)
           ],
@@ -87,7 +89,7 @@ class NotificationPermissionSliver extends HookWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text('Permissions', style: Theme.of(context).textTheme.headline4),
+          Text('Permissions', style: Theme.of(context).textTheme.headlineMedium),
           buildRequestPermissionsSliver(context, notificationSettings),
         ],
       ),

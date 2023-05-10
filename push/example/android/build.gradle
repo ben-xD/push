@@ -6,10 +6,11 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.1.0'
+        // Versions available on https://mvnrepository.com/artifact/com.android.tools.build/gradle?repo=google
+        classpath 'com.android.tools.build:gradle:7.2.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        // This was manually added:
-        classpath 'com.google.gms:google-services:4.3.10'
+        // This was manually added. Versions available on https://mvnrepository.com/artifact/com.google.gms/google-services?repo=google
+        classpath 'com.google.gms:google-services:4.3.15'
     }
 }
 

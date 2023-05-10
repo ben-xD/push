@@ -28,7 +28,8 @@ apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 apply plugin: 'com.google.gms.google-services'
 
 android {
-    compileSdkVersion 31
+    // TODO Upgrade to 33
+    compileSdkVersion 32
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -46,8 +47,9 @@ android {
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "uk.orth.push.example"
-        minSdkVersion 19
-        targetSdkVersion 31
+        minSdkVersion Math.max(19, flutter.minSdkVersion)
+        // TODO Upgrade to 33
+        targetSdkVersion Math.max(32, flutter.targetSdkVersion)
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
@@ -66,5 +68,5 @@ flutter {
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 }

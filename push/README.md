@@ -5,6 +5,10 @@
 - Look at the [features](#features) if you want to see if `push` will provide it.
 - Look at [comparisons](#comparisons) if you want to compare `Push` with other push notification packages for Flutter.
 
+## Android 13+?
+
+Doesn't support push notifications for Android apps that target Android 13 yet (`compileSdkVersion 33` in `android/app/build.gradle`). I'm working on that now. See https://developer.android.com/develop/ui/views/notifications/notification-permission for more information.
+
 ## Features
 
 - Use push notification without Firebase on any platform except Android.
