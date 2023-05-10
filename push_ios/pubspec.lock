@@ -126,10 +126,9 @@ packages:
   push_platform_interface:
     dependency: "direct main"
     description:
-      name: push_platform_interface
-      sha256: "114606757ab5d593b6ded65d6daaf61833cf507c81b7ffa5c4d1a336f15c290e"
-      url: "https://pub.dev"
-    source: hosted
+      path: "../push_platform_interface"
+      relative: true
+    source: path
     version: "0.1.0"
   sky_engine:
     dependency: transitive
