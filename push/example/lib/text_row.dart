@@ -10,7 +10,7 @@ class TextRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => RichText(
-      text: TextSpan(children: [
+          text: TextSpan(children: [
         TextSpan(text: '$label: ', style: const TextStyle(color: Colors.blue)),
         TextSpan(text: text, style: const TextStyle(color: Colors.black))
       ]));

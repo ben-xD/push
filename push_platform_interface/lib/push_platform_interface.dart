@@ -9,12 +9,12 @@ import 'package:push_platform_interface/src/serialization/push_api.dart';
 
 export 'src/serialization/push_api.dart'
     show
-    RemoteMessage,
-    Notification,
-    UNNotificationSettings,
-    UNNotificationSetting,
-    UNAlertStyle,
-    UNAuthorizationStatus;
+        RemoteMessage,
+        Notification,
+        UNNotificationSettings,
+        UNNotificationSetting,
+        UNAlertStyle,
+        UNAuthorizationStatus;
 
 /// The interface that implementations of [`push`](https://pub.dev/packages/push) must implement.
 ///

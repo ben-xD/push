@@ -28,10 +28,13 @@ class MetadataSliver extends HookWidget {
                 ),
                 onPressed: () {
                   print("The push token is: ${pushToken.value}");
-                  final box = shareButtonGlobalKey.currentContext?.findRenderObject() as RenderBox;
+                  final box = shareButtonGlobalKey.currentContext
+                      ?.findRenderObject() as RenderBox;
                   final position = box.localToGlobal(Offset.zero);
-                  final rect = Rect.fromLTWH(position.dx, position.dy, 200, 200);
-                  Share.share("The push token is: ${pushToken.value}", sharePositionOrigin: rect);
+                  final rect =
+                      Rect.fromLTWH(position.dx, position.dy, 200, 200);
+                  Share.share("The push token is: ${pushToken.value}",
+                      sharePositionOrigin: rect);
                 },
               ),
               Expanded(child: Text(pushToken.value.toString()))

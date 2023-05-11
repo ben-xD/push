@@ -35,32 +35,32 @@ class NotificationPermissionSliver extends HookWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            TextRow(
-                "Authorization status", settings.authorizationStatus.toString()),
+            TextRow("Authorization status",
+                settings.authorizationStatus.toString()),
             TextRow("Sound settings", settings.soundSetting.toString()),
             TextRow("Badge setting", settings.badgeSetting.toString()),
             TextRow("Alert setting", settings.alertSetting.toString()),
             TextRow("Notification Center setting",
                 settings.notificationCenterSetting.toString()),
-            TextRow("Lock Screen setting", settings.lockScreenSetting.toString()),
+            TextRow(
+                "Lock Screen setting", settings.lockScreenSetting.toString()),
             TextRow("CarPlay setting", settings.carPlaySetting.toString()),
             TextRow("Alert style", settings.alertStyle.toString()),
-            TextRow(
-                "Show Previews setting", settings.showPreviewsSetting.toString()),
+            TextRow("Show Previews setting",
+                settings.showPreviewsSetting.toString()),
             TextRow("Critical Alert setting",
                 settings.criticalAlertSetting.toString()),
             TextRow("Provides App Notification settings",
                 settings.providesAppNotificationSettings.toString()),
-            TextRow(
-                "Announcement setting", settings.announcementSetting.toString()),
+            TextRow("Announcement setting",
+                settings.announcementSetting.toString()),
           ],
         );
       } else {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            TextRow(
-                "Enabled", areNotificationsEnabledAndroid.value.toString()),
+            TextRow("Enabled", areNotificationsEnabledAndroid.value.toString()),
           ],
         );
       }
@@ -81,7 +81,8 @@ class NotificationPermissionSliver extends HookWidget {
               final isGranted = await Push.instance.requestPermission();
               debugPrint("Push permission granted: $isGranted");
               if (Platform.isIOS) {
-                notificationSettings.value = await Push.instance.getNotificationSettings();
+                notificationSettings.value =
+                    await Push.instance.getNotificationSettings();
               } else if (Platform.isAndroid) {
                 areNotificationsEnabledAndroid.value = isGranted;
               }
@@ -113,7 +114,8 @@ class NotificationPermissionSliver extends HookWidget {
     return const Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text("This platform is not supported yet. Only Android and iOS are supported."),
+        Text(
+            "This platform is not supported yet. Only Android and iOS are supported."),
       ],
     );
   }

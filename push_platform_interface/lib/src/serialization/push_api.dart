@@ -190,9 +190,8 @@ class UNNotificationSettings {
       carPlaySetting: result[6] != null
           ? UNNotificationSetting.values[result[6]! as int]
           : null,
-      alertStyle: result[7] != null
-          ? UNAlertStyle.values[result[7]! as int]
-          : null,
+      alertStyle:
+          result[7] != null ? UNAlertStyle.values[result[7]! as int] : null,
       showPreviewsSetting: result[8] != null
           ? UNShowPreviewsSetting.values[result[8]! as int]
           : null,
@@ -228,11 +227,11 @@ class _PushHostApiCodec extends StandardMessageCodec {
   @override
   Object? readValueOfType(int type, ReadBuffer buffer) {
     switch (type) {
-      case 128: 
+      case 128:
         return Notification.decode(readValue(buffer)!);
-      case 129: 
+      case 129:
         return RemoteMessage.decode(readValue(buffer)!);
-      case 130: 
+      case 130:
         return UNNotificationSettings.decode(readValue(buffer)!);
       default:
         return super.readValueOfType(type, buffer);
@@ -252,12 +251,13 @@ class PushHostApi {
 
   /// Returns null if it doesn't exist.
   /// See [PushFlutterApi.onNotificationTap] to understand why a RemoteMessage is not provided here.
-  Future<Map<String?, Object?>?> getNotificationTapWhichLaunchedTerminatedApp() async {
+  Future<Map<String?, Object?>?>
+      getNotificationTapWhichLaunchedTerminatedApp() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.PushHostApi.getNotificationTapWhichLaunchedTerminatedApp', codec,
+        'dev.flutter.pigeon.PushHostApi.getNotificationTapWhichLaunchedTerminatedApp',
+        codec,
         binaryMessenger: _binaryMessenger);
-    final List<Object?>? replyList =
-        await channel.send(null) as List<Object?>?;
+    final List<Object?>? replyList = await channel.send(null) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -278,8 +278,7 @@ class PushHostApi {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.PushHostApi.getToken', codec,
         binaryMessenger: _binaryMessenger);
-    final List<Object?>? replyList =
-        await channel.send(null) as List<Object?>?;
+    final List<Object?>? replyList = await channel.send(null) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -303,10 +302,10 @@ class PushHostApi {
 
   Future<void> backgroundFlutterApplicationReady() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.PushHostApi.backgroundFlutterApplicationReady', codec,
+        'dev.flutter.pigeon.PushHostApi.backgroundFlutterApplicationReady',
+        codec,
         binaryMessenger: _binaryMessenger);
-    final List<Object?>? replyList =
-        await channel.send(null) as List<Object?>?;
+    final List<Object?>? replyList = await channel.send(null) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -327,8 +326,7 @@ class PushHostApi {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.PushHostApi.onListenToOnNewToken', codec,
         binaryMessenger: _binaryMessenger);
-    final List<Object?>? replyList =
-        await channel.send(null) as List<Object?>?;
+    final List<Object?>? replyList = await channel.send(null) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -349,8 +347,7 @@ class PushHostApi {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.PushHostApi.onCancelToOnNewToken', codec,
         binaryMessenger: _binaryMessenger);
-    final List<Object?>? replyList =
-        await channel.send(null) as List<Object?>?;
+    final List<Object?>? replyList = await channel.send(null) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -369,12 +366,28 @@ class PushHostApi {
 
   /// Pass true for the option you want permission to use
   /// Returns true if permission was granted.
-  Future<bool> requestPermission(bool arg_badge, bool arg_sound, bool arg_alert, bool arg_carPlay, bool arg_criticalAlert, bool arg_provisional, bool arg_providesAppNotificationSettings, bool arg_announcement) async {
+  Future<bool> requestPermission(
+      bool arg_badge,
+      bool arg_sound,
+      bool arg_alert,
+      bool arg_carPlay,
+      bool arg_criticalAlert,
+      bool arg_provisional,
+      bool arg_providesAppNotificationSettings,
+      bool arg_announcement) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.PushHostApi.requestPermission', codec,
         binaryMessenger: _binaryMessenger);
-    final List<Object?>? replyList =
-        await channel.send(<Object?>[arg_badge, arg_sound, arg_alert, arg_carPlay, arg_criticalAlert, arg_provisional, arg_providesAppNotificationSettings, arg_announcement]) as List<Object?>?;
+    final List<Object?>? replyList = await channel.send(<Object?>[
+      arg_badge,
+      arg_sound,
+      arg_alert,
+      arg_carPlay,
+      arg_criticalAlert,
+      arg_provisional,
+      arg_providesAppNotificationSettings,
+      arg_announcement
+    ]) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -400,8 +413,7 @@ class PushHostApi {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.PushHostApi.getNotificationSettings', codec,
         binaryMessenger: _binaryMessenger);
-    final List<Object?>? replyList =
-        await channel.send(null) as List<Object?>?;
+    final List<Object?>? replyList = await channel.send(null) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -427,8 +439,7 @@ class PushHostApi {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.PushHostApi.areNotificationsEnabled', codec,
         binaryMessenger: _binaryMessenger);
-    final List<Object?>? replyList =
-        await channel.send(null) as List<Object?>?;
+    final List<Object?>? replyList = await channel.send(null) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -472,11 +483,11 @@ class _PushFlutterApiCodec extends StandardMessageCodec {
   @override
   Object? readValueOfType(int type, ReadBuffer buffer) {
     switch (type) {
-      case 128: 
+      case 128:
         return Notification.decode(readValue(buffer)!);
-      case 129: 
+      case 129:
         return RemoteMessage.decode(readValue(buffer)!);
-      case 130: 
+      case 130:
         return UNNotificationSettings.decode(readValue(buffer)!);
       default:
         return super.readValueOfType(type, buffer);
@@ -515,7 +526,7 @@ abstract class PushFlutterApi {
       } else {
         channel.setMessageHandler((Object? message) async {
           assert(message != null,
-          'Argument for dev.flutter.pigeon.PushFlutterApi.onMessage was null.');
+              'Argument for dev.flutter.pigeon.PushFlutterApi.onMessage was null.');
           final List<Object?> args = (message as List<Object?>?)!;
           final RemoteMessage? arg_message = (args[0] as RemoteMessage?);
           assert(arg_message != null,
@@ -534,7 +545,7 @@ abstract class PushFlutterApi {
       } else {
         channel.setMessageHandler((Object? message) async {
           assert(message != null,
-          'Argument for dev.flutter.pigeon.PushFlutterApi.onBackgroundMessage was null.');
+              'Argument for dev.flutter.pigeon.PushFlutterApi.onBackgroundMessage was null.');
           final List<Object?> args = (message as List<Object?>?)!;
           final RemoteMessage? arg_message = (args[0] as RemoteMessage?);
           assert(arg_message != null,
@@ -553,9 +564,10 @@ abstract class PushFlutterApi {
       } else {
         channel.setMessageHandler((Object? message) async {
           assert(message != null,
-          'Argument for dev.flutter.pigeon.PushFlutterApi.onNotificationTap was null.');
+              'Argument for dev.flutter.pigeon.PushFlutterApi.onNotificationTap was null.');
           final List<Object?> args = (message as List<Object?>?)!;
-          final Map<String?, Object?>? arg_data = (args[0] as Map<Object?, Object?>?)?.cast<String?, Object?>();
+          final Map<String?, Object?>? arg_data =
+              (args[0] as Map<Object?, Object?>?)?.cast<String?, Object?>();
           assert(arg_data != null,
               'Argument for dev.flutter.pigeon.PushFlutterApi.onNotificationTap was null, expected non-null Map<String?, Object?>.');
           api.onNotificationTap(arg_data!);
@@ -572,7 +584,7 @@ abstract class PushFlutterApi {
       } else {
         channel.setMessageHandler((Object? message) async {
           assert(message != null,
-          'Argument for dev.flutter.pigeon.PushFlutterApi.onNewToken was null.');
+              'Argument for dev.flutter.pigeon.PushFlutterApi.onNewToken was null.');
           final List<Object?> args = (message as List<Object?>?)!;
           final String? arg_token = (args[0] as String?);
           assert(arg_token != null,
