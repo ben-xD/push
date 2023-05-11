@@ -120,6 +120,10 @@ class Push extends PlatformInterface {
     return _pushHostApi.getNotificationSettings();
   }
 
+  Future<bool> areNotificationsEnabled() {
+    return _pushHostApi.areNotificationsEnabled();
+  }
+
   /// For more information, see the underlying [Apple documentation](https://developer.apple.com/documentation/usernotifications/unusernotificationcenter/1649527-requestauthorization).
   Future<bool> requestPermission({
     bool badge = true,

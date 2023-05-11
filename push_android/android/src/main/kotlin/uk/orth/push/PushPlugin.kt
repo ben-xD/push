@@ -64,6 +64,7 @@ class PushPlugin : FlutterPlugin, ActivityAware, PluginRegistry.NewIntentListene
         val mainActivity = binding.activity
         this.mainActivity = mainActivity
         binding.addOnNewIntentListener(this)
+        binding.addRequestPermissionsResultListener(this)
         handleRemoteMessageIntent(
                 mainActivity.intent
         ) { message ->
@@ -81,6 +82,7 @@ class PushPlugin : FlutterPlugin, ActivityAware, PluginRegistry.NewIntentListene
         Log.v(TAG, "ActivityAware#onReattachedToActivityForConfigChanges called")
         mainActivity = binding.activity
         binding.addOnNewIntentListener(this)
+        binding.addRequestPermissionsResultListener(this)
     }
 
     // This method gets called when an Activity is detached from the FlutterEngine, either when

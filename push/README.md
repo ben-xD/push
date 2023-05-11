@@ -143,7 +143,8 @@ notification is received, any side effects caused by your handlers must complete
 completing the handler. This is because the Flutter application may be terminated as soon as the
 Future of the handler completes.
 
-**3 concepts:**
+**4 concepts:**
+- Request permission if you need to show notifications to the user (you don't need to do this on Android 12 and older - it will succeed immediately.)
 - Notifications are shown to the user automatically
   - Notifications which contain a title and a body are shown to the user when the app is in the background or terminated state.
   - Notifications are not shown to the user when the app is in the foreground. If you want to show the user a notification, you should send a background notification to your app, and create a local notification.
@@ -152,7 +153,13 @@ Future of the handler completes.
   - when the app is in the background
 - You can handle notification taps
 
-All of this is shown in the following code snippet:
+All of this is shown in the following 2 snippets:
+```dart
+      // Request permission to show notifications. Only do this in a meaningful place 
+      // For example, users have subscribed to a news feed, preferably not when they first install/launch the app. 
+      final isGranted = await Push.instance.requestPermission();
+```
+and
 ```dart
       // To be informed that the device's token has been updated by the operating system
       // You should update your servers with this token
