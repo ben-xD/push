@@ -1,3 +1,8 @@
+## 1.0.0
+
+- feat: support requesting permissions to show notification to users on Android (required on Android 13 and newer).
+- feat: upgrade kotlin, gradle and flutter versions
+
 ## 0.1.3
 
 - fix: allow APNs messages to be handled in onMessage (when app is in foreground) even when `content-available` is not `1`.
