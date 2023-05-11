@@ -43,7 +43,7 @@ Pigeon is used to generate code which serializes and deserializes data, includin
 
 To (re)generate pigeon files:
 - Run `cd push_platform_interface`
-- Run `flutter pub run pigeon --input pigeons/push_api.dart`
+- Run `dart run pigeon --input pigeons/push_api.dart`
 
 #### Manual adjustments
 - When re-generating Pigeon code, it might break. I made 1 small adjustment to the generated code to fix the issue reported in https://github.com/flutter/flutter/issues/101515

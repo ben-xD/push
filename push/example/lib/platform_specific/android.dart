@@ -6,7 +6,7 @@ const debugChannel = AndroidNotificationChannel(
   'debug',
   'Debug',
   description:
-  'This channel is used to demo all notifications manually for development/debug purposes.',
+      'This channel is used to demo all notifications manually for development/debug purposes.',
   importance: Importance.max,
 );
 
@@ -14,13 +14,13 @@ const toiletPaperChannel = AndroidNotificationChannel(
   'toilet_paper',
   'Toilet Paper',
   description:
-  'This channel is used to notify you when toilet paper has run out.',
+      'This channel is used to notify you when toilet paper has run out.',
   importance: Importance.max,
 );
 
 final _flutterLocalNotifications = FlutterLocalNotificationsPlugin()
     .resolvePlatformSpecificImplementation<
-    AndroidFlutterLocalNotificationsPlugin>();
+        AndroidFlutterLocalNotificationsPlugin>();
 
 void configureAndroidPushNotificationChannels() async {
   if (!Platform.isAndroid) {
@@ -28,5 +28,6 @@ void configureAndroidPushNotificationChannels() async {
   }
 
   await _flutterLocalNotifications!.createNotificationChannel(debugChannel);
-  await _flutterLocalNotifications!.createNotificationChannel(toiletPaperChannel);
+  await _flutterLocalNotifications!
+      .createNotificationChannel(toiletPaperChannel);
 }

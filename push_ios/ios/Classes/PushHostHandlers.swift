@@ -117,6 +117,10 @@ class PushHostHandlers: NSObject, PUPushHostApi {
     // Ignored on iOS, since the Flutter application doesn't need to be manually launched.
     func backgroundFlutterApplicationReadyWithError(_ error: AutoreleasingUnsafeMutablePointer<FlutterError?>) {
     }
+    
+    func areNotificationsEnabled(completion: @escaping (NSNumber?, FlutterError?) -> Void) {
+        completion(nil, FlutterError(code: "areNotificationsEnabled", message: "Android only API. Do not call this on iOS.", details: nil))
+    }
 
     func didReceiveRemoteNotification(_ application: UIApplication,
                                       didReceiveRemoteNotification userInfo: [AnyHashable: Any],

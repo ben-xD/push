@@ -2,6 +2,9 @@ PODS:
   - flutter_local_notifications (0.0.1):
     - FlutterMacOS
   - FlutterMacOS (1.0.0)
+  - path_provider_foundation (0.0.1):
+    - Flutter
+    - FlutterMacOS
   - share_plus_macos (0.0.1):
     - FlutterMacOS
   - url_launcher_macos (0.0.1):
@@ -10,6 +13,7 @@ PODS:
 DEPENDENCIES:
   - flutter_local_notifications (from `Flutter/ephemeral/.symlinks/plugins/flutter_local_notifications/macos`)
   - FlutterMacOS (from `Flutter/ephemeral`)
+  - path_provider_foundation (from `Flutter/ephemeral/.symlinks/plugins/path_provider_foundation/macos`)
   - share_plus_macos (from `Flutter/ephemeral/.symlinks/plugins/share_plus_macos/macos`)
   - url_launcher_macos (from `Flutter/ephemeral/.symlinks/plugins/url_launcher_macos/macos`)
 
@@ -18,6 +22,8 @@ EXTERNAL SOURCES:
     :path: Flutter/ephemeral/.symlinks/plugins/flutter_local_notifications/macos
   FlutterMacOS:
     :path: Flutter/ephemeral
+  path_provider_foundation:
+    :path: Flutter/ephemeral/.symlinks/plugins/path_provider_foundation/macos
   share_plus_macos:
     :path: Flutter/ephemeral/.symlinks/plugins/share_plus_macos/macos
   url_launcher_macos:
@@ -25,10 +31,11 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   flutter_local_notifications: 3805ca215b2fb7f397d78b66db91f6a747af52e4
-  FlutterMacOS: 57701585bf7de1b3fc2bb61f6378d73bbdea8424
+  FlutterMacOS: 8f6f14fa908a6fb3fba0cd85dbd81ec4b251fb24
+  path_provider_foundation: eaf5b3e458fc0e5fbb9940fb09980e853fe058b8
   share_plus_macos: 853ee48e7dce06b633998ca0735d482dd671ade4
-  url_launcher_macos: 597e05b8e514239626bcf4a850fcf9ef5c856ec3
+  url_launcher_macos: 5335912b679c073563f29d89d33d10d459f95451
 
-PODFILE CHECKSUM: 6eac6b3292e5142cfc23bdeb71848a40ec51c14c
+PODFILE CHECKSUM: 353c8bcc5d5b0994e508d035b5431cfe18c1dea7
 
 COCOAPODS: 1.11.3

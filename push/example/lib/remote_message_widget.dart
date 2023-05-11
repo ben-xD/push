@@ -24,5 +24,4 @@ class RemoteMessageWidget extends StatelessWidget {
       ),
     );
   }
-
 }

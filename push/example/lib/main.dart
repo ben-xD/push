@@ -24,12 +24,12 @@ Future<FlutterLocalNotificationsPlugin>
   const AndroidInitializationSettings initializationSettingsAndroid =
       AndroidInitializationSettings('mipmap/ic_launcher');
   // Prevent FLN from requesting permission from the user when the app launches.
-  final DarwinInitializationSettings initializationSettingsApple =
+  const DarwinInitializationSettings initializationSettingsApple =
       DarwinInitializationSettings(
           requestAlertPermission: false,
           requestSoundPermission: false,
           requestBadgePermission: false);
-  final InitializationSettings initializationSettings = InitializationSettings(
+  const InitializationSettings initializationSettings = InitializationSettings(
       android: initializationSettingsAndroid,
       iOS: initializationSettingsApple,
       macOS: initializationSettingsApple);
@@ -38,8 +38,9 @@ Future<FlutterLocalNotificationsPlugin>
 }
 
 class MyApp extends HookWidget {
-  MyApp(this.flutterLocalNotificationsPlugin, {Key? key}) : super(key: key);
-  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+  const MyApp(this.flutterLocalNotificationsPlugin, {Key? key})
+      : super(key: key);
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 
   @override
   Widget build(BuildContext context) {
@@ -126,15 +127,16 @@ class MyApp extends HookWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text('Instructions',
-                      style: Theme.of(context).textTheme.headline4),
-                  Text(
+                      style: Theme.of(context).textTheme.headlineMedium),
+                  const Text(
                       "Use the push token below to send messages using the tools provided in the folder called `test_manual/`. You should see these messages arrive to the device, and show up on this screen, based on your actions.")
                 ],
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Options', style: Theme.of(context).textTheme.headline4),
+                  Text('Options',
+                      style: Theme.of(context).textTheme.headlineMedium),
                   Row(
                     children: [
                       Checkbox(
@@ -158,12 +160,12 @@ class MyApp extends HookWidget {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Text('Messages',
-                        style: Theme.of(context).textTheme.headline4),
+                        style: Theme.of(context).textTheme.headlineMedium),
                     Text('Recent foreground notification',
-                        style: Theme.of(context).textTheme.headline5),
+                        style: Theme.of(context).textTheme.headlineSmall),
                     RemoteMessagesWidget(messagesReceived.value),
                     Text('Recent background notification',
-                        style: Theme.of(context).textTheme.headline5),
+                        style: Theme.of(context).textTheme.headlineSmall),
                     RemoteMessagesWidget(backgroundMessagesReceived.value),
                   ],
                 ),
@@ -174,26 +176,27 @@ class MyApp extends HookWidget {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Text('Notification Taps',
-                        style: Theme.of(context).textTheme.headline4),
-                    Text("Notifications are only shown when the app is "
+                        style: Theme.of(context).textTheme.headlineMedium),
+                    const Text("Notifications are only shown when the app is "
                         "terminated or in the background. If you want to "
                         "show a notification when the app is running, you "
                         "have to manually create the notification."),
-                    Text("Only the data property (payloads) is shown when a "
+                    const Text(
+                        "Only the data property (payloads) is shown when a "
                         "notification is tapped. This is done to make "
                         "behaviour consistent between  iOS and Android. "
                         "To know which notification the user saw/tapped, "
                         "you can duplicate the title/body in the data "
                         "payload - redundant I know."),
                     Text('Notification which launched app',
-                        style: Theme.of(context).textTheme.headline5),
+                        style: Theme.of(context).textTheme.headlineSmall),
                     const Text(
                         "There can only be 1 notification which launched your app."),
                     Text((notificationWhichLaunchedApp.value != null)
                         ? notificationWhichLaunchedApp.value.toString()
                         : "The app was not launched by an app pressing the notification."),
                     Text('All notifications tapped since app launch',
-                        style: Theme.of(context).textTheme.headline5),
+                        style: Theme.of(context).textTheme.headlineSmall),
                     buildTappedNotificationsSliver(
                         context, tappedNotificationPayloads.value),
                   ],

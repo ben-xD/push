@@ -130,26 +130,26 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_local_notifications
-      sha256: "938451ba81192c377e311aced9e24b63dc0f9013536195bfb82837317c57b56e"
+      sha256: "2876372952b65ca7f684e698eba22bda1cf581fa071dd30ba2f01900f507d0d1"
       url: "https://pub.dev"
     source: hosted
-    version: "11.0.1"
+    version: "14.0.0+1"
   flutter_local_notifications_linux:
     dependency: transitive
     description:
       name: flutter_local_notifications_linux
-      sha256: "6af440e3962eeab8459602c309d7d4ab9e62f05d5cfe58195a28f846a0b5d523"
+      sha256: "909bb95de05a2e793503a2437146285a2f600cd0b3f826e26b870a334d8586d7"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.0"
+    version: "4.0.0"
   flutter_local_notifications_platform_interface:
     dependency: transitive
     description:
       name: flutter_local_notifications_platform_interface
-      sha256: "5ec1feac5f7f7d9266759488bc5f76416152baba9aa1b26fe572246caa00d1ab"
+      sha256: "63235c42de5b6c99846969a27ad0209c401e6b77b0498939813725b5791c107c"
       url: "https://pub.dev"
     source: hosted
-    version: "6.0.0"
+    version: "7.0.0"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -306,18 +306,16 @@ packages:
   push_android:
     dependency: transitive
     description:
-      name: push_android
-      sha256: "57386b560494a17a584151e769e3947f49e082e6ea6f3822f7a1814d74e6cc96"
-      url: "https://pub.dev"
-    source: hosted
+      path: "../../push_android"
+      relative: true
+    source: path
     version: "0.0.5"
   push_ios:
     dependency: transitive
     description:
-      name: push_ios
-      sha256: "90b4ecc91ea9ee5f5cf435d64875a138646faf5574afee8e3b3ee7a4857ed5c5"
-      url: "https://pub.dev"
-    source: hosted
+      path: "../../push_ios"
+      relative: true
+    source: path
     version: "0.0.6"
   push_macos:
     dependency: transitive
@@ -330,35 +328,18 @@ packages:
   push_platform_interface:
     dependency: transitive
     description:
-      name: push_platform_interface
-      sha256: "114606757ab5d593b6ded65d6daaf61833cf507c81b7ffa5c4d1a336f15c290e"
-      url: "https://pub.dev"
-    source: hosted
+      path: "../../push_platform_interface"
+      relative: true
+    source: path
     version: "0.1.0"
   share_plus:
     dependency: "direct main"
     description:
       name: share_plus
-      sha256: f582d5741930f3ad1bf0211d358eddc0508cc346e5b4b248bd1e569c995ebb7a
+      sha256: "322a1ec9d9fe07e2e2252c098ce93d12dbd06133cc4c00ffe6a4ef505c295c17"
       url: "https://pub.dev"
     source: hosted
-    version: "4.5.3"
-  share_plus_linux:
-    dependency: transitive
-    description:
-      name: share_plus_linux
-      sha256: dc32bf9f1151b9864bb86a997c61a487967a08f2e0b4feaa9a10538712224da4
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.0.1"
-  share_plus_macos:
-    dependency: transitive
-    description:
-      name: share_plus_macos
-      sha256: "44daa946f2845045ecd7abb3569b61cd9a55ae9cc4cbec9895b2067b270697ae"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.0.1"
+    version: "7.0.0"
   share_plus_platform_interface:
     dependency: transitive
     description:
@@ -367,22 +348,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.2.1"
-  share_plus_web:
-    dependency: transitive
-    description:
-      name: share_plus_web
-      sha256: eaef05fa8548b372253e772837dd1fbe4ce3aca30ea330765c945d7d4f7c9935
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.1.0"
-  share_plus_windows:
-    dependency: transitive
-    description:
-      name: share_plus_windows
-      sha256: "3a21515ae7d46988d42130cd53294849e280a5de6ace24bae6912a1bffd757d4"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.0.1"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -452,43 +417,11 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.3.2"
-  url_launcher:
-    dependency: transitive
-    description:
-      name: url_launcher
-      sha256: eb1e00ab44303d50dd487aab67ebc575456c146c6af44422f9c13889984c00f3
-      url: "https://pub.dev"
-    source: hosted
-    version: "6.1.11"
-  url_launcher_android:
-    dependency: transitive
-    description:
-      name: url_launcher_android
-      sha256: "22f8db4a72be26e9e3a4aa3f194b1f7afbc76d20ec141f84be1d787db2155cbd"
-      url: "https://pub.dev"
-    source: hosted
-    version: "6.0.31"
-  url_launcher_ios:
-    dependency: transitive
-    description:
-      name: url_launcher_ios
-      sha256: "9af7ea73259886b92199f9e42c116072f05ff9bea2dcb339ab935dfc957392c2"
-      url: "https://pub.dev"
-    source: hosted
-    version: "6.1.4"
   url_launcher_linux:
     dependency: transitive
     description:
       name: url_launcher_linux
       sha256: "207f4ddda99b95b4d4868320a352d374b0b7e05eefad95a4a26f57da413443f5"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.0.5"
-  url_launcher_macos:
-    dependency: transitive
-    description:
-      name: url_launcher_macos
-      sha256: "91ee3e75ea9dadf38036200c5d3743518f4a5eb77a8d13fda1ee5764373f185e"
       url: "https://pub.dev"
     source: hosted
     version: "3.0.5"
@@ -544,10 +477,10 @@ packages:
     dependency: transitive
     description:
       name: xdg_directories
-      sha256: bd512f03919aac5f1313eb8249f223bacf4927031bf60b02601f81f687689e86
+      sha256: ee1505df1426458f7f60aac270645098d318a8b4766d85fde75f76f2e21807d1
       url: "https://pub.dev"
     source: hosted
-    version: "0.2.0+3"
+    version: "1.0.0"
   xml:
     dependency: transitive
     description:

@@ -14,11 +14,11 @@ dependencies:
     sdk: flutter
 
   # Federated package dependencies
-  push_platform_interface: ^0.1.0
+  # push_platform_interface: ^0.1.0
 
   # Local development dependencies
-#  push_platform_interface:
-#    path: "../push_platform_interface"
+  push_platform_interface:
+    path: "../push_platform_interface"
   # End of local dependencies
 
 dev_dependencies:

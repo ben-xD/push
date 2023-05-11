@@ -17,9 +17,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_hooks: ^0.18.5+1
-  share_plus: ^4.4.0
-  flutter_local_notifications: ^11.0.1
+  flutter_hooks: ^0.18.6
+  share_plus: ^7.0.0
+  flutter_local_notifications: ^14.0.0+1
 
   push:
     # When depending on this package from a real application you should use:

@@ -14,20 +14,20 @@ dependencies:
     sdk: flutter
 
   # Federated package dependencies
-  push_platform_interface: ^0.1.0
-  push_android: ^0.0.5
-  push_ios: ^0.0.6
+  # push_platform_interface: ^0.1.0
+  # push_android: ^0.0.5
+  # push_ios: ^0.0.6
   push_macos: ^0.0.1
   # End of federated package dependencies
 
   # Local development dependencies -
   # uncomment this and comment out the federated package dependencies
-#  push_platform_interface:
-#    path: "../push_platform_interface"
-#  push_android:
-#    path: "../push_android"
-#  push_ios:
-#    path: "../push_ios"
+  push_platform_interface:
+    path: "../push_platform_interface"
+  push_android:
+    path: "../push_android"
+  push_ios:
+    path: "../push_ios"
 #    push_macos:
 #      path: "../push_macos"
   # End of local development dependencies
