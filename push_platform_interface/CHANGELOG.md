@@ -1,3 +1,7 @@
+## 0.2.0
+
+- feat: add `areNotificationsEnabled` for Android, to support Android 13 and newer devices requiring permissions request.
+
 ## 0.1.0
 
 - refactor: remove outdated/leftover code related to configuring foreground notifications on iOS.
