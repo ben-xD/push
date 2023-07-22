@@ -64,21 +64,21 @@ class Push extends PlatformInterface {
   }
 
   /// Notification received when app is in the foreground.
-  Stream<RemoteMessage> get onMessage => _onMessageStreamController.stream;
+  Stream<RemoteMessage> get onMessage => _onMessageStreamController.stream.asBroadcastStream();
 
   /// Notification received when app is terminated or in the background.
   Stream<RemoteMessage> get onBackgroundMessage =>
-      _onBackgroundMessageStreamController.stream;
+      _onBackgroundMessageStreamController.stream.asBroadcastStream();
 
   /// Notification that was tapped whilst the app is already running in the foreground or background.
   /// This requires the notification to contain `data`. The actual notification is not available.
   /// This is an intermittently working feature. Sometimes, Android delivers an intent with no extras,
   /// meaning we can't provide the notification from ther user.
   Stream<Map<String?, Object?>> get onNotificationTap =>
-      _onNotificationTapStreamController.stream;
+      _onNotificationTapStreamController.stream.asBroadcastStream();
 
   /// A new FCM registration token update. (Passing the result of FirebaseMessagingService#onNewToken to Flutter app)
-  Stream<String> get onNewToken => _onNewTokenStreamController.stream;
+  Stream<String> get onNewToken => _onNewTokenStreamController.stream.asBroadcastStream();
 
   /// Get the notification tapped by the user when the app was in the
   /// terminated state. This does not include the case where a push
