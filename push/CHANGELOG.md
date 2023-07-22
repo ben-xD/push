@@ -1,3 +1,7 @@
+## 1.0.1
+
+- fix(ios): fix first notification tap
+
 ## 1.0.0
 
 - feat: support requesting permissions to show notification to users on Android (required on Android 13 and newer).
