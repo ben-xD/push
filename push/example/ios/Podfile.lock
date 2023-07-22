@@ -33,9 +33,9 @@ SPEC CHECKSUMS:
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
   flutter_local_notifications: 0c0b1ae97e741e1521e4c1629a459d04b9aec743
   path_provider_foundation: eaf5b3e458fc0e5fbb9940fb09980e853fe058b8
-  push_ios: 347ca1075a0c296a48544bd1424f401dddb942ee
+  push_ios: 2bd1b4d3f782209da1f571db1250af236957e807
   share_plus: 599aa54e4ea31d4b4c0e9c911bcc26c55e791028
 
 PODFILE CHECKSUM: 7368163408c647b7eb699d0d788ba6718e18fb8d
 
-COCOAPODS: 1.11.3
+COCOAPODS: 1.12.1

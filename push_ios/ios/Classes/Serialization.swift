@@ -18,7 +18,6 @@ extension PURemoteMessage {
         message.notification = notification
 
         return message
-
     }
 }
 
@@ -83,7 +82,7 @@ extension PUUNNotificationSettings {
 
 extension UNNotificationSetting {
     func toSerializable() -> PUUNNotificationSetting {
-        switch (self) {
+        switch self {
         case .notSupported: return .notSupported
         case .disabled: return .disabled
         case .enabled: return .enabled
@@ -96,7 +95,7 @@ extension UNNotificationSetting {
 
 extension UNAuthorizationStatus {
     func toSerializable() -> PUUNAuthorizationStatus {
-        switch (self) {
+        switch self {
         case .notDetermined: return .notDetermined
         case .denied: return .denied
         case .authorized: return .authorized
@@ -111,7 +110,7 @@ extension UNAuthorizationStatus {
 
 extension UNAlertStyle {
     func toSerializable() -> PUUNAlertStyle {
-        switch (self) {
+        switch self {
         case .none: return .none
         case .banner: return .banner
         case .alert: return .alert
@@ -125,10 +124,10 @@ extension UNAlertStyle {
 @available(iOS 11.0, *)
 extension UNShowPreviewsSetting {
     func toSerializable() -> PUUNShowPreviewsSetting {
-        switch (self) {
-        case .always: return .always;
-        case .whenAuthenticated: return .whenAuthenticated;
-        case .never: return .never;
+        switch self {
+        case .always: return .always
+        case .whenAuthenticated: return .whenAuthenticated
+        case .never: return .never
         @unknown default:
             print("Received unknown UNShowPreviewsSetting: \(self), defaulting to .whenAuthenticated")
             return .whenAuthenticated

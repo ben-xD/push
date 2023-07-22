@@ -58,3 +58,8 @@ To (re)generate pigeon files:
 - Kill an application process: put the app in the background, then run `adb shell am kill uk.orth.push.example`
 - Take screenshot with scrcpy: `adb exec-out screencap -p > "screenshot_$(date +%s).png"`
 - Reboot emulator :`adb -e reboot`
+
+
+### iOS
+- Install [SwiftFormat](https://github.com/nicklockwood/SwiftFormat): `brew install swiftformat`
+- Format files: run `make format` or `swiftformat .`
