@@ -1,3 +1,7 @@
+## 0.1.1
+
+- fix(ios): fix first notification tap
+
 ## 0.1.0
 
 - refactor: implement new push_platform_interface (no feature change)
