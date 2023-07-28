@@ -1,3 +1,11 @@
+## 0.1.1
+
+-  [fix(android): fix PushApi.RemoteMessage notification attribute serialization](https://github.com/ben-xD/push/pull/21)
+
+## 0.1.0
+
+- feat: add `areNotificationsEnabled` for Android, to support Android 13 and newer devices requiring permissions request.
+
 ## 0.0.5
 
 - chore: use push_platform_interface 0.1.0
