@@ -1,20 +1,20 @@
 // You can send a push notification with title and text using "Device preview"
 // on the firebase console. For example: https://console.firebase.google.com/u/0/project/push-package/notification/compose (That's my firebase project, you should use a different one).
 
-import { load } from "https://deno.land/std@0.196.0/dotenv/mod.ts";
-import { cert, initializeApp } from "npm:firebase-admin/app";
-import { getMessaging } from "npm:firebase-admin/messaging";
+import { cert, initializeApp } from "firebase-admin/app";
+import {Message, getMessaging } from "firebase-admin/messaging";
 import { z } from "zod";
+import * as fs from "fs";
+import 'dotenv/config'
 
 const envValidator = z.object({
   GOOGLE_APPLICATION_CREDENTIALS: z.string().min(1),
   FCM_REGISTRATION_TOKEN: z.string().min(1),
 });
-const env = envValidator.parse(await load());
+const env = envValidator.parse(process.env);
 
-const keyText = await Deno.readTextFile(env.GOOGLE_APPLICATION_CREDENTIALS);
+const keyText = fs.readFileSync(env.GOOGLE_APPLICATION_CREDENTIALS).toString();
 const key = JSON.parse(keyText);
-key.private_key;
 
 initializeApp({
   credential: cert(key),
@@ -25,8 +25,15 @@ const message = {
     score: "850",
     time: "2:45",
   },
+  notification: {
+    title: "Hello from the Android Push Tool",
+    body: "🐶"
+  },
+  android: {
+    priority: "high",
+  },
   token: env.FCM_REGISTRATION_TOKEN,
-};
+} satisfies Message;
 
 getMessaging()
   .send(message)
