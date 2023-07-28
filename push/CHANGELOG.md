@@ -1,3 +1,7 @@
+## 1.0.2
+
+- [fix(android): fix PushApi.RemoteMessage notification attribute serialization](https://github.com/ben-xD/push/pull/21)
+
 ## 1.0.1
 
 - fix(ios): fix first notification tap

@@ -135,10 +135,10 @@ packages:
     dependency: "direct main"
     description:
       name: push_android
-      sha256: c9866cfff72be6e7a15108bcc26f114efd9dcd1786206b895ca6cbe84c0b5ce1
+      sha256: "1ae53ceee5d2c489102f7ae53ec1331e949dbba787cc4ff191ffe8b7b0965c17"
       url: "https://pub.dev"
     source: hosted
-    version: "0.1.0"
+    version: "0.1.1"
   push_ios:
     dependency: "direct main"
     description:
