@@ -132,6 +132,7 @@ class ExampleApplication : FlutterApplication() {
 - Pre-requisite: you need an [Apple Developer Program](https://developer.apple.com/programs/) membership -
   $99 a year.
 - ~~Warning: APNs does not work on iOS simulators, so you won't be able to test if push notifications or use this package.~~ Push Notifications now work on iOS simulators.
+- ~~Warning: Apps that are force quit on iOS will not handle push notifications due to iOS limitations.~~ Even apps that are force quit on iOS can receive push notifications now.
 - Create a push notifications key on your apple developer
   account's [Certificates, Identifiers & Profiles](https://developer.apple.com/account/resources/authkeys/list)
   page.
