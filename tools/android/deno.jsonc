@@ -1,0 +1,11 @@
+{
+  "tasks": {
+    "start": "deno run --allow-read --allow-env send_android.ts"
+  },
+  "imports": {
+    "firebase-admin/app": "npm:firebase-admin@^11.10.1/app",
+    "firebase-admin/messaging": "npm:firebase-admin@^11.10.1/messaging",
+    // docs: https://zod.dev/?id=from-denolandx-deno
+    "zod": "https://deno.land/x/zod@v3.21.4/mod.ts"
+  }
+}
