@@ -20,6 +20,12 @@ dependencies:
   push_macos: ^0.0.1
   # End of federated package dependencies
 
+  # When developing push locally, make sure
+  # For example, I often make the mistake where I update the local cache
+  # of published push_ios, then try and run the app using the local push_ios.
+  # My changes don't get to run.
+  # A huge pain of federated packages.
+
   # Local development dependencies -
   # uncomment this and comment out the federated package dependencies
   # push_platform_interface:
