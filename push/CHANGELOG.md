@@ -1,3 +1,7 @@
+## 1.0.3
+
+- [fix(ios): don't show duplicate first tapped notification #25](https://github.com/ben-xD/push/pull/25)
+
 ## 1.0.2
 
 - [fix(android): fix PushApi.RemoteMessage notification attribute serialization](https://github.com/ben-xD/push/pull/21)

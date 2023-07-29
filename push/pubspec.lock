@@ -143,10 +143,10 @@ packages:
     dependency: "direct main"
     description:
       name: push_ios
-      sha256: "7361bad98f2dc5d227881a1ab799c6134ae5a6aa2b3c5640ba6f1e6daef06698"
+      sha256: "4e4400ac9e6ee2966df123cfcbc6a581692f4d0b74d8d925310337a819c55325"
       url: "https://pub.dev"
     source: hosted
-    version: "0.1.1"
+    version: "0.1.2"
   push_macos:
     dependency: "direct main"
     description:
