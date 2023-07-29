@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -47,8 +49,7 @@ class MyApp extends HookWidget {
     final notificationWhichLaunchedApp = useState<Map<String?, Object?>?>(null);
     final messagesReceived = useState<List<RemoteMessage>>([]);
     final backgroundMessagesReceived = useState<List<RemoteMessage>>([]);
-    final tappedNotificationPayloads =
-        useState<List<Map<String?, Object?>>>([]);
+    final tappedNotificationDatas = useState<List<Map<String?, Object?>>>([]);
     final isForegroundNotificationsEnabled = useState(true);
 
     useEffect(() {
@@ -76,7 +77,13 @@ class MyApp extends HookWidget {
           Push.instance.onNotificationTap.listen((data) {
         print('Notification was tapped:\n'
             'Data: $data \n');
-        tappedNotificationPayloads.value += [data];
+        if (data.containsKey("payload")) {
+          // Flutter local notifications (FLN) notification created with
+          // `show` below. The data was jsonEncode'd since FLN only accepts
+          // string payloads.
+          data["payload"] = jsonDecode(data["payload"] as String);
+        }
+        tappedNotificationDatas.value += [data];
       });
 
       // Handle push notifications
@@ -91,7 +98,7 @@ class MyApp extends HookWidget {
         // TODO use the state to show local notification.
         if (message.notification != null &&
             isForegroundNotificationsEnabled.value) {
-          displayForegroundNotification(message.notification!);
+          displayForegroundNotification(message.notification!, message.data);
         }
       });
 
@@ -197,8 +204,10 @@ class MyApp extends HookWidget {
                         : "The app was not launched by an app pressing the notification."),
                     Text('All notifications tapped since app launch',
                         style: Theme.of(context).textTheme.headlineSmall),
+                    const Text(
+                        "The data looks different if the notification created by a push notification or a different package (flutter local notifications). The data from all tapped notifications will show up here."),
                     buildTappedNotificationsSliver(
-                        context, tappedNotificationPayloads.value),
+                        context, tappedNotificationDatas.value),
                   ],
                 ),
               ),
@@ -229,7 +238,8 @@ class MyApp extends HookWidget {
     }
   }
 
-  void displayForegroundNotification(push.Notification notification) async {
+  void displayForegroundNotification(
+      push.Notification notification, Map<String?, Object?>? data) async {
     final androidOptions =
         AndroidNotificationDetails(debugChannel.id, debugChannel.name,
             channelDescription: debugChannel.description,
@@ -244,7 +254,9 @@ class MyApp extends HookWidget {
         presentAlert: true, presentBadge: true, presentSound: true);
     final platformChannelSpecifics =
         NotificationDetails(android: androidOptions, iOS: iosOptions);
+    // Flutter local notifications wants a string, not an object. Remember to deserialize it later if you need it. It uses `payload` body.
     await flutterLocalNotificationsPlugin.show(
-        0, notification.title, notification.body, platformChannelSpecifics);
+        0, notification.title, notification.body, platformChannelSpecifics,
+        payload: jsonEncode(data));
   }
 }
