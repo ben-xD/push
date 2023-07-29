@@ -47,13 +47,13 @@ class Push extends PlatformInterface {
   final PushHostApi _pushHostApi = PushHostApi();
 
   final StreamController<RemoteMessage> _onMessageStreamController =
-      StreamController();
+      StreamController.broadcast();
   final StreamController<RemoteMessage> _onBackgroundMessageStreamController =
-      StreamController();
+      StreamController.broadcast();
   final StreamController<Map<String?, Object?>>
-      _onNotificationTapStreamController = StreamController();
+      _onNotificationTapStreamController = StreamController.broadcast();
   final StreamController<String> _onNewTokenStreamController =
-      StreamController();
+      StreamController.broadcast();
 
   /// Platform-specific plugins should override this with their own
   /// platform-specific class that extends [VideoPlayerPlatform] when they
@@ -64,21 +64,21 @@ class Push extends PlatformInterface {
   }
 
   /// Notification received when app is in the foreground.
-  Stream<RemoteMessage> get onMessage => _onMessageStreamController.stream.asBroadcastStream();
+  Stream<RemoteMessage> get onMessage => _onMessageStreamController.stream;
 
   /// Notification received when app is terminated or in the background.
   Stream<RemoteMessage> get onBackgroundMessage =>
-      _onBackgroundMessageStreamController.stream.asBroadcastStream();
+      _onBackgroundMessageStreamController.stream;
 
   /// Notification that was tapped whilst the app is already running in the foreground or background.
   /// This requires the notification to contain `data`. The actual notification is not available.
   /// This is an intermittently working feature. Sometimes, Android delivers an intent with no extras,
   /// meaning we can't provide the notification from ther user.
   Stream<Map<String?, Object?>> get onNotificationTap =>
-      _onNotificationTapStreamController.stream.asBroadcastStream();
+      _onNotificationTapStreamController.stream;
 
   /// A new FCM registration token update. (Passing the result of FirebaseMessagingService#onNewToken to Flutter app)
-  Stream<String> get onNewToken => _onNewTokenStreamController.stream.asBroadcastStream();
+  Stream<String> get onNewToken => _onNewTokenStreamController.stream;
 
   /// Get the notification tapped by the user when the app was in the
   /// terminated state. This does not include the case where a push
