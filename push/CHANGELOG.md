@@ -1,3 +1,7 @@
+## 1.0.4
+
+- [fix(ios): don't show duplicate first tapped notification #25](https://github.com/ben-xD/push/pull/25). First one didn't fix it.
+
 ## 1.0.3
 
 - [fix(ios): don't show duplicate first tapped notification #25](https://github.com/ben-xD/push/pull/25)
