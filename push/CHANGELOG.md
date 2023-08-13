@@ -1,3 +1,7 @@
+## 1.0.5
+
+- [feature(ios): Added logic to parse and use presentation parameters](https://github.com/ben-xD/push/pull/33)
+
 ## 1.0.4
 
 - [fix(ios): don't show duplicate first tapped notification #25](https://github.com/ben-xD/push/pull/25). First one didn't fix it.
