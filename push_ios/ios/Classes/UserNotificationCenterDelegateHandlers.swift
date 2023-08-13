@@ -21,12 +21,10 @@ class UserNotificationCenterDelegateHandlers: NSObject, UNUserNotificationCenter
             // Do not display the notification received from APNs
             completionHandler([])
         } else {
-            // Display the local notification.
-            if #available(iOS 14.0, *) {
-                completionHandler(.banner)
-            } else {
-                completionHandler(.alert)
-            }
+            // Handle local notification with presentation options from userInfo.
+            let presentationOptions = getPresentationOptionsFromUserInfo(notification.request.content.userInfo)
+
+            completionHandler(presentationOptions)
         }
     }
 
@@ -59,5 +57,41 @@ class UserNotificationCenterDelegateHandlers: NSObject, UNUserNotificationCenter
         if let originalDelegate = originalDelegate, originalDelegate.responds(to: openSettingsForDelegateMethodSelector) {
             originalDelegate.userNotificationCenter?(center, openSettingsFor: notification)
         }
+    }
+
+    // Parses userInfo to get presentation options. If some present value is not found, it is  considered as true
+    private func getPresentationOptionsFromUserInfo(_ userInfo: [AnyHashable: Any]) -> UNNotificationPresentationOptions {
+        let presentBanner = (userInfo["presentBanner"] as? Bool) ?? true
+        let presentAlert = (userInfo["presentAlert"] as? Bool) ?? true
+        let presentSound = (userInfo["presentSound"] as? Bool) ?? true
+        let presentBadge = (userInfo["presentBadge"] as? Bool) ?? true
+        let presentList = (userInfo["presentList"] as? Bool) ?? true
+
+        let presentNotification = presentBanner || presentAlert
+        var presentationOptions: UNNotificationPresentationOptions = []
+
+        if presentNotification {
+            if #available(iOS 14.0, *) {
+                presentationOptions.insert(.banner)
+            } else {
+                presentationOptions.insert(.alert)
+            }
+        }
+
+        if presentSound {
+            presentationOptions.insert(.sound)
+        }
+
+        if presentBadge {
+            presentationOptions.insert(.badge)
+        }
+
+        if presentList {
+            if #available(iOS 14.0, *) {
+                presentationOptions.insert(.list)
+            }
+        }
+
+        return presentationOptions
     }
 }
