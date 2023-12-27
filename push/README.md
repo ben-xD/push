@@ -106,6 +106,7 @@ Warning: Setting up push notifications is more difficult than most features, bec
     - See [example app files](example/android/app/build.gradle) for an example.
 - Add `push` to your `pubspec.yaml`
 - Download/update dependencies by running `flutter pub get`
+- Warning: Apps that are force quit on Android will not handle push notifications due to Android restrictions. You might get an error: `broadcast intent callback: result=CANCELLED forIntent { act=com.google.android.c2dm.intent.RECEIVE flg=pkg=uk.orth.push.example (has extras) }`.
 - Flutter applications with custom Android code (native code defined in `MainActivity`):
   - `Push` manually launches your Flutter application in response to a push notification being sent to your app when it is not yet running.
   - In this case, code defined in `MainActivity` won't run when your Flutter application

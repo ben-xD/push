@@ -9,7 +9,7 @@ issue_tracker: https://github.com/ben-xD/push/issues?q=is%3Aissue+is%3Aopen
 homepage: https://orth.uk/
 
 environment:
-  sdk: '>=2.19.0 <4.0.0'
+  sdk: ">=2.19.0 <4.0.0"
 
 dependencies:
   flutter:
@@ -19,4 +19,4 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  pigeon: ^10.0.0
+  pigeon: ^15.0.2

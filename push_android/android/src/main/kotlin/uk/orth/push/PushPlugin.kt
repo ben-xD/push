@@ -26,7 +26,7 @@ class PushPlugin : FlutterPlugin, ActivityAware, PluginRegistry.NewIntentListene
         val binaryMessenger = flutterPluginBinding.binaryMessenger
         applicationContext = flutterPluginBinding.applicationContext
         pushHostHandlers = PushHostHandlers.getInstance(applicationContext!!, binaryMessenger, ::onRequestPushNotificationsPermission)
-        PushApi.PushHostApi.setup(binaryMessenger, pushHostHandlers)
+        PushApi.PushHostApi.setUp(binaryMessenger, pushHostHandlers)
     }
 
     private var isPushNotificationsPermissionPending = false

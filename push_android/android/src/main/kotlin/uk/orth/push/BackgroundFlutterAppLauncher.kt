@@ -38,7 +38,7 @@ class BackgroundFlutterAppLauncher(
         // Setup listener for background processing
         pushHostHandlers.setupForBackgroundNotificationProcessing(remoteMessage) {finish()}
         // Setup listener
-        PushApi.PushHostApi.setup(flutterEngine.dartExecutor.binaryMessenger, pushHostHandlers)
+        PushApi.PushHostApi.setUp(flutterEngine.dartExecutor.binaryMessenger, pushHostHandlers)
         // Launch the users app isolate manually
         flutterEngine.dartExecutor.executeDartEntrypoint(DartExecutor.DartEntrypoint.createDefault())
         // Even though lifecycle parameter is @NonNull, the implementation

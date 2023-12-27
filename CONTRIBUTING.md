@@ -50,6 +50,10 @@ To (re)generate pigeon files:
 
 ## Useful commands
 
+- Generate code: `dart run pigeon --input pigeons/push_api.dart`
+  - Warning/reminder: I had to make 4 manual changes to Pigeon code due to a bug in the generated code. Pigeon generated functions with `Result` argument types, but it should be `NullableResult`. See [Github issue](https://github.com/flutter/flutter/issues/139194#issuecomment-1871066615) for more information.
+- To publish, run `flutter pub publish` in specific folders (and all other packages that depend on it, starting with the leaf packages that have no dependencies)
+
 ### Android
 
 - Nice logs in command line: `pidcat com.example.app`
@@ -58,7 +62,6 @@ To (re)generate pigeon files:
 - Kill an application process: put the app in the background, then run `adb shell am kill uk.orth.push.example`
 - Take screenshot with scrcpy: `adb exec-out screencap -p > "screenshot_$(date +%s).png"`
 - Reboot emulator :`adb -e reboot`
-
 
 ### iOS
 - Install [SwiftFormat](https://github.com/nicklockwood/SwiftFormat): `brew install swiftformat`

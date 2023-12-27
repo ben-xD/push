@@ -45,35 +45,35 @@ extension PUNotification {
 extension PUUNNotificationSettings {
     static func from(unSettings: UNNotificationSettings) -> PUUNNotificationSettings {
         let settings = PUUNNotificationSettings()
-        settings.soundSetting = unSettings.soundSetting.toSerializable()
-        settings.badgeSetting = unSettings.badgeSetting.toSerializable()
-        settings.alertSetting = unSettings.alertSetting.toSerializable()
-        settings.notificationCenterSetting = unSettings.notificationCenterSetting.toSerializable()
-        settings.lockScreenSetting = unSettings.lockScreenSetting.toSerializable()
-        settings.carPlaySetting = unSettings.carPlaySetting.toSerializable()
-        settings.authorizationStatus = unSettings.authorizationStatus.toSerializable()
-        settings.alertStyle = unSettings.alertStyle.toSerializable()
+        settings.soundSetting = PUUNNotificationSettingBox(value: unSettings.soundSetting.toSerializable())
+        settings.badgeSetting = PUUNNotificationSettingBox(value: unSettings.badgeSetting.toSerializable())
+        settings.alertSetting = PUUNNotificationSettingBox(value: unSettings.alertSetting.toSerializable())
+        settings.notificationCenterSetting = PUUNNotificationSettingBox(value: unSettings.notificationCenterSetting.toSerializable())
+        settings.lockScreenSetting = PUUNNotificationSettingBox(value: unSettings.lockScreenSetting.toSerializable())
+        settings.carPlaySetting = PUUNNotificationSettingBox(value: unSettings.carPlaySetting.toSerializable())
+        settings.authorizationStatus = PUUNAuthorizationStatusBox(value: unSettings.authorizationStatus.toSerializable())
+        settings.alertStyle = PUUNAlertStyleBox(value: unSettings.alertStyle.toSerializable())
 
         if #available(iOS 11.0, *) {
-            settings.showPreviewsSetting = unSettings.showPreviewsSetting.toSerializable()
+            settings.showPreviewsSetting = PUUNShowPreviewsSettingBox(value: unSettings.showPreviewsSetting.toSerializable())
         } else {
             // Fallback on earlier versions
-            settings.showPreviewsSetting = .always
+            settings.showPreviewsSetting = PUUNShowPreviewsSettingBox(value: .always)
         }
 
         if #available(iOS 12.0, *) {
             settings.providesAppNotificationSettings = NSNumber(booleanLiteral: unSettings.providesAppNotificationSettings)
-            settings.criticalAlertSetting = unSettings.criticalAlertSetting.toSerializable()
+            settings.criticalAlertSetting = PUUNNotificationSettingBox(value: unSettings.criticalAlertSetting.toSerializable())
 
         } else {
             settings.providesAppNotificationSettings = false
-            settings.criticalAlertSetting = .notSupported
+            settings.criticalAlertSetting = PUUNNotificationSettingBox(value: .notSupported)
         }
 
         if #available(iOS 13.0, *) {
-            settings.announcementSetting = unSettings.announcementSetting.toSerializable()
+            settings.announcementSetting = PUUNNotificationSettingBox(value: unSettings.announcementSetting.toSerializable())
         } else {
-            settings.announcementSetting = .notSupported
+            settings.announcementSetting = PUUNNotificationSettingBox(value: .notSupported)
         }
 
         return settings

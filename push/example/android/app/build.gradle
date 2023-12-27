@@ -59,6 +59,7 @@ android {
             signingConfig signingConfigs.debug
         }
     }
+    namespace 'uk.orth.push.example'
 }
 
 flutter {

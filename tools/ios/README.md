@@ -7,3 +7,7 @@
 - Use it to send push notifications:
   - Send background push notifications: Run `./send_ios -b`
   - Send alert push notifications: Run `./send_ios`
+
+## Known issues
+
+iOS Simulators don't seem to support background message on simulators (when app is in foreground or background).

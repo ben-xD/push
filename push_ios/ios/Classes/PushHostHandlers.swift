@@ -3,43 +3,43 @@ import Foundation
 class PushHostHandlers: NSObject, PUPushHostApi {
     private var deviceTokenReadyDispatchGroupEnters: Int = 0
 
-    func requestPermissionBadge(_ badge: NSNumber,
-                                sound: NSNumber,
-                                alert: NSNumber,
-                                carPlay: NSNumber,
-                                criticalAlert: NSNumber,
-                                provisional: NSNumber,
-                                providesAppNotificationSettings: NSNumber,
-                                announcement: NSNumber,
+    func requestPermissionBadge(_ badge: Bool,
+                                sound: Bool,
+                                alert: Bool,
+                                carPlay: Bool,
+                                criticalAlert: Bool,
+                                provisional: Bool,
+                                providesAppNotificationSettings: Bool,
+                                announcement: Bool,
                                 completion: @escaping (NSNumber?, FlutterError?) -> Void)
     {
         var options: UNAuthorizationOptions = []
 
-        if badge as! Bool {
+        if badge {
             options.insert(.badge)
         }
-        if sound as! Bool {
+        if sound {
             options.insert(.sound)
         }
-        if alert as! Bool {
+        if alert {
             options.insert(.alert)
         }
-        if carPlay as! Bool {
+        if carPlay {
             options.insert(.carPlay)
         }
         if #available(iOS 12.0, *) {
-            if criticalAlert as! Bool {
+            if criticalAlert {
                 options.insert(.criticalAlert)
             }
-            if provisional as! Bool {
+            if provisional {
                 options.insert(.provisional)
             }
-            if providesAppNotificationSettings as! Bool {
+            if providesAppNotificationSettings {
                 options.insert(.providesAppNotificationSettings)
             }
         }
         if #available(iOS 13.0, *) {
-            if announcement as! Bool {
+            if announcement {
                 options.insert(.announcement)
             }
         }
@@ -72,7 +72,7 @@ class PushHostHandlers: NSObject, PUPushHostApi {
         UNUserNotificationCenter.current().delegate = delegate
         super.init()
         enterDeviceTokenReadyDispatchGroup() // DeviceToken is not yet ready
-        PUPushHostApiSetup(binaryMessenger, self)
+        SetUpPUPushHostApi(binaryMessenger, self)
     }
 
     func notificationTapLaunchedTerminatedAppWithError(_: AutoreleasingUnsafeMutablePointer<FlutterError?>) -> NSNumber? {
