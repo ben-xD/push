@@ -1,3 +1,7 @@
+## 0.3.0
+
+- Update pigeon to 15.0.2
+
 ## 0.2.0
 
 - feat: add `areNotificationsEnabled` for Android, to support Android 13 and newer devices requiring permissions request.

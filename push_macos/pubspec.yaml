@@ -12,12 +12,12 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  push_platform_interface: ^0.2.0
+  push_platform_interface: ^0.3.0
 
   # Local development dependencies
 #  push_platform_interface:
 #    path: "../push_platform_interface"
-  # End of local development dependencies
+# End of local development dependencies
 
 dev_dependencies:
   flutter_test:

@@ -1,3 +1,7 @@
+## 0.2.0
+
+- Update pigeon to 15.0.2
+
 ## 0.1.1
 
 -  [fix(android): fix PushApi.RemoteMessage notification attribute serialization](https://github.com/ben-xD/push/pull/21)

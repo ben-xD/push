@@ -1,3 +1,7 @@
+## 0.2.0
+
+- Update pigeon to 15.0.2
+
 ## 0.1.4
 
 - [feature(ios): Added logic to parse and use presentation parameters](https://github.com/ben-xD/push/pull/33)
