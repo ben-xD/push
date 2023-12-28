@@ -188,7 +188,7 @@ and
       });
 
       // Handle push notifications
-      Push.instance.onMessage.listen((message) {
+      Push.instance.addOnMessage((message) {
         print('RemoteMessage received while app is in foreground:\n'
             'RemoteMessage.Notification: ${message.notification} \n'
             ' title: ${message.notification?.title.toString()}\n'
@@ -198,7 +198,7 @@ and
       });
 
       // Handle push notifications
-      Push.instance.onBackgroundMessage.listen((message) {
+      Push.instance.addOnBackgroundMessage((message) {
         print('RemoteMessage received while app is in background:\n'
             'RemoteMessage.Notification: ${message.notification} \n'
             ' title: ${message.notification?.title.toString()}\n'

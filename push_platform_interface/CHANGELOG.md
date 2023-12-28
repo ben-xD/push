@@ -1,3 +1,7 @@
+## 0.4.0
+
+- Replace streams API with callbacks
+
 ## 0.3.0
 
 - Update pigeon to 15.0.2
