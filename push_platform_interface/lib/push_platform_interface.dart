@@ -16,6 +16,8 @@ export 'src/serialization/push_api.dart'
         UNAlertStyle,
         UNAuthorizationStatus;
 
+typedef MessageHandler = FutureOr<void> Function(RemoteMessage message);
+
 /// The interface that implementations of [`push`](https://pub.dev/packages/push) must implement.
 ///
 /// Platform implementations must **extend** this class rather than implement it
@@ -29,7 +31,6 @@ export 'src/serialization/push_api.dart'
 /// but custom implementation (more control).
 class Push extends PlatformInterface {
   Push() : super(token: _token) {
-    _onBackgroundMessageStreamController.onListen = _readyToProcessMessages;
     _onNewTokenStreamController.onListen =
         () => _pushHostApi.onListenToOnNewToken();
     _onNewTokenStreamController.onCancel =
@@ -46,10 +47,6 @@ class Push extends PlatformInterface {
   static Push get instance => _instance;
   final PushHostApi _pushHostApi = PushHostApi();
 
-  final StreamController<RemoteMessage> _onMessageStreamController =
-      StreamController();
-  final StreamController<RemoteMessage> _onBackgroundMessageStreamController =
-      StreamController();
   final StreamController<Map<String?, Object?>>
       _onNotificationTapStreamController = StreamController();
   final StreamController<String> _onNewTokenStreamController =
@@ -63,12 +60,35 @@ class Push extends PlatformInterface {
     _instance = instance;
   }
 
-  /// Notification received when app is in the foreground.
-  Stream<RemoteMessage> get onMessage => _onMessageStreamController.stream;
+  final _onMessageHandlers = <MessageHandler>{};
+  final _onBackgroundMessageHandlers = <MessageHandler>{};
 
-  /// Notification received when app is terminated or in the background.
-  Stream<RemoteMessage> get onBackgroundMessage =>
-      _onBackgroundMessageStreamController.stream;
+  /// Called when notification is received when app is in the foreground.
+  /// Remember to unsubscribe.
+  /// Multiple listeners can be listening.
+  VoidCallback addOnMessage(MessageHandler handler) {
+    _sendAndroidReadyToProcessMessages();
+    _onMessageHandlers.add(handler);
+    return () {
+      _onMessageHandlers.remove(handler);
+    };
+  }
+
+  // Optional: to clear all handlers so you're sure there are no listeners.
+  void resetHandlers() {
+    _isReadyToProcessMessage = false;
+    _onMessageHandlers.clear();
+    _onBackgroundMessageHandlers.clear();
+  }
+
+  /// Called when notification is received when app is terminated or in the background.
+  VoidCallback addOnBackgroundMessage(MessageHandler handler) {
+    _sendAndroidReadyToProcessMessages();
+    _onBackgroundMessageHandlers.add(handler);
+    return () {
+      _onBackgroundMessageHandlers.remove(handler);
+    };
+  }
 
   /// Notification that was tapped whilst the app is already running in the foreground or background.
   /// This requires the notification to contain `data`. The actual notification is not available.
@@ -104,14 +124,18 @@ class Push extends PlatformInterface {
   /// platform that the application is ready process messages.
   ///
   /// This is only valid for Android.
-  void _readyToProcessMessages() {
-    if (Platform.isAndroid) {
-      try {
-        _pushHostApi.backgroundFlutterApplicationReady();
-      } catch (e) {
-        print("Ignoring this exception because the application is already "
-            "running. This method is useful when the application"
-            " is not yet launched (Terminated state). Error: $e");
+  bool _isReadyToProcessMessage = false;
+  void _sendAndroidReadyToProcessMessages() {
+    if (!_isReadyToProcessMessage) {
+      _isReadyToProcessMessage = true;
+      if (Platform.isAndroid) {
+        try {
+          _pushHostApi.backgroundFlutterApplicationReady();
+        } catch (e) {
+          print("Ignoring this exception because the application is already "
+              "running. This method is useful when the application"
+              " is not yet launched (Terminated state). Error: $e");
+        }
       }
     }
   }
@@ -156,13 +180,17 @@ class PushFlutterHandlers extends PushFlutterApi {
   }
 
   @override
-  void onBackgroundMessage(RemoteMessage message) {
-    push._onBackgroundMessageStreamController.add(message);
+  Future<void> onBackgroundMessage(RemoteMessage message) async {
+    for (final handler in push._onBackgroundMessageHandlers) {
+      await handler(message);
+    }
   }
 
   @override
-  void onMessage(RemoteMessage message) {
-    push._onMessageStreamController.add(message);
+  Future<void> onMessage(RemoteMessage message) async {
+    for (final handler in push._onMessageHandlers) {
+      await handler(message);
+    }
   }
 
   @override

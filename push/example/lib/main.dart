@@ -80,7 +80,7 @@ class MyApp extends HookWidget {
       });
 
       // Handle push notifications
-      final onMessageSubscription = Push.instance.onMessage.listen((message) {
+      final unsubscribeOnMessage = Push.instance.addOnMessage((message) {
         print('RemoteMessage received while app is in foreground:\n'
             'RemoteMessage.Notification: ${message.notification} \n'
             ' title: ${message.notification?.title.toString()}\n'
@@ -96,8 +96,8 @@ class MyApp extends HookWidget {
       });
 
       // Handle push notifications
-      final onBackgroundMessageSubscription =
-          Push.instance.onBackgroundMessage.listen((message) {
+      final unsubscribeOnBackgroundMessage =
+          Push.instance.addOnBackgroundMessage((message) {
         print('RemoteMessage received while app is in background:\n'
             'RemoteMessage.Notification: ${message.notification} \n'
             ' title: ${message.notification?.title.toString()}\n'
@@ -109,8 +109,8 @@ class MyApp extends HookWidget {
       return () {
         onNewTokenSubscription.cancel();
         onNotificationTapSubscription.cancel();
-        onMessageSubscription.cancel();
-        onBackgroundMessageSubscription.cancel();
+        unsubscribeOnMessage();
+        unsubscribeOnBackgroundMessage();
       };
     }, []);
 

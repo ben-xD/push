@@ -67,8 +67,10 @@ abstract class PushHostApi {
 
 @FlutterApi()
 abstract class PushFlutterApi {
+  @async
   void onMessage(RemoteMessage message);
 
+  @async
   void onBackgroundMessage(RemoteMessage message);
 
   /// Unfortunately, the intent provided to the app when a user taps on a

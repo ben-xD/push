@@ -211,14 +211,27 @@ class PushHostHandlers(
             when (val action = intent.action) {
                 ON_MESSAGE_RECEIVED -> {
                     val message = RemoteMessage(intent.extras!!).toPushRemoteMessage()
-                    pushFlutterApi.onMessage(message, noOpNullableResult)
+                    pushFlutterApi.onMessage(message, object : PushApi.NullableResult<Void> {
+                        override fun success(result: Void?) {
+                            finish(context)
+                        }
+                        override fun error(error: Throwable) {
+                            finish(context)
+                        }
+                    })
                     finish(context)
                 }
 
                 ON_BACKGROUND_MESSAGE_RECEIVED -> {
                     val message = RemoteMessage(intent.extras!!).toPushRemoteMessage()
-                    pushFlutterApi.onBackgroundMessage(message, noOpNullableResult)
-                    finish(context)
+                    pushFlutterApi.onBackgroundMessage(message, object : PushApi.NullableResult<Void> {
+                        override fun success(result: Void?) {
+                            finish(context)
+                        }
+                        override fun error(error: Throwable) {
+                            finish(context)
+                        }
+                    })
                 }
 
                 ON_NEW_TOKEN -> {
