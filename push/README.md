@@ -256,7 +256,7 @@ understand the difference between them though.
 On Android, notification taps are only sent back to you when your RemoteMessage contains data.
 Therefore, you cannot test this by sending a message from the Firebase notification composer. This
 is because the RemoteMessage in the intent extras which is passed simply does not include the
-notification .
+notification.
 
 ## Checklist
 
