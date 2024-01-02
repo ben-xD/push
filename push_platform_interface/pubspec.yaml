@@ -3,7 +3,7 @@ description: Push notifications in Flutter without firebase_messaging.
 
 # NOTE: We strongly prefer non-breaking changes, even at the expense of a
 # less-clean API. See https://flutter.dev/go/platform-interface-breaking-changes
-version: 0.3.0
+version: 0.4.0
 repository: https://github.com/ben-xD/push
 issue_tracker: https://github.com/ben-xD/push/issues?q=is%3Aissue+is%3Aopen
 homepage: https://orth.uk/

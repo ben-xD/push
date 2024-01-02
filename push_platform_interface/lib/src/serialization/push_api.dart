@@ -540,9 +540,9 @@ abstract class PushFlutterApi {
   static const MessageCodec<Object?> pigeonChannelCodec =
       _PushFlutterApiCodec();
 
-  void onMessage(RemoteMessage message);
+  Future<void> onMessage(RemoteMessage message);
 
-  void onBackgroundMessage(RemoteMessage message);
+  Future<void> onBackgroundMessage(RemoteMessage message);
 
   /// Unfortunately, the intent provided to the app when a user taps on a
   /// notification does not include notification's title or body.
@@ -576,7 +576,7 @@ abstract class PushFlutterApi {
           assert(arg_message != null,
               'Argument for dev.flutter.pigeon.push_platform_interface.PushFlutterApi.onMessage was null, expected non-null RemoteMessage.');
           try {
-            api.onMessage(arg_message!);
+            await api.onMessage(arg_message!);
             return wrapResponse(empty: true);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
@@ -604,7 +604,7 @@ abstract class PushFlutterApi {
           assert(arg_message != null,
               'Argument for dev.flutter.pigeon.push_platform_interface.PushFlutterApi.onBackgroundMessage was null, expected non-null RemoteMessage.');
           try {
-            api.onBackgroundMessage(arg_message!);
+            await api.onBackgroundMessage(arg_message!);
             return wrapResponse(empty: true);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);

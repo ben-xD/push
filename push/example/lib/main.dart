@@ -80,7 +80,7 @@ class MyApp extends HookWidget {
       });
 
       // Handle push notifications
-      final onMessageSubscription = Push.instance.onMessage.listen((message) {
+      final unsubscribeOnMessage = Push.instance.addOnMessage((message) {
         print('RemoteMessage received while app is in foreground:\n'
             'RemoteMessage.Notification: ${message.notification} \n'
             ' title: ${message.notification?.title.toString()}\n'
@@ -96,8 +96,8 @@ class MyApp extends HookWidget {
       });
 
       // Handle push notifications
-      final onBackgroundMessageSubscription =
-          Push.instance.onBackgroundMessage.listen((message) {
+      final unsubscribeOnBackgroundMessage =
+          Push.instance.addOnBackgroundMessage((message) {
         print('RemoteMessage received while app is in background:\n'
             'RemoteMessage.Notification: ${message.notification} \n'
             ' title: ${message.notification?.title.toString()}\n'
@@ -109,8 +109,8 @@ class MyApp extends HookWidget {
       return () {
         onNewTokenSubscription.cancel();
         onNotificationTapSubscription.cancel();
-        onMessageSubscription.cancel();
-        onBackgroundMessageSubscription.cancel();
+        unsubscribeOnMessage();
+        unsubscribeOnBackgroundMessage();
       };
     }, []);
 
@@ -161,11 +161,27 @@ class MyApp extends HookWidget {
                   children: [
                     Text('Messages',
                         style: Theme.of(context).textTheme.headlineMedium),
-                    Text('Recent foreground notification',
-                        style: Theme.of(context).textTheme.headlineSmall),
+                    Row(children: [
+                      Text('Recent foreground notification',
+                          style: Theme.of(context).textTheme.headlineSmall),
+                      IconButton(
+                          onPressed: () {
+                            messagesReceived.value = [];
+                          },
+                          icon: const Icon(Icons.delete))
+                    ]),
                     RemoteMessagesWidget(messagesReceived.value),
-                    Text('Recent background notification',
-                        style: Theme.of(context).textTheme.headlineSmall),
+                    Row(
+                      children: [
+                        Text('Recent background notification',
+                            style: Theme.of(context).textTheme.headlineSmall),
+                        IconButton(
+                            onPressed: () {
+                              backgroundMessagesReceived.value = [];
+                            },
+                            icon: const Icon(Icons.delete))
+                      ],
+                    ),
                     RemoteMessagesWidget(backgroundMessagesReceived.value),
                   ],
                 ),
@@ -195,8 +211,20 @@ class MyApp extends HookWidget {
                     Text((notificationWhichLaunchedApp.value != null)
                         ? notificationWhichLaunchedApp.value.toString()
                         : "The app was not launched by an app pressing the notification."),
-                    Text('All notifications tapped since app launch',
-                        style: Theme.of(context).textTheme.headlineSmall),
+                    Row(
+                      children: [
+                        Flexible(
+                          child: Text(
+                              'All notifications tapped since app launch',
+                              style: Theme.of(context).textTheme.headlineSmall),
+                        ),
+                        IconButton(
+                            onPressed: () {
+                              tappedNotificationPayloads.value = [];
+                            },
+                            icon: const Icon(Icons.delete))
+                      ],
+                    ),
                     buildTappedNotificationsSliver(
                         context, tappedNotificationPayloads.value),
                   ],

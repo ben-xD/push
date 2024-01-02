@@ -5,6 +5,10 @@
 - Look at the [features](#features) if you want to see if `push` will provide it.
 - Look at [comparisons](#comparisons) if you want to compare `Push` with other push notification packages for Flutter.
 
+## Updating to v2
+
+There are some breaking changes in version 2.0.0. Please see the [breaking changes](./UPDATING.md) for how to update your application.
+
 ## Features
 
 - Use push notification without Firebase on any platform except Android.
@@ -188,7 +192,7 @@ and
       });
 
       // Handle push notifications
-      Push.instance.onMessage.listen((message) {
+      Push.instance.addOnMessage((message) {
         print('RemoteMessage received while app is in foreground:\n'
             'RemoteMessage.Notification: ${message.notification} \n'
             ' title: ${message.notification?.title.toString()}\n'
@@ -198,7 +202,7 @@ and
       });
 
       // Handle push notifications
-      Push.instance.onBackgroundMessage.listen((message) {
+      Push.instance.addOnBackgroundMessage((message) {
         print('RemoteMessage received while app is in background:\n'
             'RemoteMessage.Notification: ${message.notification} \n'
             ' title: ${message.notification?.title.toString()}\n'
