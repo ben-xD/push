@@ -1,3 +1,7 @@
+## 2.0.0
+
+- Replace streams API with callbacks
+
 ## 2.0.0-dev.1
 
 - Replace streams API with callbacks
