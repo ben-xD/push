@@ -1,3 +1,7 @@
+## 0.5.0
+
+- Replace generated Java with generated Kotlin (pigeon)
+
 ## 0.4.0
 
 - Update pigeon to 16.0.0
