@@ -6,7 +6,7 @@ import android.util.Log
 import com.google.firebase.messaging.RemoteMessage
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.embedding.engine.dart.DartExecutor
-import uk.orth.push.serialization.PushApi
+import uk.orth.push.serialization.PushHostApi
 
 /**
  * This class is used when the application was terminated when the push notification is received. It
@@ -38,7 +38,7 @@ class BackgroundFlutterAppLauncher(
         // Setup listener for background processing
         pushHostHandlers.setupForBackgroundNotificationProcessing(remoteMessage) {finish()}
         // Setup listener
-        PushApi.PushHostApi.setUp(flutterEngine.dartExecutor.binaryMessenger, pushHostHandlers)
+        PushHostApi.setUp(flutterEngine.dartExecutor.binaryMessenger, pushHostHandlers)
         // Launch the users app isolate manually
         flutterEngine.dartExecutor.executeDartEntrypoint(DartExecutor.DartEntrypoint.createDefault())
         // Even though lifecycle parameter is @NonNull, the implementation

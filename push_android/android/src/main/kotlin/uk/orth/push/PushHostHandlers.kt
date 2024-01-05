@@ -11,34 +11,22 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.RemoteMessage
 import io.flutter.plugin.common.BinaryMessenger
-import uk.orth.push.serialization.PushApi
-import uk.orth.push.serialization.PushApi.Result
-import uk.orth.push.serialization.PushApi.VoidResult
+import uk.orth.push.serialization.PushFlutterApi
+import uk.orth.push.serialization.PushHostApi
+import uk.orth.push.serialization.UNNotificationSettings
 import uk.orth.push.serialization.toPushRemoteMessage
 
-// Just a no-op result to use when we previously passed an empty function (() -> {}).
-val noOpVoidResult = object : VoidResult {
-    override fun success() {}
-
-    override fun error(error: Throwable) {}
-}
-
-val noOpNullableResult = object : PushApi.NullableResult<Void> {
-    override fun success(result: Void?) {}
-    override fun error(error: Throwable) {}
-}
-
 /**
- * The implementation of [PushApi.PushHostApi], handling messages called from the Flutter application.
+ * The implementation of [PushHostApi], handling messages called from the Flutter application.
  */
 class PushHostHandlers(
     context: Context,
     binaryMessenger: BinaryMessenger,
-    private val onRequestPushNotificationsPermission: ((Result<Boolean>) -> Unit)? = null
-) : PushApi.PushHostApi {
-    var notificationTapPayloadWhichLaunchedApp: Map<String, Any>? = null
+    private val onRequestPushNotificationsPermission: ((callback: (Result<Boolean>) -> Unit) -> Unit)? = null
+) : PushHostApi {
+    var notificationTapPayloadWhichLaunchedApp: Map<String?, Any?>? = null
     private var context: Context? = context
-    private var pushFlutterApi = PushApi.PushFlutterApi(binaryMessenger)
+    private var pushFlutterApi = PushFlutterApi(binaryMessenger)
     private var broadcastReceiver = BroadcastReceiver(context)
 
     private var appTerminatedRemoteMessage: RemoteMessage? = null
@@ -56,40 +44,42 @@ class PushHostHandlers(
         context = null
     }
 
-    override fun getNotificationTapWhichLaunchedTerminatedApp(): Map<String, Any>? {
+    override fun getNotificationTapWhichLaunchedTerminatedApp(): Map<String?, Any?>? {
         return notificationTapPayloadWhichLaunchedApp
     }
 
-    override fun getToken(result: Result<String>) {
+    override fun getToken(callback: (Result<String>) -> Unit) {
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
-            val fcmToken = task.result;
+            val fcmToken = task.result
             if (!task.isSuccessful) {
                 Log.w(TAG, "Fetching FCM registration token failed", task.exception)
-                result.error(IllegalStateException("Fetching FCM registration token failed, but exception was null", task.exception))
+                callback(
+                    Result.failure(
+                        IllegalStateException(
+                            "Fetching FCM registration token failed, but exception was null",
+                            task.exception
+                        )
+                    )
+                )
                 return@OnCompleteListener
             } else if (fcmToken == null) {
                 Log.w(TAG, "FCM token was null")
-                result.error(IllegalStateException("FCM token was null"));
+                callback(Result.failure(IllegalStateException("FCM token was null")))
                 return@OnCompleteListener
             }
             // Return latest FCM registration token
-            result.success(fcmToken)
+            callback(Result.success(fcmToken))
         })
     }
 
     override fun backgroundFlutterApplicationReady() {
-        appTerminatedRemoteMessage?.let {
+        appTerminatedRemoteMessage?.let { message ->
             // This signals that the manually spawned app is ready to receive a message to handle.
             // We ask the user to set the background message handler early on.
-
-            pushFlutterApi.onBackgroundMessage(it.toPushRemoteMessage(), object : PushApi.VoidResult {
-                override fun success() {
-                    remoteMessageProcessingComplete!!.invoke();
-                }
-                override fun error(error: Throwable) {
-                    println("Something went wrong")
-                }
-            })
+            pushFlutterApi.onBackgroundMessage(message.toPushRemoteMessage()) { result ->
+                if (result.isSuccess) remoteMessageProcessingComplete!!.invoke()
+                if (result.isFailure) println("backgroundFlutterApplicationReady error: ${result.exceptionOrNull()}")
+            }
         } ?: run {
             Log.v(
                 TAG, "Ignoring this method because it is used in a separate listener " +
@@ -117,34 +107,37 @@ class PushHostHandlers(
         provisional: Boolean,
         providesAppNotificationSettings: Boolean,
         announcement: Boolean,
-        result: Result<Boolean>
+        callback: (Result<Boolean>) -> Unit
     ) {
-        if (onRequestPushNotificationsPermission == null) {
-            result.error(IllegalAccessException("requestPermission was called but there was no activity. This should only be called when the user has the app in the foreground."))
-        } else {
-            onRequestPushNotificationsPermission.invoke(result)
+        // We use this let ?: run structure so kotlin understands onRequestPushNotificationsPermission was not mutated to be null later
+        onRequestPushNotificationsPermission?.let {
+            it(callback)
+        } ?: run {
+            callback(Result.failure(IllegalAccessException("requestPermission was called but there was no activity. This should only be called when the user has the app in the foreground.")))
         }
     }
 
-    override fun getNotificationSettings(result: Result<PushApi.UNNotificationSettings>) {
-        result.error(NoSuchMethodException("getNotificationSettings is not supported on Android"))
+    override fun getNotificationSettings(callback: (Result<UNNotificationSettings>) -> Unit) {
+        callback(Result.failure(NoSuchMethodException("getNotificationSettings is not supported on Android")))
     }
 
-    override fun areNotificationsEnabled(result: Result<Boolean>) {
+    override fun areNotificationsEnabled(callback: (Result<Boolean>) -> Unit) {
         val areNotificationsEnabled =
             NotificationManagerCompat.from(context!!).areNotificationsEnabled()
-        result.success(areNotificationsEnabled)
+        callback(Result.success(areNotificationsEnabled))
     }
 
     fun onNewToken(fcmRegistrationToken: String) {
         this.fcmRegistrationToken = fcmRegistrationToken
         if (isOnNewTokenListened) {
-            pushFlutterApi.onNewToken(fcmRegistrationToken, noOpVoidResult)
+            pushFlutterApi.onNewToken(fcmRegistrationToken) { _ -> }
         }
     }
 
     fun onNotificationTap(message: RemoteMessage) {
-        pushFlutterApi.onNotificationTap(message.toPushRemoteMessage().data ?: emptyMap(), noOpVoidResult)
+        pushFlutterApi.onNotificationTap(
+            message.toPushRemoteMessage().data ?: emptyMap(),
+        ) { _ -> }
     }
 
     companion object {
@@ -164,7 +157,7 @@ class PushHostHandlers(
         fun getInstance(
             context: Context,
             binaryMessenger: BinaryMessenger,
-            onRequestPushNotificationsPermission: ((Result<Boolean>) -> Unit)?
+            onRequestPushNotificationsPermission: ((callback: (Result<Boolean>) -> Unit) -> Unit)? = null
         ): PushHostHandlers =
             instance
                 ?: PushHostHandlers(context, binaryMessenger, onRequestPushNotificationsPermission)
@@ -213,27 +206,12 @@ class PushHostHandlers(
             when (val action = intent.action) {
                 ON_MESSAGE_RECEIVED -> {
                     val message = RemoteMessage(intent.extras!!).toPushRemoteMessage()
-                    pushFlutterApi.onMessage(message, object : PushApi.VoidResult {
-                        override fun success() {
-                            finish(context)
-                        }
-                        override fun error(error: Throwable) {
-                            finish(context)
-                        }
-                    })
-                    finish(context)
+                    pushFlutterApi.onMessage(message) {_ -> finish(context)}
                 }
 
                 ON_BACKGROUND_MESSAGE_RECEIVED -> {
                     val message = RemoteMessage(intent.extras!!).toPushRemoteMessage()
-                    pushFlutterApi.onBackgroundMessage(message, object : PushApi.VoidResult {
-                        override fun success() {
-                            finish(context)
-                        }
-                        override fun error(error: Throwable) {
-                            finish(context)
-                        }
-                    })
+                    pushFlutterApi.onBackgroundMessage(message) {_ -> finish(context)}
                 }
 
                 ON_NEW_TOKEN -> {

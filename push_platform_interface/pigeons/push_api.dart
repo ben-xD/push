@@ -11,9 +11,10 @@ import 'package:pigeon/pigeon.dart';
   // objcHeaderOut: '../push_macos/macos/Classes/serialization/PushApi.h',
   // objcSourceOut: '../push_macos/macos/Classes/serialization/PushApi.m',
   objcOptions: ObjcOptions(prefix: "PU"),
-  javaOut:
-      '../push_android/android/src/main/java/uk/orth/push/serialization/PushApi.java',
-  javaOptions: JavaOptions(package: 'uk.orth.push.serialization'),
+  // swiftOut: '../push_macos/macos/Classes/serialization/PushApi.swift',
+  kotlinOptions: KotlinOptions(package: 'uk.orth.push.serialization'),
+  kotlinOut:
+      '../push_android/android/src/main/kotlin/uk/orth/push/serialization/PushApi.kt',
 ))
 // End of configuration
 
