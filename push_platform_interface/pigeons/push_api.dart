@@ -1,6 +1,6 @@
 import 'package:pigeon/pigeon.dart';
 
-// Regenerate the output files by running `dart run pigeon --input pigeons/push_api.dart`
+// Regenerate the output files with `./scripts/codegen.sh`
 @ConfigurePigeon(PigeonOptions(
   dartOut: '../push_platform_interface/lib/src/serialization/push_api.dart',
   dartTestOut: '../push_platform_interface/test/push_api_test.dart',
