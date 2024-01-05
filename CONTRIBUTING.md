@@ -41,16 +41,11 @@ Pigeon is used to generate code which serializes and deserializes data, includin
 - Implementation of methods called from the other side are called `PushXHandlers`, for example `PushHostHandlers` and `PushFlutterHandlers`.
 - Instances used to call methods on the other side of the serialization barrier have been called: `PushXApi`, for example `PushHostApi` and `PushFlutterApi`.
 
-To (re)generate pigeon files:
-- Run `cd push_platform_interface`
-- Run `dart run pigeon --input pigeons/push_api.dart`
-
-#### Manual adjustments
-- When re-generating Pigeon code, it might break. I made 1 small adjustment to the generated code to fix the issue reported in https://github.com/flutter/flutter/issues/101515
+To (re)generate pigeon files, run `./scripts/codegen.sh`
 
 ## Useful commands
 
-- Generate code: `dart run pigeon --input pigeons/push_api.dart`
+- Generate code: run `./scripts/codegen.sh`
 - To publish, run `flutter pub publish` in specific folders (and all other packages that depend on it, starting with the leaf packages that have no dependencies)
 
 ### Android
