@@ -21,15 +21,15 @@ dependencies:
   share_plus: ^7.0.0
   flutter_local_notifications: ^14.0.0+1
 
+  # When depending on this package from a real application you should use:
+  #   push: ^x.y.z
+  # See https://dart.dev/tools/pub/dependencies#version-constraints
+  # The example app is bundled with the plugin so we use a path dependency on
+  # the parent directory to use the current plugin's version.
   push:
-    # When depending on this package from a real application you should use:
-    #   push: ^x.y.z
-    # See https://dart.dev/tools/pub/dependencies#version-constraints
-    # The example app is bundled with the plugin so we use a path dependency on
-    # the parent directory to use the current plugin's version.
     path: ../
   # To test a published version:
-  # push: 1.1.0
+  # push: 2.1.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
