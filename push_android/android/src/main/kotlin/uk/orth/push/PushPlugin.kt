@@ -13,7 +13,7 @@ import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
 import io.flutter.plugin.common.PluginRegistry
-import uk.orth.push.serialization.PushApi
+import uk.orth.push.serialization.PushHostApi
 import uk.orth.push.serialization.toPushRemoteMessage
 
 
@@ -26,22 +26,22 @@ class PushPlugin : FlutterPlugin, ActivityAware, PluginRegistry.NewIntentListene
         val binaryMessenger = flutterPluginBinding.binaryMessenger
         applicationContext = flutterPluginBinding.applicationContext
         pushHostHandlers = PushHostHandlers.getInstance(applicationContext!!, binaryMessenger, ::onRequestPushNotificationsPermission)
-        PushApi.PushHostApi.setUp(binaryMessenger, pushHostHandlers)
+        PushHostApi.setUp(binaryMessenger, pushHostHandlers)
     }
 
     private var isPushNotificationsPermissionPending = false
-    private var requestPermissionsResult: PushApi.Result<Boolean>? = null
-    private fun onRequestPushNotificationsPermission(result: PushApi.Result<Boolean>) {
+    private var requestPermissionsResultCallback: ((Result<Boolean>) -> Unit)? = null
+    private fun onRequestPushNotificationsPermission(callback: (Result<Boolean>) -> Unit) {
         // if already granted, skip and return successful immediately. Log something though.
         val areNotificationsEnabled = NotificationManagerCompat.from(applicationContext!!).areNotificationsEnabled()
         if (areNotificationsEnabled) {
             Log.i(TAG, "onRequestPushNotificationsPermission: Notifications are already enabled")
-            result.success(true)
+            callback(Result.success(true))
             return
         }
 
-        requestPermissionsResult?.error(IllegalAccessException("requestPermission was already running. Only call this function once."))
-        requestPermissionsResult = result
+        requestPermissionsResultCallback?.invoke(Result.failure(IllegalAccessException("requestPermission was already running. Only call this function once.")))
+        requestPermissionsResultCallback = callback
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             mainActivity?.requestPermissions(arrayOf(Manifest.permission.POST_NOTIFICATIONS),
                 POST_NOTIFICATION_REQUEST_CODE
@@ -122,14 +122,14 @@ class PushPlugin : FlutterPlugin, ActivityAware, PluginRegistry.NewIntentListene
         grantResults: IntArray
     ): Boolean {
         if (requestCode == POST_NOTIFICATION_REQUEST_CODE) {
-            if (requestPermissionsResult == null) {
+            if (requestPermissionsResultCallback == null) {
                 Log.w(TAG, "Developer error. onRequestPermissionsResult called with POST_NOTIFICATION_REQUEST_CODE but requestPermissionsResult is null")
                 // Not handled by this plugin
                 return false
             }
             val granted = grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED
-            requestPermissionsResult?.success(granted)
-            requestPermissionsResult = null
+            requestPermissionsResultCallback?.invoke(Result.success(granted))
+            requestPermissionsResultCallback = null
             isPushNotificationsPermissionPending = false
             // Handled by this plugin
             return true
