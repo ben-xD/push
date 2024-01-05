@@ -70,8 +70,8 @@ with your request.
 
 #### [unifiedpush](https://pub.dev/packages/unifiedpush)
 
-- This only works on Android, but not on iOS because it sets up it's own connection instead of using
-  FCM/APNs.
+- This only works on Android, but not on iOS because it sets up it's own connection instead of using FCM/APNs. UnifiedPush has no plans to support iOS, due to the [limitations of iOS](https://unifiedpush.org/users/faq/#will-unifiedpush-ever-work-on-ios).
+- It relies on a [foreground service](https://developer.android.com/guide/components/foreground-services) and therefore a persistent notification. This persistent notification is present in the status bar and in notification drawer, and cannot be swiped away. It is unrealistic to use on stock Android since users would wonder why certain apps show notifications continuously. Currently, UnifiedPush is probably better for alternative-based operating systems like LineageOS and designed for more tech-savvy users. 
 
 ## Getting started
 
