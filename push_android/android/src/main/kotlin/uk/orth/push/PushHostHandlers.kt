@@ -13,11 +13,13 @@ import com.google.firebase.messaging.RemoteMessage
 import io.flutter.plugin.common.BinaryMessenger
 import uk.orth.push.serialization.PushApi
 import uk.orth.push.serialization.PushApi.Result
+import uk.orth.push.serialization.PushApi.VoidResult
 import uk.orth.push.serialization.toPushRemoteMessage
 
 // Just a no-op result to use when we previously passed an empty function (() -> {}).
-val noOpResult = object : Result<Void> {
-    override fun success(result: Void) {}
+val noOpVoidResult = object : VoidResult {
+    override fun success() {}
+
     override fun error(error: Throwable) {}
 }
 
@@ -80,8 +82,8 @@ class PushHostHandlers(
             // This signals that the manually spawned app is ready to receive a message to handle.
             // We ask the user to set the background message handler early on.
 
-            pushFlutterApi.onBackgroundMessage(it.toPushRemoteMessage(), object : PushApi.NullableResult<Void> {
-                override fun success(result: Void?) {
+            pushFlutterApi.onBackgroundMessage(it.toPushRemoteMessage(), object : PushApi.VoidResult {
+                override fun success() {
                     remoteMessageProcessingComplete!!.invoke();
                 }
                 override fun error(error: Throwable) {
@@ -137,12 +139,12 @@ class PushHostHandlers(
     fun onNewToken(fcmRegistrationToken: String) {
         this.fcmRegistrationToken = fcmRegistrationToken
         if (isOnNewTokenListened) {
-            pushFlutterApi.onNewToken(fcmRegistrationToken, noOpResult)
+            pushFlutterApi.onNewToken(fcmRegistrationToken, noOpVoidResult)
         }
     }
 
     fun onNotificationTap(message: RemoteMessage) {
-        pushFlutterApi.onNotificationTap(message.toPushRemoteMessage().data ?: emptyMap(), noOpNullableResult)
+        pushFlutterApi.onNotificationTap(message.toPushRemoteMessage().data ?: emptyMap(), noOpVoidResult)
     }
 
     companion object {
@@ -211,8 +213,8 @@ class PushHostHandlers(
             when (val action = intent.action) {
                 ON_MESSAGE_RECEIVED -> {
                     val message = RemoteMessage(intent.extras!!).toPushRemoteMessage()
-                    pushFlutterApi.onMessage(message, object : PushApi.NullableResult<Void> {
-                        override fun success(result: Void?) {
+                    pushFlutterApi.onMessage(message, object : PushApi.VoidResult {
+                        override fun success() {
                             finish(context)
                         }
                         override fun error(error: Throwable) {
@@ -224,8 +226,8 @@ class PushHostHandlers(
 
                 ON_BACKGROUND_MESSAGE_RECEIVED -> {
                     val message = RemoteMessage(intent.extras!!).toPushRemoteMessage()
-                    pushFlutterApi.onBackgroundMessage(message, object : PushApi.NullableResult<Void> {
-                        override fun success(result: Void?) {
+                    pushFlutterApi.onBackgroundMessage(message, object : PushApi.VoidResult {
+                        override fun success() {
                             finish(context)
                         }
                         override fun error(error: Throwable) {
