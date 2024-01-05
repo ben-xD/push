@@ -127,7 +127,7 @@ class PushHostHandlers: NSObject, PUPushHostApi {
         // App in background or terminated
         let message = PURemoteMessage.from(userInfo: userInfo)
         if application.applicationState == .background || application.applicationState == .inactive {
-            pushFlutterApi.onBackgroundMessageMessage(message) { _ in 
+            pushFlutterApi.onBackgroundMessageMessage(message) { _ in
                 completionHandler(.newData)
             }
         } else { // App in foreground
@@ -136,7 +136,7 @@ class PushHostHandlers: NSObject, PUPushHostApi {
             // if "alert" APNs message, it is already sent in UserNotificationCenterDelegateHandlers userNotificationCenter_willPresent
             if !isAlertMessage {
                 // If "background" APNs message (it doesn't contain alert), we need to send it to onMessage.
-                pushFlutterApi.onMessageMessage(message) { _ in 
+                pushFlutterApi.onMessageMessage(message) { _ in
                     completionHandler(.newData)
                 }
             } else {

@@ -28,16 +28,16 @@ class UserNotificationCenterDelegateHandlers: NSObject, UNUserNotificationCenter
         }
     }
 
-    private var userTappedOnNotificationCount = 0;
+    private var userTappedOnNotificationCount = 0
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         // Prevents sending notification to users twice when their app is launched by a tap.
         // We will send that one when the user requests for the "Push.instance.notificationTapWhichLaunchedAppFromTerminated" (Dart code)
         let skip = userTappedOnNotificationCount == 0 && PushHostHandlers.notificationTapWhichLaunchedAppUserInfo != nil
-        if (!skip) {
+        if !skip {
             pushFlutterApi.onNotificationTapData(response.notification.request.content.userInfo as! [String: Any]) { _ in }
         }
 
-        userTappedOnNotificationCount += 1;
+        userTappedOnNotificationCount += 1
         callOriginalDidReceiveDelegateMethod(center: center, response: response, completionHandler: completionHandler)
     }
 
