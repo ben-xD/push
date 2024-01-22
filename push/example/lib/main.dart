@@ -56,7 +56,7 @@ class MyApp extends HookWidget {
 
       // To be informed that the device's token has been updated by the operating system
       // You should update your servers with this token
-      final onNewTokenSubscription = Push.instance.onNewToken.listen((token) {
+      final unsubscribeOnNewToken = Push.instance.addOnNewToken((token) {
         print("Just got a new token: $token");
       });
 
@@ -72,8 +72,8 @@ class MyApp extends HookWidget {
       });
 
       // Handle notification taps
-      final onNotificationTapSubscription =
-          Push.instance.onNotificationTap.listen((data) {
+      final unsubscribeOnNotificationTap =
+          Push.instance.addOnNotificationTap((data) {
         print('Notification was tapped:\n'
             'Data: $data \n');
         tappedNotificationPayloads.value += [data];
@@ -107,8 +107,8 @@ class MyApp extends HookWidget {
       });
 
       return () {
-        onNewTokenSubscription.cancel();
-        onNotificationTapSubscription.cancel();
+        unsubscribeOnNewToken();
+        unsubscribeOnNotificationTap();
         unsubscribeOnMessage();
         unsubscribeOnBackgroundMessage();
       };
@@ -161,7 +161,7 @@ class MyApp extends HookWidget {
                   children: [
                     Text('Messages',
                         style: Theme.of(context).textTheme.headlineMedium),
-                    Row(children: [
+                    Wrap(children: [
                       Text('Recent foreground notification',
                           style: Theme.of(context).textTheme.headlineSmall),
                       IconButton(
@@ -171,7 +171,7 @@ class MyApp extends HookWidget {
                           icon: const Icon(Icons.delete))
                     ]),
                     RemoteMessagesWidget(messagesReceived.value),
-                    Row(
+                    Wrap(
                       children: [
                         Text('Recent background notification',
                             style: Theme.of(context).textTheme.headlineSmall),
@@ -211,13 +211,10 @@ class MyApp extends HookWidget {
                     Text((notificationWhichLaunchedApp.value != null)
                         ? notificationWhichLaunchedApp.value.toString()
                         : "The app was not launched by an app pressing the notification."),
-                    Row(
+                    Wrap(
                       children: [
-                        Flexible(
-                          child: Text(
-                              'All notifications tapped since app launch',
-                              style: Theme.of(context).textTheme.headlineSmall),
-                        ),
+                        Text('All notifications tapped since app launch',
+                            style: Theme.of(context).textTheme.headlineSmall),
                         IconButton(
                             onPressed: () {
                               tappedNotificationPayloads.value = [];
@@ -246,6 +243,7 @@ class MyApp extends HookWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ...tappedNotificationPayloads
                   .map((data) => TextRow("Data", data.toString()))

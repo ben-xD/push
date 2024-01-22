@@ -324,57 +324,98 @@ class PushHostApi {
     }
   }
 
+  /// Android only
+  /// Delete the token. You'll get a new one immediately on [PushFlutterApi.onNewToken].
+  ///
+  ///
+  /// The old token would be invalid, and trying to send a FCM message to it
+  ///  will get an error: `Requested entity was not found.`
+  Future<void> deleteToken() async {
+    const String __pigeon_channelName =
+        'dev.flutter.pigeon.push_platform_interface.PushHostApi.deleteToken';
+    final BasicMessageChannel<Object?> __pigeon_channel =
+        BasicMessageChannel<Object?>(
+      __pigeon_channelName,
+      pigeonChannelCodec,
+      binaryMessenger: __pigeon_binaryMessenger,
+    );
+    final List<Object?>? __pigeon_replyList =
+        await __pigeon_channel.send(null) as List<Object?>?;
+    if (__pigeon_replyList == null) {
+      throw _createConnectionError(__pigeon_channelName);
+    } else if (__pigeon_replyList.length > 1) {
+      throw PlatformException(
+        code: __pigeon_replyList[0]! as String,
+        message: __pigeon_replyList[1] as String?,
+        details: __pigeon_replyList[2],
+      );
+    } else {
+      return;
+    }
+  }
+
+  /// iOS only
+  /// Temporary disable receiving push notifications until next app restart. You can re-enable immediately with [PushHostApi.registerForRemoteNotifications].
+  /// This might be useful if you're logging someone out or you want to completely disable all notifications.
+  /// Trying to send an APNs message to the token will fail, until `registerForRemoteNotifications` is called.
+  /// For iOS details, see https://developer.apple.com/documentation/uikit/uiapplication/1623093-unregisterforremotenotifications
+  /// Warning: on IOS simulators, no notifications will be delivered when calling unregisterForRemoteNotifications and then `registerForRemoteNotifications`
+  Future<void> unregisterForRemoteNotifications() async {
+    const String __pigeon_channelName =
+        'dev.flutter.pigeon.push_platform_interface.PushHostApi.unregisterForRemoteNotifications';
+    final BasicMessageChannel<Object?> __pigeon_channel =
+        BasicMessageChannel<Object?>(
+      __pigeon_channelName,
+      pigeonChannelCodec,
+      binaryMessenger: __pigeon_binaryMessenger,
+    );
+    final List<Object?>? __pigeon_replyList =
+        await __pigeon_channel.send(null) as List<Object?>?;
+    if (__pigeon_replyList == null) {
+      throw _createConnectionError(__pigeon_channelName);
+    } else if (__pigeon_replyList.length > 1) {
+      throw PlatformException(
+        code: __pigeon_replyList[0]! as String,
+        message: __pigeon_replyList[1] as String?,
+        details: __pigeon_replyList[2],
+      );
+    } else {
+      return;
+    }
+  }
+
+  /// iOS only
+  /// Registration is done automatically when the application starts.
+  /// This is only useful if you previously called [PushHostApi.unregisterForRemoteNotifications].
+  /// You'll get the next token from [PushFlutterApi.onNewToken]. Unfortunately, this would most likely be
+  /// the same token as before you called [PushHostApi.unregisterForRemoteNotifications].
+  Future<void> registerForRemoteNotifications() async {
+    const String __pigeon_channelName =
+        'dev.flutter.pigeon.push_platform_interface.PushHostApi.registerForRemoteNotifications';
+    final BasicMessageChannel<Object?> __pigeon_channel =
+        BasicMessageChannel<Object?>(
+      __pigeon_channelName,
+      pigeonChannelCodec,
+      binaryMessenger: __pigeon_binaryMessenger,
+    );
+    final List<Object?>? __pigeon_replyList =
+        await __pigeon_channel.send(null) as List<Object?>?;
+    if (__pigeon_replyList == null) {
+      throw _createConnectionError(__pigeon_channelName);
+    } else if (__pigeon_replyList.length > 1) {
+      throw PlatformException(
+        code: __pigeon_replyList[0]! as String,
+        message: __pigeon_replyList[1] as String?,
+        details: __pigeon_replyList[2],
+      );
+    } else {
+      return;
+    }
+  }
+
   Future<void> backgroundFlutterApplicationReady() async {
     const String __pigeon_channelName =
         'dev.flutter.pigeon.push_platform_interface.PushHostApi.backgroundFlutterApplicationReady';
-    final BasicMessageChannel<Object?> __pigeon_channel =
-        BasicMessageChannel<Object?>(
-      __pigeon_channelName,
-      pigeonChannelCodec,
-      binaryMessenger: __pigeon_binaryMessenger,
-    );
-    final List<Object?>? __pigeon_replyList =
-        await __pigeon_channel.send(null) as List<Object?>?;
-    if (__pigeon_replyList == null) {
-      throw _createConnectionError(__pigeon_channelName);
-    } else if (__pigeon_replyList.length > 1) {
-      throw PlatformException(
-        code: __pigeon_replyList[0]! as String,
-        message: __pigeon_replyList[1] as String?,
-        details: __pigeon_replyList[2],
-      );
-    } else {
-      return;
-    }
-  }
-
-  Future<void> onListenToOnNewToken() async {
-    const String __pigeon_channelName =
-        'dev.flutter.pigeon.push_platform_interface.PushHostApi.onListenToOnNewToken';
-    final BasicMessageChannel<Object?> __pigeon_channel =
-        BasicMessageChannel<Object?>(
-      __pigeon_channelName,
-      pigeonChannelCodec,
-      binaryMessenger: __pigeon_binaryMessenger,
-    );
-    final List<Object?>? __pigeon_replyList =
-        await __pigeon_channel.send(null) as List<Object?>?;
-    if (__pigeon_replyList == null) {
-      throw _createConnectionError(__pigeon_channelName);
-    } else if (__pigeon_replyList.length > 1) {
-      throw PlatformException(
-        code: __pigeon_replyList[0]! as String,
-        message: __pigeon_replyList[1] as String?,
-        details: __pigeon_replyList[2],
-      );
-    } else {
-      return;
-    }
-  }
-
-  Future<void> onCancelToOnNewToken() async {
-    const String __pigeon_channelName =
-        'dev.flutter.pigeon.push_platform_interface.PushHostApi.onCancelToOnNewToken';
     final BasicMessageChannel<Object?> __pigeon_channel =
         BasicMessageChannel<Object?>(
       __pigeon_channelName,
