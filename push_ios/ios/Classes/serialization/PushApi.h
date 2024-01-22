@@ -134,9 +134,27 @@ NSObject<FlutterMessageCodec> *PUPushHostApiGetCodec(void);
 /// See [PushFlutterApi.onNotificationTap] to understand why a RemoteMessage is not provided here.
 - (nullable NSDictionary<NSString *, id> *)getNotificationTapWhichLaunchedTerminatedAppWithError:(FlutterError *_Nullable *_Nonnull)error;
 - (void)getTokenWithCompletion:(void (^)(NSString *_Nullable, FlutterError *_Nullable))completion;
+/// Android only
+/// Delete the token. You'll get a new one immediately on [PushFlutterApi.onNewToken].
+///
+///
+/// The old token would be invalid, and trying to send a FCM message to it
+///  will get an error: `Requested entity was not found.`
+- (void)deleteTokenWithCompletion:(void (^)(FlutterError *_Nullable))completion;
+/// iOS only
+/// Temporary disable receiving push notifications until next app restart. You can re-enable immediately with [PushHostApi.registerForRemoteNotifications].
+/// This might be useful if you're logging someone out or you want to completely disable all notifications.
+/// Trying to send an APNs message to the token will fail, until `registerForRemoteNotifications` is called.
+/// For iOS details, see https://developer.apple.com/documentation/uikit/uiapplication/1623093-unregisterforremotenotifications
+/// Warning: on IOS simulators, no notifications will be delivered when calling unregisterForRemoteNotifications and then `registerForRemoteNotifications`
+- (void)unregisterForRemoteNotificationsWithError:(FlutterError *_Nullable *_Nonnull)error;
+/// iOS only
+/// Registration is done automatically when the application starts.
+/// This is only useful if you previously called [PushHostApi.unregisterForRemoteNotifications].
+/// You'll get the next token from [PushFlutterApi.onNewToken]. Unfortunately, this would most likely be
+/// the same token as before you called [PushHostApi.unregisterForRemoteNotifications].
+- (void)registerForRemoteNotificationsWithError:(FlutterError *_Nullable *_Nonnull)error;
 - (void)backgroundFlutterApplicationReadyWithError:(FlutterError *_Nullable *_Nonnull)error;
-- (void)onListenToOnNewTokenWithError:(FlutterError *_Nullable *_Nonnull)error;
-- (void)onCancelToOnNewTokenWithError:(FlutterError *_Nullable *_Nonnull)error;
 /// Pass true for the option you want permission to use
 /// Returns true if permission was granted.
 - (void)requestPermissionBadge:(BOOL)badge sound:(BOOL)sound alert:(BOOL)alert carPlay:(BOOL)carPlay criticalAlert:(BOOL)criticalAlert provisional:(BOOL)provisional providesAppNotificationSettings:(BOOL)providesAppNotificationSettings announcement:(BOOL)announcement completion:(void (^)(NSNumber *_Nullable, FlutterError *_Nullable))completion;

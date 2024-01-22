@@ -17,6 +17,9 @@ export 'src/serialization/push_api.dart'
         UNAuthorizationStatus;
 
 typedef MessageHandler = FutureOr<void> Function(RemoteMessage message);
+typedef TokenHandler = FutureOr<void> Function(String token);
+typedef NotificationTapHandler = FutureOr<void> Function(
+    Map<String?, Object?> body);
 
 /// The interface that implementations of [`push`](https://pub.dev/packages/push) must implement.
 ///
@@ -31,10 +34,6 @@ typedef MessageHandler = FutureOr<void> Function(RemoteMessage message);
 /// but custom implementation (more control).
 class Push extends PlatformInterface {
   Push() : super(token: _token) {
-    _onNewTokenStreamController.onListen =
-        () => _pushHostApi.onListenToOnNewToken();
-    _onNewTokenStreamController.onCancel =
-        () => _pushHostApi.onCancelToOnNewToken();
     PushFlutterHandlers(this);
   }
 
@@ -47,11 +46,6 @@ class Push extends PlatformInterface {
   static Push get instance => _instance;
   final PushHostApi _pushHostApi = PushHostApi();
 
-  final StreamController<Map<String?, Object?>>
-      _onNotificationTapStreamController = StreamController();
-  final StreamController<String> _onNewTokenStreamController =
-      StreamController();
-
   /// Platform-specific plugins should override this with their own
   /// platform-specific class that extends [VideoPlayerPlatform] when they
   /// register themselves.
@@ -62,6 +56,8 @@ class Push extends PlatformInterface {
 
   final _onMessageHandlers = <MessageHandler>{};
   final _onBackgroundMessageHandlers = <MessageHandler>{};
+  final _onNewTokenHandlers = <TokenHandler>{};
+  final _onNotificationTapHandlers = <NotificationTapHandler>{};
 
   /// Called when notification is received when app is in the foreground.
   /// Remember to unsubscribe.
@@ -74,13 +70,6 @@ class Push extends PlatformInterface {
     };
   }
 
-  // Optional: to clear all handlers so you're sure there are no listeners.
-  void resetHandlers() {
-    _isReadyToProcessMessage = false;
-    _onMessageHandlers.clear();
-    _onBackgroundMessageHandlers.clear();
-  }
-
   /// Called when notification is received when app is terminated or in the background.
   VoidCallback addOnBackgroundMessage(MessageHandler handler) {
     _sendAndroidReadyToProcessMessages();
@@ -90,15 +79,33 @@ class Push extends PlatformInterface {
     };
   }
 
+  /// Listen to new tokens. (Passing the result of FirebaseMessagingService#onNewToken to Flutter app)
+  VoidCallback addOnNewToken(TokenHandler handler) {
+    _onNewTokenHandlers.add(handler);
+    return () {
+      _onNewTokenHandlers.remove(handler);
+    };
+  }
+
   /// Notification that was tapped whilst the app is already running in the foreground or background.
   /// This requires the notification to contain `data`. The actual notification is not available.
   /// This is an intermittently working feature. Sometimes, Android delivers an intent with no extras,
   /// meaning we can't provide the notification from ther user.
-  Stream<Map<String?, Object?>> get onNotificationTap =>
-      _onNotificationTapStreamController.stream;
+  VoidCallback addOnNotificationTap(NotificationTapHandler handler) {
+    _onNotificationTapHandlers.add(handler);
+    return () {
+      _onNotificationTapHandlers.remove(handler);
+    };
+  }
 
-  /// A new FCM registration token update. (Passing the result of FirebaseMessagingService#onNewToken to Flutter app)
-  Stream<String> get onNewToken => _onNewTokenStreamController.stream;
+  // Optional: to clear all handlers so you're sure there are no listeners.
+  void resetHandlers() {
+    _isReadyToProcessMessage = false;
+    _onMessageHandlers.clear();
+    _onBackgroundMessageHandlers.clear();
+    _onNewTokenHandlers.clear();
+    _onNotificationTapHandlers.clear();
+  }
 
   /// Get the notification tapped by the user when the app was in the
   /// terminated state. This does not include the case where a push
@@ -117,6 +124,10 @@ class Push extends PlatformInterface {
   /// On Android, this is the FCM registration token
   /// On iOS, this is the APNs device token.
   Future<String?> get token => _pushHostApi.getToken();
+
+  Future<void> deleteToken() {
+    return _pushHostApi.deleteToken();
+  }
 
   VoidCallback? onOpenSettingsHandler;
 
@@ -194,13 +205,17 @@ class PushFlutterHandlers extends PushFlutterApi {
   }
 
   @override
-  void onNewToken(String token) {
-    push._onNewTokenStreamController.add(token);
+  void onNewToken(String token) async {
+    for (final handler in push._onNewTokenHandlers) {
+      await handler(token);
+    }
   }
 
   @override
-  void onNotificationTap(Map<String?, Object?> message) {
-    push._onNotificationTapStreamController.add(message);
+  void onNotificationTap(Map<String?, Object?> message) async {
+    for (final handler in push._onNotificationTapHandlers) {
+      await handler(message);
+    }
   }
 
   @override

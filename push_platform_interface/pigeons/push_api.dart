@@ -4,9 +4,12 @@ import 'package:pigeon/pigeon.dart';
 @ConfigurePigeon(PigeonOptions(
   dartOut: '../push_platform_interface/lib/src/serialization/push_api.dart',
   dartTestOut: '../push_platform_interface/test/push_api_test.dart',
-  swiftOptions: SwiftOptions(),
   // for iOS (not macOS, because Pigeon only supports 1 output path per language)
-  swiftOut: '../push_ios/ios/Classes/serialization/PushApi.swift',
+  objcHeaderOut: '../push_ios/ios/Classes/serialization/PushApi.h',
+  objcSourceOut: '../push_ios/ios/Classes/serialization/PushApi.m',
+  objcOptions: ObjcOptions(prefix: "PU"),
+  // swiftOptions: SwiftOptions(),
+  // swiftOut: '../push_ios/ios/Classes/serialization/PushApi.swift',
   kotlinOptions: KotlinOptions(package: 'uk.orth.push.serialization'),
   kotlinOut:
       '../push_android/android/src/main/kotlin/uk/orth/push/serialization/PushApi.kt',
@@ -32,11 +35,30 @@ abstract class PushHostApi {
   @async
   String getToken();
 
+  /// Android only
+  /// Delete the token. You'll get a new one immediately on [PushFlutterApi.onNewToken].
+  ///
+  /// The old token would be invalid, and trying to send a FCM message to it
+  ///  will get an error: `Requested entity was not found.`
+  @async
+  void deleteToken();
+
+  /// iOS only
+  /// Temporary disable receiving push notifications until next app restart. You can re-enable immediately with [PushHostApi.registerForRemoteNotifications].
+  /// This might be useful if you're logging someone out or you want to completely disable all notifications.
+  /// Trying to send an APNs message to the token will fail, until `registerForRemoteNotifications` is called.
+  /// For iOS details, see https://developer.apple.com/documentation/uikit/uiapplication/1623093-unregisterforremotenotifications
+  /// Warning: on IOS simulators, no notifications will be delivered when calling unregisterForRemoteNotifications and then `registerForRemoteNotifications`
+  void unregisterForRemoteNotifications();
+
+  /// iOS only
+  /// Registration is done automatically when the application starts.
+  /// This is only useful if you previously called [PushHostApi.unregisterForRemoteNotifications].
+  /// You'll get the next token from [PushFlutterApi.onNewToken]. Unfortunately, this would most likely be
+  /// the same token as before you called [PushHostApi.unregisterForRemoteNotifications].
+  void registerForRemoteNotifications();
+
   void backgroundFlutterApplicationReady();
-
-  void onListenToOnNewToken();
-
-  void onCancelToOnNewToken();
 
   /// Pass true for the option you want permission to use
   /// Returns true if permission was granted.

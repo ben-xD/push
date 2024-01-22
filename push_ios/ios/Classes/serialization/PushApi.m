@@ -338,6 +338,74 @@ void SetUpPUPushHostApi(id<FlutterBinaryMessenger> binaryMessenger, NSObject<PUP
       [channel setMessageHandler:nil];
     }
   }
+  /// Android only
+  /// Delete the token. You'll get a new one immediately on [PushFlutterApi.onNewToken].
+  ///
+  ///
+  /// The old token would be invalid, and trying to send a FCM message to it
+  ///  will get an error: `Requested entity was not found.`
+  {
+    FlutterBasicMessageChannel *channel =
+      [[FlutterBasicMessageChannel alloc]
+        initWithName:@"dev.flutter.pigeon.push_platform_interface.PushHostApi.deleteToken"
+        binaryMessenger:binaryMessenger
+        codec:PUPushHostApiGetCodec()];
+    if (api) {
+      NSCAssert([api respondsToSelector:@selector(deleteTokenWithCompletion:)], @"PUPushHostApi api (%@) doesn't respond to @selector(deleteTokenWithCompletion:)", api);
+      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+        [api deleteTokenWithCompletion:^(FlutterError *_Nullable error) {
+          callback(wrapResult(nil, error));
+        }];
+      }];
+    } else {
+      [channel setMessageHandler:nil];
+    }
+  }
+  /// iOS only
+  /// Temporary disable receiving push notifications until next app restart. You can re-enable immediately with [PushHostApi.registerForRemoteNotifications].
+  /// This might be useful if you're logging someone out or you want to completely disable all notifications.
+  /// Trying to send an APNs message to the token will fail, until `registerForRemoteNotifications` is called.
+  /// For iOS details, see https://developer.apple.com/documentation/uikit/uiapplication/1623093-unregisterforremotenotifications
+  /// Warning: on IOS simulators, no notifications will be delivered when calling unregisterForRemoteNotifications and then `registerForRemoteNotifications`
+  {
+    FlutterBasicMessageChannel *channel =
+      [[FlutterBasicMessageChannel alloc]
+        initWithName:@"dev.flutter.pigeon.push_platform_interface.PushHostApi.unregisterForRemoteNotifications"
+        binaryMessenger:binaryMessenger
+        codec:PUPushHostApiGetCodec()];
+    if (api) {
+      NSCAssert([api respondsToSelector:@selector(unregisterForRemoteNotificationsWithError:)], @"PUPushHostApi api (%@) doesn't respond to @selector(unregisterForRemoteNotificationsWithError:)", api);
+      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+        FlutterError *error;
+        [api unregisterForRemoteNotificationsWithError:&error];
+        callback(wrapResult(nil, error));
+      }];
+    } else {
+      [channel setMessageHandler:nil];
+    }
+  }
+  /// iOS only
+  /// Registration is done automatically when the application starts.
+  /// This is only useful if you previously called [PushHostApi.unregisterForRemoteNotifications].
+  /// You'll get the next token from [PushFlutterApi.onNewToken]. Unfortunately, this would most likely be
+  /// the same token as before you called [PushHostApi.unregisterForRemoteNotifications].
+  {
+    FlutterBasicMessageChannel *channel =
+      [[FlutterBasicMessageChannel alloc]
+        initWithName:@"dev.flutter.pigeon.push_platform_interface.PushHostApi.registerForRemoteNotifications"
+        binaryMessenger:binaryMessenger
+        codec:PUPushHostApiGetCodec()];
+    if (api) {
+      NSCAssert([api respondsToSelector:@selector(registerForRemoteNotificationsWithError:)], @"PUPushHostApi api (%@) doesn't respond to @selector(registerForRemoteNotificationsWithError:)", api);
+      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+        FlutterError *error;
+        [api registerForRemoteNotificationsWithError:&error];
+        callback(wrapResult(nil, error));
+      }];
+    } else {
+      [channel setMessageHandler:nil];
+    }
+  }
   {
     FlutterBasicMessageChannel *channel =
       [[FlutterBasicMessageChannel alloc]
@@ -349,40 +417,6 @@ void SetUpPUPushHostApi(id<FlutterBinaryMessenger> binaryMessenger, NSObject<PUP
       [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
         FlutterError *error;
         [api backgroundFlutterApplicationReadyWithError:&error];
-        callback(wrapResult(nil, error));
-      }];
-    } else {
-      [channel setMessageHandler:nil];
-    }
-  }
-  {
-    FlutterBasicMessageChannel *channel =
-      [[FlutterBasicMessageChannel alloc]
-        initWithName:@"dev.flutter.pigeon.push_platform_interface.PushHostApi.onListenToOnNewToken"
-        binaryMessenger:binaryMessenger
-        codec:PUPushHostApiGetCodec()];
-    if (api) {
-      NSCAssert([api respondsToSelector:@selector(onListenToOnNewTokenWithError:)], @"PUPushHostApi api (%@) doesn't respond to @selector(onListenToOnNewTokenWithError:)", api);
-      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
-        FlutterError *error;
-        [api onListenToOnNewTokenWithError:&error];
-        callback(wrapResult(nil, error));
-      }];
-    } else {
-      [channel setMessageHandler:nil];
-    }
-  }
-  {
-    FlutterBasicMessageChannel *channel =
-      [[FlutterBasicMessageChannel alloc]
-        initWithName:@"dev.flutter.pigeon.push_platform_interface.PushHostApi.onCancelToOnNewToken"
-        binaryMessenger:binaryMessenger
-        codec:PUPushHostApiGetCodec()];
-    if (api) {
-      NSCAssert([api respondsToSelector:@selector(onCancelToOnNewTokenWithError:)], @"PUPushHostApi api (%@) doesn't respond to @selector(onCancelToOnNewTokenWithError:)", api);
-      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
-        FlutterError *error;
-        [api onCancelToOnNewTokenWithError:&error];
         callback(wrapResult(nil, error));
       }];
     } else {

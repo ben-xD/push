@@ -72,6 +72,28 @@ class PushHostHandlers(
         })
     }
 
+    override fun deleteToken(callback: (Result<Unit>) -> Unit) {
+        FirebaseMessaging.getInstance().deleteToken().addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.w(TAG, "Deleting FCM registration token failed", task.exception)
+                callback(
+                    Result.failure(
+                        IllegalStateException(
+                            "Deleting FCM registration token failed",
+                            task.exception
+                        )
+                    )
+                )
+                return@OnCompleteListener
+            };
+            callback(Result.success(Unit))
+        });
+    }
+
+    override fun registerForRemoteNotifications() {}
+
+    override fun unregisterForRemoteNotifications() {}
+
     override fun backgroundFlutterApplicationReady() {
         appTerminatedRemoteMessage?.let { message ->
             // This signals that the manually spawned app is ready to receive a message to handle.
@@ -89,14 +111,6 @@ class PushHostHandlers(
     }
 
     private var fcmRegistrationToken: String? = null
-    private var isOnNewTokenListened = false
-    override fun onListenToOnNewToken() {
-        isOnNewTokenListened = true
-    }
-
-    override fun onCancelToOnNewToken() {
-        isOnNewTokenListened = false
-    }
 
     override fun requestPermission(
         badge: Boolean,
@@ -129,9 +143,7 @@ class PushHostHandlers(
 
     fun onNewToken(fcmRegistrationToken: String) {
         this.fcmRegistrationToken = fcmRegistrationToken
-        if (isOnNewTokenListened) {
-            pushFlutterApi.onNewToken(fcmRegistrationToken) { _ -> }
-        }
+        pushFlutterApi.onNewToken(fcmRegistrationToken) { _ -> }
     }
 
     fun onNotificationTap(message: RemoteMessage) {

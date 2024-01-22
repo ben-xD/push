@@ -297,9 +297,33 @@ interface PushHostApi {
    */
   fun getNotificationTapWhichLaunchedTerminatedApp(): Map<String?, Any?>?
   fun getToken(callback: (Result<String>) -> Unit)
+  /**
+   * Android only
+   * Delete the token. You'll get a new one immediately on [PushFlutterApi.onNewToken].
+   *
+   *
+   * The old token would be invalid, and trying to send a FCM message to it
+   *  will get an error: `Requested entity was not found.`
+   */
+  fun deleteToken(callback: (Result<Unit>) -> Unit)
+  /**
+   * iOS only
+   * Temporary disable receiving push notifications until next app restart. You can re-enable immediately with [PushHostApi.registerForRemoteNotifications].
+   * This might be useful if you're logging someone out or you want to completely disable all notifications.
+   * Trying to send an APNs message to the token will fail, until `registerForRemoteNotifications` is called.
+   * For iOS details, see https://developer.apple.com/documentation/uikit/uiapplication/1623093-unregisterforremotenotifications
+   * Warning: on IOS simulators, no notifications will be delivered when calling unregisterForRemoteNotifications and then `registerForRemoteNotifications`
+   */
+  fun unregisterForRemoteNotifications()
+  /**
+   * iOS only
+   * Registration is done automatically when the application starts.
+   * This is only useful if you previously called [PushHostApi.unregisterForRemoteNotifications].
+   * You'll get the next token from [PushFlutterApi.onNewToken]. Unfortunately, this would most likely be
+   * the same token as before you called [PushHostApi.unregisterForRemoteNotifications].
+   */
+  fun registerForRemoteNotifications()
   fun backgroundFlutterApplicationReady()
-  fun onListenToOnNewToken()
-  fun onCancelToOnNewToken()
   /**
    * Pass true for the option you want permission to use
    * Returns true if permission was granted.
@@ -351,46 +375,63 @@ interface PushHostApi {
         }
       }
       run {
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.push_platform_interface.PushHostApi.deleteToken", codec)
+        if (api != null) {
+          channel.setMessageHandler { _, reply ->
+            api.deleteToken() { result: Result<Unit> ->
+              val error = result.exceptionOrNull()
+              if (error != null) {
+                reply.reply(wrapError(error))
+              } else {
+                reply.reply(wrapResult(null))
+              }
+            }
+          }
+        } else {
+          channel.setMessageHandler(null)
+        }
+      }
+      run {
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.push_platform_interface.PushHostApi.unregisterForRemoteNotifications", codec)
+        if (api != null) {
+          channel.setMessageHandler { _, reply ->
+            var wrapped: List<Any?>
+            try {
+              api.unregisterForRemoteNotifications()
+              wrapped = listOf<Any?>(null)
+            } catch (exception: Throwable) {
+              wrapped = wrapError(exception)
+            }
+            reply.reply(wrapped)
+          }
+        } else {
+          channel.setMessageHandler(null)
+        }
+      }
+      run {
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.push_platform_interface.PushHostApi.registerForRemoteNotifications", codec)
+        if (api != null) {
+          channel.setMessageHandler { _, reply ->
+            var wrapped: List<Any?>
+            try {
+              api.registerForRemoteNotifications()
+              wrapped = listOf<Any?>(null)
+            } catch (exception: Throwable) {
+              wrapped = wrapError(exception)
+            }
+            reply.reply(wrapped)
+          }
+        } else {
+          channel.setMessageHandler(null)
+        }
+      }
+      run {
         val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.push_platform_interface.PushHostApi.backgroundFlutterApplicationReady", codec)
         if (api != null) {
           channel.setMessageHandler { _, reply ->
             var wrapped: List<Any?>
             try {
               api.backgroundFlutterApplicationReady()
-              wrapped = listOf<Any?>(null)
-            } catch (exception: Throwable) {
-              wrapped = wrapError(exception)
-            }
-            reply.reply(wrapped)
-          }
-        } else {
-          channel.setMessageHandler(null)
-        }
-      }
-      run {
-        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.push_platform_interface.PushHostApi.onListenToOnNewToken", codec)
-        if (api != null) {
-          channel.setMessageHandler { _, reply ->
-            var wrapped: List<Any?>
-            try {
-              api.onListenToOnNewToken()
-              wrapped = listOf<Any?>(null)
-            } catch (exception: Throwable) {
-              wrapped = wrapError(exception)
-            }
-            reply.reply(wrapped)
-          }
-        } else {
-          channel.setMessageHandler(null)
-        }
-      }
-      run {
-        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.push_platform_interface.PushHostApi.onCancelToOnNewToken", codec)
-        if (api != null) {
-          channel.setMessageHandler { _, reply ->
-            var wrapped: List<Any?>
-            try {
-              api.onCancelToOnNewToken()
               wrapped = listOf<Any?>(null)
             } catch (exception: Throwable) {
               wrapped = wrapError(exception)
