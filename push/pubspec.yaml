@@ -4,7 +4,7 @@ version: 2.1.0
 repository: https://github.com/ben-xD/push
 issue_tracker: https://github.com/ben-xD/push/issues?q=is%3Aissue+is%3Aopen
 homepage: https://orth.uk/
-
+publish_to: none
 environment:
   sdk: ">=2.12.0 <4.0.0"
   flutter: ">=1.20.0"
@@ -16,7 +16,7 @@ dependencies:
   # Federated package dependencies
   push_platform_interface: ^0.5.0
   push_android: ^0.5.0
-  push_ios: ^0.4.0
+  # push_ios: ^0.4.0
   push_macos: ^0.0.1
   # End of federated package dependencies
 
@@ -32,8 +32,8 @@ dependencies:
   #   path: "../push_platform_interface"
   # push_android:
   #   path: "../push_android"
-  # push_ios:
-  #   path: "../push_ios"
+  push_ios:
+    path: "../push_ios"
 #    push_macos:
 #      path: "../push_macos"
 # End of local development dependencies
