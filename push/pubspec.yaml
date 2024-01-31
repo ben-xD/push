@@ -14,10 +14,10 @@ dependencies:
     sdk: flutter
 
   # Federated package dependencies
-  # push_platform_interface: ^0.5.0
-  # push_android: ^0.5.0
+  push_platform_interface: ^0.5.0
+  push_android: ^0.5.0
   # push_ios: ^0.4.0
-  # push_macos: ^0.0.1
+  push_macos: ^0.0.1
   # End of federated package dependencies
 
   # When developing push locally, make sure
@@ -28,14 +28,17 @@ dependencies:
 
   # Local development dependencies -
   # uncomment this and comment out the federated package dependencies
-  push_platform_interface:
-    path: "../push_platform_interface"
-  push_android:
-    path: "../push_android"
+  # push_platform_interface:
+  #   path: "../push_platform_interface"
+  # push_android:
+  #   path: "../push_android"
   push_ios:
-    path: "../push_ios"
-  push_macos:
-    path: "../push_macos"
+    git:
+      url: git@github.com:Ingenio/keen-app-push.git
+      path: push_ios
+    
+#    push_macos:
+#      path: "../push_macos"
 # End of local development dependencies
 
 dev_dependencies:
