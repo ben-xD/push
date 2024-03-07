@@ -43,6 +43,8 @@ android {
     defaultConfig {
         minSdkVersion 16
     }
+
+    namespace = "uk.orth.push"
 }
 
 dependencies {
