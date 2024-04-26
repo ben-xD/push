@@ -1,8 +1,7 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Notification;
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:push/push.dart';
-import 'package:push/push.dart' as push;
 import 'package:push_example/metadata_sliver.dart';
 import 'package:push_example/platform_specific/android.dart';
 import 'package:push_example/remote_messages_widget.dart';
@@ -257,7 +256,7 @@ class MyApp extends HookWidget {
     }
   }
 
-  void displayForegroundNotification(push.Notification notification) async {
+  void displayForegroundNotification(Notification notification) async {
     final androidOptions =
         AndroidNotificationDetails(debugChannel.id, debugChannel.name,
             channelDescription: debugChannel.description,
