@@ -1,14 +1,16 @@
+plugins {
+    id "com.android.application"
+    id "kotlin-android"
+    id "dev.flutter.flutter-gradle-plugin"
+    id "com.google.gms.google-services"
+}
+
 def localProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
 if (localPropertiesFile.exists()) {
     localPropertiesFile.withReader('UTF-8') { reader ->
         localProperties.load(reader)
     }
-}
-
-def flutterRoot = localProperties.getProperty('flutter.sdk')
-if (flutterRoot == null) {
-    throw new GradleException("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
 }
 
 def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
@@ -21,22 +23,17 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
-// This was manually added:
-apply plugin: 'com.google.gms.google-services'
-
 android {
-    compileSdkVersion 33
+    compileSdkVersion 34
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+        coreLibraryDesugaringEnabled true
     }
 
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '17'
     }
 
     sourceSets {
@@ -46,10 +43,13 @@ android {
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "uk.orth.push.example"
+        // Convert API level to Android version with https://apilevels.com/
         minSdkVersion Math.max(19, flutter.minSdkVersion)
-        targetSdkVersion Math.max(33, flutter.targetSdkVersion)
+        targetSdkVersion Math.max(34, flutter.targetSdkVersion)
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+        // https://pub.dev/packages/flutter_local_notifications#-android-setup
+        multiDexEnabled true
     }
 
     buildTypes {
@@ -67,5 +67,7 @@ flutter {
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    // https://pub.dev/packages/flutter_local_notifications#-android-setup
+    // Latest version on https://mvnrepository.com/artifact/com.android.tools/desugar_jdk_libs
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
 }

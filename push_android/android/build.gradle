@@ -1,4 +1,4 @@
-group 'uk.orth.push.example'
+group 'uk.orth.push'
 version '1.0-SNAPSHOT'
 
 buildscript {
@@ -25,6 +25,8 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
 android {
+    namespace = "uk.orth.push"
+
     compileSdkVersion 33
 
     compileOptions {

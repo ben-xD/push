@@ -1,19 +1,3 @@
-buildscript {
-    ext.kotlin_version = '1.8.21'
-    repositories {
-        google()
-        mavenCentral()
-    }
-
-    dependencies {
-        // Versions available on https://mvnrepository.com/artifact/com.android.tools.build/gradle?repo=google
-        classpath 'com.android.tools.build:gradle:7.4.2'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        // This was manually added. Versions available on https://mvnrepository.com/artifact/com.google.gms/google-services?repo=google
-        classpath 'com.google.gms:google-services:4.3.15'
-    }
-}
-
 allprojects {
     repositories {
         google()
