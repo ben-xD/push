@@ -50,7 +50,6 @@ class PushHostHandlers(
 
     override fun getToken(callback: (Result<String>) -> Unit) {
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
-            val fcmToken = task.result
             if (!task.isSuccessful) {
                 Log.w(TAG, "Fetching FCM registration token failed", task.exception)
                 callback(
@@ -62,13 +61,16 @@ class PushHostHandlers(
                     )
                 )
                 return@OnCompleteListener
-            } else if (fcmToken == null) {
-                Log.w(TAG, "FCM token was null")
-                callback(Result.failure(IllegalStateException("FCM token was null")))
-                return@OnCompleteListener
+            } else {
+                val fcmToken = task.result
+                if (fcmToken == null){
+                    Log.w(TAG, "FCM token was null")
+                    callback(Result.failure(IllegalStateException("FCM token was null")))
+                    return@OnCompleteListener
+                }
+                // Return latest FCM registration token
+                callback(Result.success(fcmToken))
             }
-            // Return latest FCM registration token
-            callback(Result.success(fcmToken))
         })
     }
 
