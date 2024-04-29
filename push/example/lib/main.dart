@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -162,8 +163,10 @@ class MyApp extends HookWidget {
                     Text('Messages',
                         style: Theme.of(context).textTheme.headlineMedium),
                     Row(children: [
-                      Text('Recent foreground notification',
-                          style: Theme.of(context).textTheme.headlineSmall),
+                      Flexible(
+                        child: Text('Recent foreground notification',
+                            style: Theme.of(context).textTheme.headlineSmall),
+                      ),
                       IconButton(
                           onPressed: () {
                             messagesReceived.value = [];
@@ -173,8 +176,10 @@ class MyApp extends HookWidget {
                     RemoteMessagesWidget(messagesReceived.value),
                     Row(
                       children: [
-                        Text('Recent background notification',
-                            style: Theme.of(context).textTheme.headlineSmall),
+                        Flexible(
+                          child: Text('Recent background notification',
+                              style: Theme.of(context).textTheme.headlineSmall),
+                        ),
                         IconButton(
                             onPressed: () {
                               backgroundMessagesReceived.value = [];

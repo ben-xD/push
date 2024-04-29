@@ -24,15 +24,16 @@ if (flutterVersionName == null) {
 }
 
 android {
-    compileSdkVersion 33
+    compileSdkVersion 34
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+        coreLibraryDesugaringEnabled true
     }
 
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '17'
     }
 
     sourceSets {
@@ -42,10 +43,13 @@ android {
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "uk.orth.push.example"
+        // Convert API level to Android version with https://apilevels.com/
         minSdkVersion Math.max(19, flutter.minSdkVersion)
-        targetSdkVersion Math.max(33, flutter.targetSdkVersion)
+        targetSdkVersion Math.max(34, flutter.targetSdkVersion)
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+        // https://pub.dev/packages/flutter_local_notifications#-android-setup
+        multiDexEnabled true
     }
 
     buildTypes {
@@ -62,4 +66,8 @@ flutter {
     source '../..'
 }
 
-dependencies {}
+dependencies {
+    // https://pub.dev/packages/flutter_local_notifications#-android-setup
+    // Latest version on https://mvnrepository.com/artifact/com.android.tools/desugar_jdk_libs
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
+}
