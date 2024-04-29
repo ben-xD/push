@@ -1,3 +1,7 @@
+## 0.5.1
+
+- support Android 14 and AGP 8
+
 ## 0.5.0
 
 - Replace generated Java with generated Kotlin (pigeon)
