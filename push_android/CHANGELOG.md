@@ -1,3 +1,7 @@
+## 0.6.0 
+
+- Update pigeon to 18.0.0
+
 ## 0.5.1
 
 - support Android 14 and AGP 8

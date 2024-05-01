@@ -326,23 +326,23 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "2.2.0"
+    version: "2.3.0"
   push_android:
     dependency: transitive
     description:
       name: push_android
-      sha256: "1115cea4a7eb20d59e042c9786418c6a3ab1df2b0a52f9629321f7c59d3bcecd"
+      sha256: c7df90971ef0b8f5c7acc5eb5b8dc474742b1eaefaf921c6cbb244d0e2da6ffb
       url: "https://pub.dev"
     source: hosted
-    version: "0.5.1"
+    version: "0.6.0"
   push_ios:
     dependency: transitive
     description:
       name: push_ios
-      sha256: c6a284994ef8a2e09c4e92c89317b14912b56cb74b31fb2efba7b9d2b8f4ff60
+      sha256: "73c400ae3fb2216e6f44d441938e79d8ae25d549d8c86762a2d478bfa786ce94"
       url: "https://pub.dev"
     source: hosted
-    version: "0.4.0"
+    version: "0.5.0"
   push_macos:
     dependency: transitive
     description:
@@ -355,26 +355,26 @@ packages:
     dependency: transitive
     description:
       name: push_platform_interface
-      sha256: "709c98b6e33cb0d76aa1e9017d0b16c17c077d0d0035a7b63d41ba19822a805e"
+      sha256: "1d45f9dfa8f26251d4c8efb733740debb91f9184fc5d05e83cc359331ef1879f"
       url: "https://pub.dev"
     source: hosted
-    version: "0.5.0"
+    version: "0.6.0"
   share_plus:
     dependency: "direct main"
     description:
       name: share_plus
-      sha256: "322a1ec9d9fe07e2e2252c098ce93d12dbd06133cc4c00ffe6a4ef505c295c17"
+      sha256: ef3489a969683c4f3d0239010cc8b7a2a46543a8d139e111c06c558875083544
       url: "https://pub.dev"
     source: hosted
-    version: "7.0.0"
+    version: "9.0.0"
   share_plus_platform_interface:
     dependency: transitive
     description:
       name: share_plus_platform_interface
-      sha256: "0c6e61471bd71b04a138b8b588fa388e66d8b005e6f2deda63371c5c505a0981"
+      sha256: "0f9e4418835d1b2c3ae78fdb918251959106cefdbc4dd43526e182f80e82f6d4"
       url: "https://pub.dev"
     source: hosted
-    version: "3.2.1"
+    version: "4.0.0"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -500,6 +500,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "13.0.0"
+  web:
+    dependency: transitive
+    description:
+      name: web
+      sha256: "97da13628db363c635202ad97068d47c5b8aa555808e7a9411963c533b449b27"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.5.1"
   win32:
     dependency: transitive
     description:
@@ -525,5 +533,5 @@ packages:
     source: hosted
     version: "6.3.0"
 sdks:
-  dart: ">=3.2.0-0 <4.0.0"
-  flutter: ">=3.3.0"
+  dart: ">=3.3.0 <4.0.0"
+  flutter: ">=3.19.0"

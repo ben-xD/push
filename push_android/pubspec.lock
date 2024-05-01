@@ -143,10 +143,10 @@ packages:
     dependency: "direct main"
     description:
       name: push_platform_interface
-      sha256: "709c98b6e33cb0d76aa1e9017d0b16c17c077d0d0035a7b63d41ba19822a805e"
+      sha256: "1d45f9dfa8f26251d4c8efb733740debb91f9184fc5d05e83cc359331ef1879f"
       url: "https://pub.dev"
     source: hosted
-    version: "0.5.0"
+    version: "0.6.0"
   sky_engine:
     dependency: transitive
     description: flutter
