@@ -3,9 +3,9 @@ import 'package:push/push.dart';
 import 'package:push_example/text_row.dart';
 
 class RemoteMessagesWidget extends StatelessWidget {
-  List<RemoteMessage> remoteMessages;
+  final List<RemoteMessage> remoteMessages;
 
-  RemoteMessagesWidget(this.remoteMessages);
+  const RemoteMessagesWidget(this.remoteMessages, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

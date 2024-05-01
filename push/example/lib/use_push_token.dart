@@ -9,6 +9,7 @@ ValueNotifier<String?> usePushToken() {
     Push.instance.token.then((value) {
       pushToken.value = value;
     });
+    return null;
   });
   return pushToken;
 }
