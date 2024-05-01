@@ -26,7 +26,7 @@ public class SwiftPushPlugin: NSObject, FlutterPlugin {
             PushHostHandlers.notificationTapWhichLaunchedAppUserInfo = notification
         }
 
-        return false
+        return true
     }
 
     public func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
