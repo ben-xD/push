@@ -4,9 +4,12 @@ import 'package:pigeon/pigeon.dart';
 @ConfigurePigeon(PigeonOptions(
   dartOut: '../push_platform_interface/lib/src/serialization/push_api.dart',
   dartTestOut: '../push_platform_interface/test/push_api_test.dart',
-  swiftOptions: SwiftOptions(),
   // for iOS (not macOS, because Pigeon only supports 1 output path per language)
-  swiftOut: '../push_ios/ios/Classes/serialization/PushApi.swift',
+  // swiftOptions: SwiftOptions(),
+  // swiftOut: '../push_ios/ios/Classes/serialization/PushApi.swift',
+  objcHeaderOut: '../push_ios/ios/Classes/serialization/PushApi.h',
+  objcSourceOut: '../push_ios/ios/Classes/serialization/PushApi.m',
+  objcOptions: ObjcOptions(prefix: "PU"),
   kotlinOptions: KotlinOptions(package: 'uk.orth.push.serialization'),
   kotlinOut:
       '../push_android/android/src/main/kotlin/uk/orth/push/serialization/PushApi.kt',
