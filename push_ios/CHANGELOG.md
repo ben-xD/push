@@ -1,3 +1,7 @@
+## 0.5.1
+
+- fix: fix launching apps from deeplink
+
 ## 0.5.0 
 
 - Update pigeon to 18.0.0

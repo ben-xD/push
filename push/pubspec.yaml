@@ -16,7 +16,7 @@ dependencies:
   # Federated package dependencies
   push_platform_interface: ^0.6.0
   push_android: ^0.6.0
-  push_ios: ^0.5.0
+  push_ios: ^0.5.1
   push_macos: ^0.0.1
   # End of federated package dependencies
 
