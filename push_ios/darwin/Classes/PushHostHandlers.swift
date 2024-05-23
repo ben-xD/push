@@ -1,8 +1,10 @@
 import Foundation
+import UserNotifications
 
+@available(macOS 11.0, *)
 class PushHostHandlers: NSObject, PUPushHostApi {
     private var deviceTokenReadyDispatchGroupEnters: Int = 0
-
+    
     func requestPermissionBadge(_ badge: Bool,
                                 sound: Bool,
                                 alert: Bool,
@@ -14,7 +16,7 @@ class PushHostHandlers: NSObject, PUPushHostApi {
                                 completion: @escaping (NSNumber?, FlutterError?) -> Void)
     {
         var options: UNAuthorizationOptions = []
-
+        
         if badge {
             options.insert(.badge)
         }
@@ -38,12 +40,15 @@ class PushHostHandlers: NSObject, PUPushHostApi {
                 options.insert(.providesAppNotificationSettings)
             }
         }
+#if os(iOS)
         if #available(iOS 13.0, *) {
             if announcement {
                 options.insert(.announcement)
             }
         }
-
+#endif
+        
+        
         UNUserNotificationCenter.current().requestAuthorization(options: options) { granted, error in
             guard error == nil else {
                 completion(nil, FlutterError(code: "requestPermission", message: error.debugDescription, details: error))
@@ -52,19 +57,19 @@ class PushHostHandlers: NSObject, PUPushHostApi {
             completion(granted as NSNumber, nil)
         }
     }
-
+    
     func getNotificationSettings(completion: @escaping (PUUNNotificationSettings?, FlutterError?) -> Void) {
         UNUserNotificationCenter.current().getNotificationSettings { settings in
             completion(PUUNNotificationSettings.from(unSettings: settings), nil)
         }
     }
-
+    
     private let delegate: UNUserNotificationCenterDelegate
     private let pushFlutterApi: PUPushFlutterApi
     public static var notificationTapWhichLaunchedAppUserInfo: [AnyHashable: Any]? = nil
-
+    
     let deviceTokenReadyDispatchGroup = DispatchGroup()
-
+    
     // TODO: double check that the delegate is still the same later, in case the user had set it? and log error.
     init(binaryMessenger: FlutterBinaryMessenger, originalDelegate: UNUserNotificationCenterDelegate?) {
         pushFlutterApi = PUPushFlutterApi(binaryMessenger: binaryMessenger)
@@ -74,7 +79,7 @@ class PushHostHandlers: NSObject, PUPushHostApi {
         enterDeviceTokenReadyDispatchGroup() // DeviceToken is not yet ready
         SetUpPUPushHostApi(binaryMessenger, self)
     }
-
+    
     func notificationTapLaunchedTerminatedAppWithError(_: AutoreleasingUnsafeMutablePointer<FlutterError?>) -> NSNumber? {
         if PushHostHandlers.notificationTapWhichLaunchedAppUserInfo != nil {
             return true
@@ -82,25 +87,26 @@ class PushHostHandlers: NSObject, PUPushHostApi {
             return false
         }
     }
-
+    
     func getNotificationTapWhichLaunchedTerminatedAppWithError(_: AutoreleasingUnsafeMutablePointer<FlutterError?>) -> [String: Any]? {
         let userInfo = PushHostHandlers.notificationTapWhichLaunchedAppUserInfo
         return userInfo as? [String: Any]
     }
 
-    func application(_: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+    func application(_: DarwinApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         onNewToken(deviceToken)
         leaveDeviceTokenReadyDispatchGroup()
     }
-
+    
+    
     func getTokenWithCompletion(_ completion: @escaping (String?, FlutterError?) -> Void) {
         if let deviceToken = deviceToken {
             completion(convertTokenToString(deviceToken: deviceToken), nil)
         } else {
             print("DeviceToken is not available (it is \(String(describing: deviceToken)). " +
-                "Your application might not be configured for push notifications, or there is a " +
-                "delay in getting the device token because of network issues. " +
-                "Background thread is now waiting for it to be set.")
+                  "Your application might not be configured for push notifications, or there is a " +
+                  "delay in getting the device token because of network issues. " +
+                  "Background thread is now waiting for it to be set.")
             DispatchQueue.global(qos: .userInitiated).async { [self] in
                 deviceTokenReadyDispatchGroup.notify(queue: DispatchQueue.global(qos: .background)) { [self] in
                     DispatchQueue.main.async {
@@ -112,14 +118,15 @@ class PushHostHandlers: NSObject, PUPushHostApi {
             return
         }
     }
-
+    
     // Ignored on iOS, since the Flutter application doesn't need to be manually launched.
     func backgroundFlutterApplicationReadyWithError(_: AutoreleasingUnsafeMutablePointer<FlutterError?>) {}
-
+    
     func areNotificationsEnabled(completion: @escaping (NSNumber?, FlutterError?) -> Void) {
         completion(nil, FlutterError(code: "areNotificationsEnabled", message: "Android only API. Do not call this on iOS.", details: nil))
     }
-
+    
+#if os(iOS)
     func didReceiveRemoteNotification(_ application: UIApplication,
                                       didReceiveRemoteNotification userInfo: [AnyHashable: Any],
                                       fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) -> Bool
@@ -145,20 +152,37 @@ class PushHostHandlers: NSObject, PUPushHostApi {
         }
         return true
     }
-
+#elseif os(macOS)
+    
+    func didReceiveRemoteNotification(_ application: NSApplication,
+                                      didReceiveRemoteNotification userInfo: [AnyHashable: Any])
+    {
+        let message = PURemoteMessage.from(userInfo: userInfo)
+        // TODO: Since push notification cannot be handled if the is nor running this will never be called?
+        if !application.isRunning {
+            pushFlutterApi.onBackgroundMessageMessage(message) { _ in }
+        } else {
+            // TODO: do we need also here the check for Alert? MacOS displays always the notification even when app is in forground. So for normal notifications (which always have "alert") this method wont be called.
+            pushFlutterApi.onMessageMessage(message) { _ in }
+        }
+    }
+#endif
+    
+    
+    
     private var deviceToken: Data? = nil
-
+    
     private func convertTokenToString(deviceToken: Data) -> String {
         let token = deviceToken.map {
             String(format: "%02.2hhx", $0)
         }.joined()
         return token
     }
-
+    
     // TODO: handle the case where deviceToken is nil (not yet created)
     // TODO: what about other cases, e.g. error (onError?)
     var isOnNewTokenListened = false
-
+    
     func onNewToken(_ deviceToken: Data) {
         self.deviceToken = deviceToken
         let deviceTokenString = convertTokenToString(deviceToken: deviceToken)
@@ -169,20 +193,20 @@ class PushHostHandlers: NSObject, PUPushHostApi {
             }
         }
     }
-
+    
     func onListenToOnNewTokenWithError(_: AutoreleasingUnsafeMutablePointer<FlutterError?>) {
         isOnNewTokenListened = true
     }
-
+    
     func onCancelToOnNewTokenWithError(_: AutoreleasingUnsafeMutablePointer<FlutterError?>) {
         isOnNewTokenListened = false
     }
-
-    public func application(_: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+    
+    public func application(_: DarwinApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
         // Log an error.
         print("Failed to register device for remote notifications. Error: \(error)")
     }
-
+    
     private func enterDeviceTokenReadyDispatchGroup() {
         if deviceTokenReadyDispatchGroupEnters < 0 {
             deviceTokenReadyDispatchGroupEnters = 0
@@ -190,7 +214,7 @@ class PushHostHandlers: NSObject, PUPushHostApi {
         deviceTokenReadyDispatchGroupEnters += 1
         deviceTokenReadyDispatchGroup.enter()
     }
-
+    
     private func leaveDeviceTokenReadyDispatchGroup() {
         deviceTokenReadyDispatchGroupEnters -= 1
         if deviceTokenReadyDispatchGroupEnters >= 0 {

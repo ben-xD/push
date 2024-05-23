@@ -14,7 +14,8 @@ There are some breaking changes in version 2.0.0. Please see the [breaking chang
 - Use push notification without Firebase on any platform except Android.
 - Get started testing push notifications quickly with the scripts, tools and commands provided in this project.
 - Consistent behaviour between iOS and Android.
-- It currently only supported iOS and Android.
+  - MacOS does not support onBackground notifications 
+- It currently only supported iOS,Android and MacOS.
 - Avoids using deprecated Android classes.
 - Receive push notifications when the app is in the foreground, background or terminated on Android
   and iOS.
@@ -146,6 +147,39 @@ class ExampleApplication : FlutterApplication() {
 - Create a push notifications key on your apple developer
   account's [Certificates, Identifiers & Profiles](https://developer.apple.com/account/resources/authkeys/list)
   page.
+- You can use [Push Notification Console](https://developer.apple.com/documentation/usernotifications/testing-notifications-using-the-push-notification-console) to test push notifications.
+#### MacOS
+- Pre-requisite: you need an [Apple Developer Program](https://developer.apple.com/programs/) membership -
+  $99 a year.
+- Create a push notifications key on your apple developer
+  account's [Certificates, Identifiers & Profiles](https://developer.apple.com/account/resources/authkeys/list)
+  page.
+- You can use [Push Notification Console](https://developer.apple.com/documentation/usernotifications/testing-notifications-using-the-push-notification-console) to test push notifications.
+  - In your MacOS AppDelegate located in root/macos/Runner/AppDelegate add following delegate forwards (this step is required as at the moment the delegates missing for MacOS FlutterPlugin)
+    - if you have custom @NSApplicationMain then you will need to add it there. 
+```swift
+  import Cocoa
+  import push_ios
+  import FlutterMacOS
+
+  @NSApplicationMain
+  class AppDelegate: FlutterAppDelegate {
+
+  ...
+
+    override func application(_ application: NSApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        SwiftPushPlugin.instance?.application(application, didRegisterForRemoteNotificationsWithDeviceToken: deviceToken)
+    }
+    
+    override func application(_ application: NSApplication, didFailToRegisterForRemoteNotificationsWithError error: any Error) {
+        SwiftPushPlugin.instance?.application(application, didFailToRegisterForRemoteNotificationsWithError: error)
+    }
+    
+    override func application(_ application: NSApplication, didReceiveRemoteNotification userInfo: [String : Any]) {
+        SwiftPushPlugin.instance?.application(application, didReceiveRemoteNotification: userInfo)
+    }
+  ...
+```
 
 ### Usage
 

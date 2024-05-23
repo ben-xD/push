@@ -7,8 +7,8 @@ import 'package:pigeon/pigeon.dart';
   // for iOS (not macOS, because Pigeon only supports 1 output path per language)
   // swiftOptions: SwiftOptions(),
   // swiftOut: '../push_ios/ios/Classes/serialization/PushApi.swift',
-  objcHeaderOut: '../push_ios/ios/Classes/serialization/PushApi.h',
-  objcSourceOut: '../push_ios/ios/Classes/serialization/PushApi.m',
+  objcHeaderOut: '../push_ios/darwin/Classes/serialization/PushApi.h',
+  objcSourceOut: '../push_ios/darwin/Classes/serialization/PushApi.m',
   objcOptions: ObjcOptions(prefix: "PU"),
   kotlinOptions: KotlinOptions(package: 'uk.orth.push.serialization'),
   kotlinOut:
