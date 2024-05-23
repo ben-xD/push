@@ -22,8 +22,14 @@ public class SwiftPushPlugin: NSObject, FlutterPlugin {
     
     init(with registrar: FlutterPluginRegistrar) {
         flutterPluginRegistrar = registrar
+#if os(iOS)
+        pushHostHandlers = PushHostHandlers(binaryMessenger: flutterPluginRegistrar.messenger(),
+                                            originalDelegate: UNUserNotificationCenter.current().delegate)
+
+#elseif os(macOS)
         pushHostHandlers = PushHostHandlers(binaryMessenger: flutterPluginRegistrar.messenger,
                                             originalDelegate: UNUserNotificationCenter.current().delegate)
+#endif
         super.init()
         registrar.addApplicationDelegate(self)
         
