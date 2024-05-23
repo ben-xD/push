@@ -158,13 +158,8 @@ class PushHostHandlers: NSObject, PUPushHostApi {
                                       didReceiveRemoteNotification userInfo: [AnyHashable: Any])
     {
         let message = PURemoteMessage.from(userInfo: userInfo)
-        // TODO: Since push notification cannot be handled if the is nor running this will never be called?
-        if !application.isRunning {
-            pushFlutterApi.onBackgroundMessageMessage(message) { _ in }
-        } else {
-            // TODO: do we need also here the check for Alert? MacOS displays always the notification even when app is in forground. So for normal notifications (which always have "alert") this method wont be called.
-            pushFlutterApi.onMessageMessage(message) { _ in }
-        }
+        // TODO: do we need also here the check for Alert? MacOS displays always the notification even when app is in forground. So for normal notifications (which always have "alert") this method wont be called.
+        pushFlutterApi.onMessageMessage(message) { _ in }
     }
 #endif
     
