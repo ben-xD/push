@@ -48,10 +48,9 @@ class PushHostHandlers: NSObject, PUPushHostApi {
         }
 #endif
         
-        
         UNUserNotificationCenter.current().requestAuthorization(options: options) { granted, error in
             guard error == nil else {
-                completion(nil, FlutterError(code: "requestPermission", message: error.debugDescription, details: error))
+                completion(granted as NSNumber, FlutterError(code: "requestPermission", message: error?.localizedDescription ,details: error.debugDescription))
                 return
             }
             completion(granted as NSNumber, nil)
