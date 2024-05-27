@@ -1,5 +1,7 @@
 import Foundation
+import UserNotifications
 
+@available(macOS 11.0, *)
 class UserNotificationCenterDelegateHandlers: NSObject, UNUserNotificationCenterDelegate {
     private let originalDelegate: UNUserNotificationCenterDelegate?
     private let pushFlutterApi: PUPushFlutterApi

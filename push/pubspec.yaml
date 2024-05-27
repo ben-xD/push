@@ -16,8 +16,7 @@ dependencies:
   # Federated package dependencies
   push_platform_interface: ^0.6.0
   push_android: ^0.6.0
-  push_ios: ^0.5.1
-  push_macos: ^0.0.1
+  #push_ios: ^0.5.1
   # End of federated package dependencies
 
   # When developing push locally, make sure
@@ -28,12 +27,12 @@ dependencies:
 
   # Local development dependencies -
   # uncomment this and comment out the federated package dependencies
-  # push_platform_interface:
-  #   path: "../push_platform_interface"
-  # push_android:
-  #   path: "../push_android"
-  # push_ios:
-  #   path: "../push_ios"
+  #push_platform_interface:
+    #path: "../push_platform_interface"
+  #push_android:
+    #path: "../push_android"
+  push_ios:
+    path: "../push_ios"
 #    push_macos:
 #      path: "../push_macos"
 # End of local development dependencies
@@ -54,6 +53,8 @@ flutter:
       android:
         default_package: push_android
       ios:
+        default_package: push_ios
+      macos:
         default_package: push_ios
   # To add assets to your package, add an assets section, like this:
   # assets:

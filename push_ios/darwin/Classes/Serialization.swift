@@ -1,4 +1,5 @@
 import Foundation
+import UserNotifications
 
 extension PURemoteMessage {
     static func from(userInfo: [AnyHashable: Any]) -> PURemoteMessage {
@@ -7,16 +8,16 @@ extension PURemoteMessage {
         message.notification = PUNotification.from(userInfo: userInfo)
         return message
     }
-
+    
     static func fromNotificationContent(content: UNNotificationContent) -> PURemoteMessage {
         let message = PURemoteMessage()
         message.data = content.userInfo as? [String: Any]
-
+        
         let notification = PUNotification()
         notification.title = content.title
         notification.body = content.body
         message.notification = notification
-
+        
         return message
     }
 }
@@ -24,11 +25,11 @@ extension PURemoteMessage {
 extension PUNotification {
     static func from(userInfo: [AnyHashable: Any]) -> PUNotification? {
         let notification = PUNotification()
-
+        
         guard let aps = userInfo["aps"] as? [AnyHashable: Any] else {
             return nil
         }
-
+        
         if let alert = aps["alert"] as? [AnyHashable: Any] {
             notification.title = alert["title"] as? String
             notification.body = alert["body"] as? String
@@ -50,32 +51,36 @@ extension PUUNNotificationSettings {
         settings.alertSetting = PUUNNotificationSettingBox(value: unSettings.alertSetting.toSerializable())
         settings.notificationCenterSetting = PUUNNotificationSettingBox(value: unSettings.notificationCenterSetting.toSerializable())
         settings.lockScreenSetting = PUUNNotificationSettingBox(value: unSettings.lockScreenSetting.toSerializable())
+#if os(iOS)
         settings.carPlaySetting = PUUNNotificationSettingBox(value: unSettings.carPlaySetting.toSerializable())
+#endif
         settings.authorizationStatus = PUUNAuthorizationStatusBox(value: unSettings.authorizationStatus.toSerializable())
         settings.alertStyle = PUUNAlertStyleBox(value: unSettings.alertStyle.toSerializable())
-
+        
         if #available(iOS 11.0, *) {
             settings.showPreviewsSetting = PUUNShowPreviewsSettingBox(value: unSettings.showPreviewsSetting.toSerializable())
         } else {
             // Fallback on earlier versions
             settings.showPreviewsSetting = PUUNShowPreviewsSettingBox(value: .always)
         }
-
+        
         if #available(iOS 12.0, *) {
             settings.providesAppNotificationSettings = NSNumber(booleanLiteral: unSettings.providesAppNotificationSettings)
             settings.criticalAlertSetting = PUUNNotificationSettingBox(value: unSettings.criticalAlertSetting.toSerializable())
-
+            
         } else {
             settings.providesAppNotificationSettings = false
             settings.criticalAlertSetting = PUUNNotificationSettingBox(value: .notSupported)
         }
-
+#if os(iOS)
         if #available(iOS 13.0, *) {
             settings.announcementSetting = PUUNNotificationSettingBox(value: unSettings.announcementSetting.toSerializable())
         } else {
             settings.announcementSetting = PUUNNotificationSettingBox(value: .notSupported)
         }
-
+#endif
+        
+        
         return settings
     }
 }
@@ -134,3 +139,23 @@ extension UNShowPreviewsSetting {
         }
     }
 }
+
+#if os(macOS)
+extension UNNotificationResponse {
+    func toMap() -> [AnyHashable : Any] {
+        return [
+            "title":self.notification.request.content.title,
+            "body":self.notification.request.content.body,
+            "categoryIdentifier":self.notification.request.content.categoryIdentifier,
+            "subtitle":self.notification.request.content.subtitle,
+            "summaryArgument":self.notification.request.content.summaryArgument,
+            "threadIdentifier":self.notification.request.content.threadIdentifier,
+            "className":self.notification.request.content.className,
+            "debugDescription":self.notification.request.content.debugDescription,
+            "description":self.notification.request.content.description,
+            "sound":self.notification.request.content.sound ?? "-",
+            "userInfo":self.notification.request.content.userInfo
+        ]
+    }
+}
+#endif
