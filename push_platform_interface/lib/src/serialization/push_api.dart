@@ -69,8 +69,8 @@ enum UNShowPreviewsSetting {
   never,
 }
 
-class RemoteMessage {
-  RemoteMessage({
+class RemoteMessage1 {
+  RemoteMessage1({
     this.notification,
     this.data,
   });
@@ -86,9 +86,9 @@ class RemoteMessage {
     ];
   }
 
-  static RemoteMessage decode(Object result) {
+  static RemoteMessage1 decode(Object result) {
     result as List<Object?>;
-    return RemoteMessage(
+    return RemoteMessage1(
       notification: result[0] != null
           ? Notification.decode(result[0]! as List<Object?>)
           : null,
@@ -231,7 +231,7 @@ class _PushHostApiCodec extends StandardMessageCodec {
     if (value is Notification) {
       buffer.putUint8(128);
       writeValue(buffer, value.encode());
-    } else if (value is RemoteMessage) {
+    } else if (value is RemoteMessage1) {
       buffer.putUint8(129);
       writeValue(buffer, value.encode());
     } else if (value is UNNotificationSettings) {
@@ -248,7 +248,7 @@ class _PushHostApiCodec extends StandardMessageCodec {
       case 128: 
         return Notification.decode(readValue(buffer)!);
       case 129: 
-        return RemoteMessage.decode(readValue(buffer)!);
+        return RemoteMessage1.decode(readValue(buffer)!);
       case 130: 
         return UNNotificationSettings.decode(readValue(buffer)!);
       default:
@@ -478,7 +478,7 @@ class _PushFlutterApiCodec extends StandardMessageCodec {
     if (value is Notification) {
       buffer.putUint8(128);
       writeValue(buffer, value.encode());
-    } else if (value is RemoteMessage) {
+    } else if (value is RemoteMessage1) {
       buffer.putUint8(129);
       writeValue(buffer, value.encode());
     } else if (value is UNNotificationSettings) {
@@ -495,7 +495,7 @@ class _PushFlutterApiCodec extends StandardMessageCodec {
       case 128: 
         return Notification.decode(readValue(buffer)!);
       case 129: 
-        return RemoteMessage.decode(readValue(buffer)!);
+        return RemoteMessage1.decode(readValue(buffer)!);
       case 130: 
         return UNNotificationSettings.decode(readValue(buffer)!);
       default:
@@ -507,9 +507,9 @@ class _PushFlutterApiCodec extends StandardMessageCodec {
 abstract class PushFlutterApi {
   static const MessageCodec<Object?> pigeonChannelCodec = _PushFlutterApiCodec();
 
-  Future<void> onMessage(RemoteMessage message);
+  Future<void> onMessage(RemoteMessage1 message);
 
-  Future<void> onBackgroundMessage(RemoteMessage message);
+  Future<void> onBackgroundMessage(RemoteMessage1 message);
 
   /// Unfortunately, the intent provided to the app when a user taps on a
   /// notification does not include notification's title or body.
@@ -538,7 +538,7 @@ abstract class PushFlutterApi {
           assert(message != null,
           'Argument for dev.flutter.pigeon.push_platform_interface.PushFlutterApi.onMessage was null.');
           final List<Object?> args = (message as List<Object?>?)!;
-          final RemoteMessage? arg_message = (args[0] as RemoteMessage?);
+          final RemoteMessage1? arg_message = (args[0] as RemoteMessage1?);
           assert(arg_message != null,
               'Argument for dev.flutter.pigeon.push_platform_interface.PushFlutterApi.onMessage was null, expected non-null RemoteMessage.');
           try {
@@ -563,7 +563,7 @@ abstract class PushFlutterApi {
           assert(message != null,
           'Argument for dev.flutter.pigeon.push_platform_interface.PushFlutterApi.onBackgroundMessage was null.');
           final List<Object?> args = (message as List<Object?>?)!;
-          final RemoteMessage? arg_message = (args[0] as RemoteMessage?);
+          final RemoteMessage1? arg_message = (args[0] as RemoteMessage1?);
           assert(arg_message != null,
               'Argument for dev.flutter.pigeon.push_platform_interface.PushFlutterApi.onBackgroundMessage was null, expected non-null RemoteMessage.');
           try {

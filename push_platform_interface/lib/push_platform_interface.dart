@@ -9,14 +9,14 @@ import 'package:push_platform_interface/src/serialization/push_api.dart';
 
 export 'src/serialization/push_api.dart'
     show
-        RemoteMessage,
+        RemoteMessage1,
         Notification,
         UNNotificationSettings,
         UNNotificationSetting,
         UNAlertStyle,
         UNAuthorizationStatus;
 
-typedef MessageHandler = FutureOr<void> Function(RemoteMessage message);
+typedef MessageHandler = FutureOr<void> Function(RemoteMessage1 message);
 
 /// The interface that implementations of [`push`](https://pub.dev/packages/push) must implement.
 ///
@@ -180,14 +180,14 @@ class PushFlutterHandlers extends PushFlutterApi {
   }
 
   @override
-  Future<void> onBackgroundMessage(RemoteMessage message) async {
+  Future<void> onBackgroundMessage(RemoteMessage1 message) async {
     for (final handler in push._onBackgroundMessageHandlers) {
       await handler(message);
     }
   }
 
   @override
-  Future<void> onMessage(RemoteMessage message) async {
+  Future<void> onMessage(RemoteMessage1 message) async {
     for (final handler in push._onMessageHandlers) {
       await handler(message);
     }

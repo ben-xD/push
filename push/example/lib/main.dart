@@ -44,8 +44,8 @@ class MyApp extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final notificationWhichLaunchedApp = useState<Map<String?, Object?>?>(null);
-    final messagesReceived = useState<List<RemoteMessage>>([]);
-    final backgroundMessagesReceived = useState<List<RemoteMessage>>([]);
+    final messagesReceived = useState<List<RemoteMessage1>>([]);
+    final backgroundMessagesReceived = useState<List<RemoteMessage1>>([]);
     final tappedNotificationPayloads =
         useState<List<Map<String?, Object?>>>([]);
     final isForegroundNotificationsEnabled = useState(true);

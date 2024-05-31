@@ -3,7 +3,7 @@ import 'package:push/push.dart';
 import 'package:push_example/text_row.dart';
 
 class RemoteMessagesWidget extends StatelessWidget {
-  final List<RemoteMessage> remoteMessages;
+  final List<RemoteMessage1> remoteMessages;
 
   const RemoteMessagesWidget(this.remoteMessages, {Key? key}) : super(key: key);
 
