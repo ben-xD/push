@@ -1,3 +1,11 @@
+## 2.3.0
+
+- Update pigeon to 18.0.0
+
+## 2.2.0
+
+- support Android 14 and AGP 8
+
 ## 2.1.0
 
 - Replace generated Java with generated Kotlin (pigeon)

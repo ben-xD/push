@@ -17,7 +17,7 @@ class MetadataSliver extends HookWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text('Push Token', style: Theme.of(context).textTheme.headline4),
+          Text('Push Token', style: Theme.of(context).textTheme.headlineMedium),
           Row(
             children: [
               TextButton(

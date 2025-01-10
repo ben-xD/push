@@ -187,7 +187,7 @@ class PushFlutterHandlers extends PushFlutterApi {
   Push push;
 
   PushFlutterHandlers(this.push) {
-    PushFlutterApi.setup(this);
+    PushFlutterApi.setUp(this);
   }
 
   @override

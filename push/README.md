@@ -102,12 +102,17 @@ Warning: Setting up push notifications is more difficult than most features, bec
 
 #### Android
 
-- Set up your firebase project, add your Android app to the Firebase project (using the `applicationId` defined in your `build.gradle`), and follow the steps in the Firebase web console. For example,
-    - download the `google-services.json` into the `android/app/` folder.
-    - Modify your Android project to include the following 2 lines - you can check exactly where this needs to go by looking at the example app:
-        - Add `apply plugin: 'com.google.gms.google-services'` to your app's `android/app/build.gradle`.
-        - Add `classpath 'com.google.gms:google-services:4.3.10'` to your app's `android/build.gradle`.
-    - See [example app files](example/android/app/build.gradle) for an example.
+- Set up your firebase project, add your Android app to the Firebase project (using the `applicationId` defined in your `build.gradle`), and follow the steps in the Firebase web console. Either:
+    - New approach, for projects created after Flutter 3.16 or migrated with [Deprecated imperative apply of Flutter's Gradle plugins](https://docs.flutter.dev/release/breaking-changes/flutter-gradle-plugin-apply):
+      - download the `google-services.json` into the `android/app/` folder.
+      - add `id "com.google.gms.google-services" version "latest_version" apply false` to your app's `android/settings.gradle`, where `latest_version` can be found on https://mvnrepository.com/artifact/com.google.gms/google-services?repo=google
+      - add `id "com.google.gms.google-services"` to your `plugins` block in `app/build.gradle` 
+      - See example app files for an example: [build.gradle](https://github.com/ben-xD/push/blob/2e68ba96421571a51dc9b43227150b263a7c966a/push/example/android/build.gradle#L17-L16), [app/build.gradle](https://github.com/ben-xD/push/blob/2e68ba96421571a51dc9b43227150b263a7c966a/push/example/android/app/build.gradle#L1-L6), and [settings.gradle](https://github.com/ben-xD/push/blob/20dc67b4a7ce7c98e957821267262d8b57c66110/push/example/android/settings.gradle#L19-L26)
+    - Legacy approach:
+      - download the `google-services.json` into the `android/app/` folder.
+      - Modify your Android project to include the following 2 lines - you can check exactly where this needs to go by looking at the example app:
+          - Add `apply plugin: 'com.google.gms.google-services'` to your app's `android/app/build.gradle`.
+          - Add `classpath 'com.google.gms:google-services:4.3.10'` to your app's `android/build.gradle`.
 - Add `push` to your `pubspec.yaml`
 - Download/update dependencies by running `flutter pub get`
 - Warning: Apps that are force quit on Android will not handle push notifications due to Android restrictions. You might get an error: `broadcast intent callback: result=CANCELLED forIntent { act=com.google.android.c2dm.intent.RECEIVE flg=pkg=uk.orth.push.example (has extras) }`.

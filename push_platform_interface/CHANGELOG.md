@@ -1,3 +1,7 @@
+## 0.6.0
+
+- Update pigeon to 18.0.0
+
 ## 0.5.0
 
 - Update pigeon to 16.0.0
