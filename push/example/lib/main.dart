@@ -5,6 +5,7 @@ import 'package:push/push.dart';
 import 'package:push_example/metadata_sliver.dart';
 import 'package:push_example/platform_specific/android.dart';
 import 'package:push_example/remote_messages_widget.dart';
+import 'package:push_example/stateful_widget_example.dart';
 import 'package:push_example/text_row.dart';
 import 'notification_permission_sliver.dart';
 
@@ -120,7 +121,6 @@ class MyApp extends HookWidget {
         ),
         body: Center(
           child: ListView(
-            // crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -172,7 +172,7 @@ class MyApp extends HookWidget {
                           icon: const Icon(Icons.delete))
                     ]),
                     RemoteMessagesWidget(messagesReceived.value),
-                    Wrap(
+                    Row(
                       children: [
                         Flexible(
                           child: Text('Recent background notification',
@@ -230,6 +230,7 @@ class MyApp extends HookWidget {
                   ],
                 ),
               ),
+              const ExamplePushStatefulWidget(),
             ],
           ),
         ),
