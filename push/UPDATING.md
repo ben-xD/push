@@ -2,7 +2,7 @@
 
 This is a reference guide to updating your application through breaking changes in the push package.
 
-## Breaking changes in v2.1
+## Breaking changes in v3.0
 
 Similar to breaking changes in v2, listening to new tokens uses a callback based API. This removes the usage of streams completely from the API, opting for a simpler, callback API.
 

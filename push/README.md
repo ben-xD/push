@@ -174,7 +174,7 @@ and
 ```dart
       // To be informed that the device's token has been updated by the operating system
       // You should update your servers with this token
-      Push.instance.onNewToken.listen((token) {
+      final unsubscribeOnNewToken = Push.instance.addOnNewToken((token) {
         print("Just got a new FCM registration token: ${token}");
       });
 
@@ -190,9 +190,10 @@ and
       });
 
       // Handle notification taps
-      Push.instance.onNotificationTap.listen((data) {
+      final unsubscribeOnNotificationTap =
+          Push.instance.addOnNotificationTap((data) {
         print('Notification was tapped:\n'
-            'Data: ${data} \n');
+            'Data: $data \n');
         tappedNotificationPayloads.value += [data];
       });
 
@@ -216,7 +217,7 @@ and
         backgroundMessagesReceived.value += [message];
       });
 ```
-- When using a `StatefulWidget`, you should store each stream you listen to (`listen()`) in your  state. You should listen to these streams in `initState`, and `cancel()` them in `dispose`.
+- When using a `StatefulWidget`, you can store the clean-up function returned when you add a callback. You should listen to these streams in `initState`, and call them in `dispose`. See [`stateful_widget_example.dart`](./example/lib/stateful_widget_example.dart)
 
 ## Manual testing and debugging
 
