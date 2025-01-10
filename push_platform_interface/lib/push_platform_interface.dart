@@ -60,8 +60,8 @@ class Push extends PlatformInterface {
   final _onNotificationTapHandlers = <NotificationTapHandler>{};
 
   /// Called when notification is received when app is in the foreground.
-  /// Remember to unsubscribe.
-  /// Multiple listeners can be listening.
+  /// Multiple callbacks can be registered.
+  /// Call the returned function to unsubscribe.
   VoidCallback addOnMessage(MessageHandler handler) {
     _sendAndroidReadyToProcessMessages();
     _onMessageHandlers.add(handler);
@@ -71,6 +71,8 @@ class Push extends PlatformInterface {
   }
 
   /// Called when notification is received when app is terminated or in the background.
+  /// Multiple callbacks can be registered.
+  /// Call the returned function to unsubscribe.
   VoidCallback addOnBackgroundMessage(MessageHandler handler) {
     _sendAndroidReadyToProcessMessages();
     _onBackgroundMessageHandlers.add(handler);
@@ -80,6 +82,8 @@ class Push extends PlatformInterface {
   }
 
   /// Listen to new tokens. (Passing the result of FirebaseMessagingService#onNewToken to Flutter app)
+  /// Multiple callbacks can be registered.
+  /// Call the returned function to unsubscribe.
   VoidCallback addOnNewToken(TokenHandler handler) {
     _onNewTokenHandlers.add(handler);
     return () {
@@ -91,6 +95,8 @@ class Push extends PlatformInterface {
   /// This requires the notification to contain `data`. The actual notification is not available.
   /// This is an intermittently working feature. Sometimes, Android delivers an intent with no extras,
   /// meaning we can't provide the notification from ther user.
+  /// Multiple callbacks can be registered.
+  /// Call the returned function to unsubscribe.
   VoidCallback addOnNotificationTap(NotificationTapHandler handler) {
     _onNotificationTapHandlers.add(handler);
     return () {
@@ -99,6 +105,8 @@ class Push extends PlatformInterface {
   }
 
   // Optional: to clear all handlers so you're sure there are no listeners.
+  // There is no way to clear individual handlers, so keep track of the function
+  //returned when you added the handler.
   void resetHandlers() {
     _isReadyToProcessMessage = false;
     _onMessageHandlers.clear();
