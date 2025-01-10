@@ -31,11 +31,11 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
-  flutter_local_notifications: 4cde75091f6327eb8517fa068a0a5950212d2086
-  path_provider_foundation: eaf5b3e458fc0e5fbb9940fb09980e853fe058b8
-  push_ios: 2bd1b4d3f782209da1f571db1250af236957e807
-  share_plus: 8875f4f2500512ea181eef553c3e27dba5135aad
+  flutter_local_notifications: ad39620c743ea4c15127860f4b5641649a988100
+  path_provider_foundation: 080d55be775b7414fd5a5ef3ac137b97b097e564
+  push_ios: d8edf21b48ecb1ee9e384dd0cd9c1b049fd1ca11
+  share_plus: 011d6fb4f9d2576b83179a3a5c5e323202cdabcf
 
 PODFILE CHECKSUM: 4e8f8b2be68aeea4c0d5beb6ff1e79fface1d048
 
-COCOAPODS: 1.14.2
+COCOAPODS: 1.16.2
