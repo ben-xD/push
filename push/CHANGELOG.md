@@ -1,3 +1,7 @@
+## 3.1.1
+
+- docs: remove references to federation
+
 ## 3.1.0
 
 - replace federated package with simpler design
