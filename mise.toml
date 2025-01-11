@@ -20,5 +20,14 @@ description = "Generate code"
 dir = "push"
 run = [
   'dart run pigeon --input pigeons/push_api.dart',
-  'dart run pigeon --input pigeons/push_api.dart --swift_out ../push_macos/macos/Classes/serialization/PushApi.swift',
+]
+# TO support macOS, we run codegen for all platforms (except iOS and macOS) twice so that we can run on iOS and macOS, but it's idempotent so it's okay. 
+# Ideally, Pigeon supports multiple paths for the same language (a swiftOut [array])
+# 'dart run pigeon --input pigeons/push_api.dart --swift_out ./push/macos/Classes/serialization/PushApi.swift',
+
+[tasks.publish]
+description = "Publish to pub.dev"
+dir = "push"
+run = [
+  'flutter pub publish',
 ]

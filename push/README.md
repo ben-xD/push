@@ -1,4 +1,4 @@
-# Push
+# Push, a Flutter package for push notifications
 
 `Push` is a flutter package designed to handle push notifications - including background notification, alert notifications and notification taps. Users can avoid using Firebase on all platforms except Android - for example, on iOS, they can use APNs directly. In most cases, you should use Flutterfire's [Firebase Messaging](https://pub.dev/packages/firebase_messaging) package. The only case you should use `Push` is if you do not / cannot use FCM on iOS. For example, [Ably](https://ably.com/documentation/general/push/activate-subscribe) and [OneSignal](https://onesignal.com/blog/firebase-vs-onesignal/) do not use FCM on iOS. This package allows you to handle push notifications regardless of the platform specific services. However, this results in a "lowest common denominator" API: you can't expect to receive FCM message IDs or senders, as some platforms do not use FCM, so don't have FCM message IDs or "sender" fields. 
 

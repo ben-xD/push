@@ -5,7 +5,35 @@ In this guide, I try to help you contribute feature requests, bug reports, bug f
 ## Setup
 
 - Install [mise](https://mise.jdx.dev/getting-started.html)
-- Run tasks with `mise`, e.g. `mise lint`
+- Run tasks with `mise`, e.g. `mise lint`. See all tasks in `mise.toml`.
+- Make changes to code
+- To make changes to the interface between Dart and platforms (e.g. iOS/Android/macOS),
+  - change `push/pigeons/push_api.dart` and regenerate the files by running `mise codegen`
+
+
+## Release
+
+- Update pubspec.yaml with new version
+- Update `CHANGELOG.md`
+- Publish with `mise publish`
+
+## Useful commands
+
+- To publish, run `flutter pub publish` in specific folders (and all other packages that depend on it, starting with the leaf packages that have no dependencies)
+
+### Android
+
+- Nice logs in command line: `pidcat com.example.app`
+- Check if app process is runnning `watch -n 1 'adb -s emulator-5554 shell ps -A | grep push'`
+  - Even pressing down on app icon (launching popup menu) launches the app
+- Kill an application process: put the app in the background, then run `adb shell am kill uk.orth.push.example`
+- Take screenshot with scrcpy: `adb exec-out screencap -p > "screenshot_$(date +%s).png"`
+- Reboot emulator :`adb -e reboot`
+
+### iOS
+- Install [SwiftFormat](https://github.com/nicklockwood/SwiftFormat): `brew install swiftformat`
+- Format files: run `make format` or `swiftformat .`
+
 
 ## Types of contributions
 
@@ -52,21 +80,3 @@ To (re)generate pigeon files:
 #### Manual adjustments
 
 - When re-generating Pigeon code, it might break. I once made 1 small adjustment to the generated code to fix the issue reported in https://github.com/flutter/flutter/issues/101515. This is not required anymore.
-
-## Useful commands
-
-- Generate code: `dart run pigeon --input pigeons/push_api.dart`
-- To publish, run `flutter pub publish` in specific folders (and all other packages that depend on it, starting with the leaf packages that have no dependencies)
-
-### Android
-
-- Nice logs in command line: `pidcat com.example.app`
-- Check if app process is runnning `watch -n 1 'adb -s emulator-5554 shell ps -A | grep push'`
-  - Even pressing down on app icon (launching popup menu) launches the app
-- Kill an application process: put the app in the background, then run `adb shell am kill uk.orth.push.example`
-- Take screenshot with scrcpy: `adb exec-out screencap -p > "screenshot_$(date +%s).png"`
-- Reboot emulator :`adb -e reboot`
-
-### iOS
-- Install [SwiftFormat](https://github.com/nicklockwood/SwiftFormat): `brew install swiftformat`
-- Format files: run `make format` or `swiftformat .`
