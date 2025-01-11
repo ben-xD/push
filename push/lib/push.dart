@@ -1,6 +1,6 @@
 library push;
 
-export './src/codegen/push_api.dart'
+export './src/serialization/push_api.dart'
     show
         RemoteMessage,
         Notification,

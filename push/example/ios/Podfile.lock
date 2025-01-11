@@ -5,7 +5,7 @@ PODS:
   - path_provider_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
-  - push_ios (0.0.1):
+  - push (0.0.1):
     - Flutter
   - share_plus (0.0.1):
     - Flutter
@@ -14,7 +14,7 @@ DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
-  - push_ios (from `.symlinks/plugins/push_ios/ios`)
+  - push (from `.symlinks/plugins/push/ios`)
   - share_plus (from `.symlinks/plugins/share_plus/ios`)
 
 EXTERNAL SOURCES:
@@ -24,8 +24,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_local_notifications/ios"
   path_provider_foundation:
     :path: ".symlinks/plugins/path_provider_foundation/darwin"
-  push_ios:
-    :path: ".symlinks/plugins/push_ios/ios"
+  push:
+    :path: ".symlinks/plugins/push/ios"
   share_plus:
     :path: ".symlinks/plugins/share_plus/ios"
 
@@ -33,7 +33,7 @@ SPEC CHECKSUMS:
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   flutter_local_notifications: ad39620c743ea4c15127860f4b5641649a988100
   path_provider_foundation: 080d55be775b7414fd5a5ef3ac137b97b097e564
-  push_ios: d8edf21b48ecb1ee9e384dd0cd9c1b049fd1ca11
+  push: d5952c153845fd5c61c0ea32eb72b7090d673183
   share_plus: 011d6fb4f9d2576b83179a3a5c5e323202cdabcf
 
 PODFILE CHECKSUM: 4e8f8b2be68aeea4c0d5beb6ff1e79fface1d048
