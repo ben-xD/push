@@ -5,7 +5,7 @@ In this guide, I try to help you contribute feature requests, bug reports, bug f
 ## Setup
 
 - Install [mise](https://mise.jdx.dev/getting-started.html)
-- Run tasks with `mise run`, e.g. `mise run lint`
+- Run tasks with `mise`, e.g. `mise lint`
 
 ## Types of contributions
 
