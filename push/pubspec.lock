@@ -151,18 +151,18 @@ packages:
     dependency: "direct main"
     description:
       name: push_android
-      sha256: c7df90971ef0b8f5c7acc5eb5b8dc474742b1eaefaf921c6cbb244d0e2da6ffb
+      sha256: "309c8366024f3856b8198ef4e26792a7bda859802492ab98b7023c1d5955bea0"
       url: "https://pub.dev"
     source: hosted
-    version: "0.6.0"
+    version: "0.7.0"
   push_ios:
     dependency: "direct main"
     description:
       name: push_ios
-      sha256: "3d8b0ce1b0a29b20a17a7ca3d17f9ae19707cdd20c168d345b27cd00a4983826"
+      sha256: "92e296461a7dbc9d722da7642056584db9a4107190668dd10458caa6becb3492"
       url: "https://pub.dev"
     source: hosted
-    version: "0.5.1"
+    version: "0.6.0"
   push_macos:
     dependency: "direct main"
     description:
@@ -175,10 +175,10 @@ packages:
     dependency: "direct main"
     description:
       name: push_platform_interface
-      sha256: "1d45f9dfa8f26251d4c8efb733740debb91f9184fc5d05e83cc359331ef1879f"
+      sha256: b9164b768189e6f65628bdf9b0679f2cb88edf0cb5218bec4ad904d80d74632d
       url: "https://pub.dev"
     source: hosted
-    version: "0.6.0"
+    version: "0.7.0"
   sky_engine:
     dependency: transitive
     description: flutter

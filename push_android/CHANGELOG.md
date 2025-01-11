@@ -1,3 +1,7 @@
+## 0.7.0
+
+- feat: replace all stream APIs with callback APIs
+
 ## 0.6.0 
 
 - Update pigeon to 18.0.0
