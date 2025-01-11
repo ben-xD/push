@@ -42,8 +42,7 @@ Pigeon is used to generate code which serializes and deserializes data, includin
 - Instances used to call methods on the other side of the serialization barrier have been called: `PushXApi`, for example `PushHostApi` and `PushFlutterApi`.
 
 To (re)generate pigeon files:
-- Run `cd push_platform_interface`
-- Run `dart run pigeon --input pigeons/push_api.dart`
+- Run `./scripts/codegen.sh`
 
 #### Manual adjustments
 
