@@ -1,11 +1,12 @@
 library push;
 
-export 'package:push_platform_interface/push_platform_interface.dart'
+export './src/serialization/push_api.dart'
     show
-        Push,
         RemoteMessage,
         Notification,
         UNNotificationSettings,
         UNNotificationSetting,
         UNAlertStyle,
         UNAuthorizationStatus;
+
+export './src/push.dart' show Push;

@@ -2,6 +2,11 @@
 
 In this guide, I try to help you contribute feature requests, bug reports, bug fixes and features to this project. Take a look at useful tips to help you investigate or learn the package a bit better.
 
+## Setup
+
+- Install [mise](https://mise.jdx.dev/getting-started.html)
+- Run tasks with `mise`, e.g. `mise lint`
+
 ## Types of contributions
 
 I may create templates for these in the future.
@@ -42,8 +47,7 @@ Pigeon is used to generate code which serializes and deserializes data, includin
 - Instances used to call methods on the other side of the serialization barrier have been called: `PushXApi`, for example `PushHostApi` and `PushFlutterApi`.
 
 To (re)generate pigeon files:
-- Run `cd push_platform_interface`
-- Run `dart run pigeon --input pigeons/push_api.dart`
+- Run `./scripts/codegen.sh`
 
 #### Manual adjustments
 

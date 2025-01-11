@@ -1,0 +1,24 @@
+[tasks.lint]
+description = "Lint"
+dir = "push"
+run = [
+  'dart format --set-exit-if-changed .',
+  'swiftformat --lint --exclude example/macos/Flutter/GeneratedPluginRegistrant.swift .',
+]
+
+[tasks.format]
+description = "Format"
+dir = "push"
+run = [
+  # https://dart.dev/tools/dart-format
+  'dart format .', # https://github.com/nicklockwood/SwiftFormat, not https://github.com/apple/swift-format
+  'swiftformat --exclude example/macos/Flutter/GeneratedPluginRegistrant.swift .', # TODO Use ktlint?
+]
+
+[tasks.codegen]
+description = "Generate code"
+dir = "push"
+run = [
+  'dart run pigeon --input pigeons/push_api.dart',
+  'dart run pigeon --input pigeons/push_api.dart --swift_out ../push_macos/macos/Classes/serialization/PushApi.swift',
+]

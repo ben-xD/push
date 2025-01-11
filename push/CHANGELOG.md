@@ -1,3 +1,7 @@
+## 3.1.0
+
+- replace federated package with simpler design
+
 ## 3.0.0
 
 - feat: replace all stream APIs with callback APIs
