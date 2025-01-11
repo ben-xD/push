@@ -5,9 +5,9 @@
 - Look at the [features](#features) if you want to see if `push` will provide it.
 - Look at [comparisons](#comparisons) if you want to compare `Push` with other push notification packages for Flutter.
 
-## Updating to v2
+## Updating to v3
 
-There are some breaking changes in version 2.0.0. Please see the [breaking changes](./UPDATING.md) for how to update your application.
+There are some breaking changes in version 3.0.0. Please see the [breaking changes](./UPDATING.md) for how to update your application.
 
 ## Features
 
