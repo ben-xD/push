@@ -1,4 +1,5 @@
 library push;
+
 export './src/codegen/push_api.dart'
     show
         RemoteMessage,
