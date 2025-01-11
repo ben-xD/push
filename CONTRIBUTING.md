@@ -2,6 +2,11 @@
 
 In this guide, I try to help you contribute feature requests, bug reports, bug fixes and features to this project. Take a look at useful tips to help you investigate or learn the package a bit better.
 
+## Setup
+
+- Install [mise](https://mise.jdx.dev/getting-started.html)
+- Run tasks with `mise run`, e.g. `mise run lint`
+
 ## Types of contributions
 
 I may create templates for these in the future.

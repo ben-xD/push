@@ -1,0 +1,11 @@
+[tasks.lint]
+description = "Lint"
+run = "./scripts/lint.sh"
+
+[tasks.format]
+description = "Format"
+run = "./scripts/format.sh"
+
+[tasks.codegen]
+description = "Generate code"
+run = "./scripts/codegen.sh"
