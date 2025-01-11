@@ -1,6 +1,47 @@
-# Breaking changes in v2
+# Updating push versions
 
-This is a reference guide to the breaking changes introduced in v2, and how to migrate from v1.
+This is a reference guide to updating your application through breaking changes in the push package.
+
+## Breaking changes in v3.0
+
+Similar to breaking changes in v2, listening to new tokens uses a callback based API. This removes the usage of streams completely from the API, opting for a simpler, callback API.
+
+### Previously
+```dart
+final onNewTokenSubscription = Push.instance.onNewToken.listen((token) {
+print("Just got a new token: $token");
+});
+final onNotificationTapSubscription =
+    Push.instance.onNotificationTap.listen((data) {
+print('Notification was tapped:\n'
+    'Data: $data \n');
+tappedNotificationPayloads.value += [data];
+});
+// Unsubscribe with:
+onNewTokenSubscription.cancel();
+onNotificationTapSubscription.cancel();
+```
+
+### Now
+```dart
+final unsubscribeOnNewToken = Push.instance.addOnNewToken((token) {
+    print("Just got a new token: $token");
+});
+final onNotificationTapSubscription =
+    Push.instance.addOnNotificationTap((data) {
+        print('Notification was tapped:\n'
+            'Data: $data \n');
+        tappedNotificationPayloads.value += [data];
+});
+// Unsubscribe with:
+unsubscribeOnNewToken();
+unsubscribeOnNotificationTap();
+```
+
+## Breaking changes in v2
+
+
+There were breaking changes introduced in v2. See how to migrate from v1.
 
 ## Callback API
 

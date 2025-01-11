@@ -113,6 +113,18 @@ class PushHostHandlers: NSObject, PUPushHostApi {
         }
     }
 
+    func deleteToken(completion: @escaping (FlutterError?) -> Void) {
+        completion(nil)
+    }
+
+    func registerForRemoteNotificationsWithError(_: AutoreleasingUnsafeMutablePointer<FlutterError?>) {
+        UIApplication.shared.registerForRemoteNotifications()
+    }
+
+    func unregisterForRemoteNotificationsWithError(_: AutoreleasingUnsafeMutablePointer<FlutterError?>) {
+        UIApplication.shared.unregisterForRemoteNotifications()
+    }
+
     // Ignored on iOS, since the Flutter application doesn't need to be manually launched.
     func backgroundFlutterApplicationReadyWithError(_: AutoreleasingUnsafeMutablePointer<FlutterError?>) {}
 
@@ -157,25 +169,14 @@ class PushHostHandlers: NSObject, PUPushHostApi {
 
     // TODO: handle the case where deviceToken is nil (not yet created)
     // TODO: what about other cases, e.g. error (onError?)
-    var isOnNewTokenListened = false
 
     func onNewToken(_ deviceToken: Data) {
         self.deviceToken = deviceToken
         let deviceTokenString = convertTokenToString(deviceToken: deviceToken)
         // TODO: replace this with log levels, verbose logging:
         print("APNs Device Token: \(deviceTokenString)")
-        if isOnNewTokenListened {
-            pushFlutterApi.onNewTokenToken(deviceTokenString) { _ in
-            }
+        pushFlutterApi.onNewTokenToken(deviceTokenString) { _ in
         }
-    }
-
-    func onListenToOnNewTokenWithError(_: AutoreleasingUnsafeMutablePointer<FlutterError?>) {
-        isOnNewTokenListened = true
-    }
-
-    func onCancelToOnNewTokenWithError(_: AutoreleasingUnsafeMutablePointer<FlutterError?>) {
-        isOnNewTokenListened = false
     }
 
     public func application(_: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {

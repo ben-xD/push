@@ -1,3 +1,7 @@
+## 0.6.0
+
+- feat: replace all stream APIs with callback APIs
+
 ## 0.5.1
 
 - fix: fix launching apps from deeplink

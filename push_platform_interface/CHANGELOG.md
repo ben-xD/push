@@ -1,3 +1,8 @@
+## 0.7.0
+
+- Update pigeon to 22.7.2
+- Update plugin_platform_interface to 2.1.8
+
 ## 0.6.0
 
 - Update pigeon to 18.0.0

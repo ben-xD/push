@@ -46,7 +46,8 @@ To (re)generate pigeon files:
 - Run `dart run pigeon --input pigeons/push_api.dart`
 
 #### Manual adjustments
-- When re-generating Pigeon code, it might break. I made 1 small adjustment to the generated code to fix the issue reported in https://github.com/flutter/flutter/issues/101515
+
+- When re-generating Pigeon code, it might break. I once made 1 small adjustment to the generated code to fix the issue reported in https://github.com/flutter/flutter/issues/101515. This is not required anymore.
 
 ## Useful commands
 
