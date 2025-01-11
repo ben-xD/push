@@ -29,8 +29,6 @@ There are some breaking changes in version 2.0.0. Please see the [breaking chang
       perform logic such as HTTP requests, IO operations (updating local storage), communicate with
       other plugins etc.
 - This project uses [semantic versioning](https://semver.org/).
-- This package is federated. You (or an organisation) can implement push services for new platforms
-  (Fuchsia, Linux) which may not already provide a mechanism for pushing data to devices from servers.
 
 ## Comparisons
 
@@ -293,10 +291,6 @@ override fun onNewToken(registrationToken: String) {
 }
 ```
 
-## Why federated?
-
-You can provide a custom implementation for a specific platform by releasing your own package which implements the interface provided by [push_platform_interface](https://pub.dev/packages/push_platform_interface). Even if your package is not endorsed in `push`, other users of this package can use your implementation by modifying their `pubspec.yaml`.
-
 ## Credits
 
 The architecture of this package is inspired by the work I did in [`ably_flutter`](https://pub.dev/packages/ably_flutter) related to push notifications. However, this package is a complete rewrite, containing a simpler architecture and uses modern languages (Swift, Kotlin) and modern tools (e.g. Pigeon (Dart codegenerator).
@@ -304,4 +298,4 @@ The architecture of this package is inspired by the work I did in [`ably_flutter
 ## Contributing
 
 To provide feedback, contribute features, bug fixes, documentation, or anything else to this
-project, read [CONTRIBUTING.md](CONTRIBUTING.md).
+project, take a look at the [GitHub repo](https://github.com/ben-xD/push).
