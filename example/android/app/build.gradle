@@ -24,7 +24,7 @@ if (flutterVersionName == null) {
 }
 
 android {
-    compileSdkVersion 34
+    compileSdkVersion 35
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
@@ -45,7 +45,7 @@ android {
         applicationId "uk.orth.push.example"
         // Convert API level to Android version with https://apilevels.com/
         minSdkVersion Math.max(19, flutter.minSdkVersion)
-        targetSdkVersion Math.max(34, flutter.targetSdkVersion)
+        targetSdkVersion Math.max(35, flutter.targetSdkVersion)
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         // https://pub.dev/packages/flutter_local_notifications#-android-setup
@@ -69,5 +69,5 @@ flutter {
 dependencies {
     // https://pub.dev/packages/flutter_local_notifications#-android-setup
     // Latest version on https://mvnrepository.com/artifact/com.android.tools/desugar_jdk_libs
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")
 }

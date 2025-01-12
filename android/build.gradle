@@ -2,14 +2,14 @@ group 'uk.orth.push'
 version '1.0-SNAPSHOT'
 
 buildscript {
-    ext.kotlin_version = '1.8.21'
+    ext.kotlin_version = '1.9.20'
     repositories {
         google()
         mavenCentral()
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.1.0'
+        classpath 'com.android.tools.build:gradle:7.4.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
@@ -27,11 +27,13 @@ apply plugin: 'kotlin-android'
 android {
     namespace = "uk.orth.push"
 
-    compileSdkVersion 33
+    defaultConfig {
+        compileSdk 35
+    }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 
     kotlinOptions {
@@ -49,5 +51,11 @@ android {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation "com.google.firebase:firebase-messaging-ktx:23.0.0"
+    implementation "com.google.firebase:firebase-messaging:24.1.0"
+    // Add localbroadcastmanager because firebase-messaging 24+ doesn't include it.
+    // Warning: localbroadcastmanager is deprecated. We still use it because overriding FirebaseMessagingService
+    // will clash with other libraries.
+    // See kotlin/uk/orth/push/MessagingService.kt for more information.
+    implementation "androidx.localbroadcastmanager:localbroadcastmanager:1.1.0"
+
 }

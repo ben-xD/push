@@ -10,6 +10,7 @@ import com.google.firebase.messaging.RemoteMessage
 // See `android:permission` on `<receiver>`
 // [docs](https://developer.android.com/guide/topics/manifest/receiver-element#prmsn) for more
 // information.
+// See https://github.com/firebase/snippets-android/blob/master/messaging/app/src/main/java/com/google/firebase/example/messaging/kotlin/MyFirebaseMessagingService.kt#L23-L49 for an example of onMessageReceived
 class MessagingService: FirebaseMessagingService() {
     override fun onNewToken(registrationToken: String) {
         super.onNewToken(registrationToken)
