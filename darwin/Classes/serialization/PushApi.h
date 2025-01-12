@@ -179,7 +179,7 @@ extern void SetUpPUPushHostApiWithSuffix(id<FlutterBinaryMessenger> binaryMessen
 ///
 /// Hint: You can still include the title, body or other metadata in your
 /// data payload to identify what notification the user tapped on.
-- (void)onNotificationTapData:(NSDictionary<NSString *, id> *)data completion:(void (^)(FlutterError *_Nullable))completion;
+- (void)onNotificationTapMessage:(NSDictionary<NSString *, id> *)message completion:(void (^)(FlutterError *_Nullable))completion;
 - (void)onNewTokenToken:(NSString *)token completion:(void (^)(FlutterError *_Nullable))completion;
 - (void)onOpenNotificationSettingsWithCompletion:(void (^)(FlutterError *_Nullable))completion;
 @end

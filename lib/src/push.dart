@@ -161,7 +161,9 @@ class Push extends PlatformInterface {
         try {
           _pushHostApi.backgroundFlutterApplicationReady();
         } catch (e) {
-          print("Ignoring this exception because the application is already "
+          // ignore: avoid_print
+          print(
+              "[push]: Ignoring this exception because the application is already "
               "running. This method is useful when the application"
               " is not yet launched (Terminated state). Error: $e");
         }

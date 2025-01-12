@@ -567,12 +567,12 @@ class PushFlutterApi(private val binaryMessenger: BinaryMessenger, private val m
    * Hint: You can still include the title, body or other metadata in your
    * data payload to identify what notification the user tapped on.
    */
-  fun onNotificationTap(dataArg: Map<String?, Any?>, callback: (Result<Unit>) -> Unit)
+  fun onNotificationTap(messageArg: Map<String?, Any?>, callback: (Result<Unit>) -> Unit)
 {
     val separatedMessageChannelSuffix = if (messageChannelSuffix.isNotEmpty()) ".$messageChannelSuffix" else ""
     val channelName = "dev.flutter.pigeon.push.PushFlutterApi.onNotificationTap$separatedMessageChannelSuffix"
     val channel = BasicMessageChannel<Any?>(binaryMessenger, channelName, codec)
-    channel.send(listOf(dataArg)) {
+    channel.send(listOf(messageArg)) {
       if (it is List<*>) {
         if (it.size > 1) {
           callback(Result.failure(FlutterError(it[0] as String, it[1] as String, it[2] as String?)))

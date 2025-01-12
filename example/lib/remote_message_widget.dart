@@ -5,7 +5,7 @@ import 'package:push_example/text_row.dart';
 class RemoteMessageWidget extends StatelessWidget {
   final RemoteMessage? remoteMessage;
 
-  const RemoteMessageWidget(this.remoteMessage, {Key? key}) : super(key: key);
+  const RemoteMessageWidget(this.remoteMessage, {super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -1,4 +1,12 @@
 include: package:flutter_lints/flutter.yaml
 
 # Additional information about this file can be found at
+# https://dart.dev/tools/analysis
+# https://pub.dev/packages/flutter_lints
 # https://dart.dev/guides/language/analysis-options
+
+# To run this file, run `flutter analyze` or `mise lint`
+
+analyzer:
+  # generated code
+  exclude: ["test/serialization/push_api_test.dart"]

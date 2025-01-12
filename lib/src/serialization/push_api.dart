@@ -567,7 +567,7 @@ abstract class PushFlutterApi {
   ///
   /// Hint: You can still include the title, body or other metadata in your
   /// data payload to identify what notification the user tapped on.
-  void onNotificationTap(Map<String?, Object?> data);
+  void onNotificationTap(Map<String?, Object?> message);
 
   void onNewToken(String token);
 
@@ -652,12 +652,12 @@ abstract class PushFlutterApi {
           assert(message != null,
               'Argument for dev.flutter.pigeon.push.PushFlutterApi.onNotificationTap was null.');
           final List<Object?> args = (message as List<Object?>?)!;
-          final Map<String?, Object?>? arg_data =
+          final Map<String?, Object?>? arg_message =
               (args[0] as Map<Object?, Object?>?)?.cast<String?, Object?>();
-          assert(arg_data != null,
+          assert(arg_message != null,
               'Argument for dev.flutter.pigeon.push.PushFlutterApi.onNotificationTap was null, expected non-null Map<String?, Object?>.');
           try {
-            api.onNotificationTap(arg_data!);
+            api.onNotificationTap(arg_message!);
             return wrapResponse(empty: true);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);

@@ -61,7 +61,7 @@ class MetadataSliver extends HookWidget {
               Expanded(child: Text(pushToken.value.toString()))
             ],
           ),
-          DarwinRegisterUnregisterWidget()
+          const DarwinRegisterUnregisterWidget()
         ],
       ),
     );

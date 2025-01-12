@@ -99,7 +99,7 @@ abstract class PushFlutterApi {
   ///
   /// Hint: You can still include the title, body or other metadata in your
   /// data payload to identify what notification the user tapped on.
-  void onNotificationTap(Map<String?, Object?> data);
+  void onNotificationTap(Map<String?, Object?> message);
 
   void onNewToken(String token);
 

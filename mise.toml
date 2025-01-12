@@ -8,10 +8,11 @@ run = [
 
 [tasks.format]
 description = "Format"
+# TODO Use ktlint?
 run = [
-  # https://dart.dev/tools/dart-format
-  'dart format .', # https://github.com/nicklockwood/SwiftFormat, not https://github.com/apple/swift-format
-  'swiftformat --exclude example/macos/Flutter/GeneratedPluginRegistrant.swift .', # TODO Use ktlint?
+  'dart fix --apply',
+  'dart format .', # https://dart.dev/tools/dart-format
+  'swiftformat --exclude example/macos/Flutter/GeneratedPluginRegistrant.swift .', # https://github.com/nicklockwood/SwiftFormat, not https://github.com/apple/swift-format
 ]
 
 [tasks.codegen]

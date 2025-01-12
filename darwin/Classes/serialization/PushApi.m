@@ -555,14 +555,14 @@ void SetUpPUPushHostApiWithSuffix(id<FlutterBinaryMessenger> binaryMessenger, NS
     } 
   }];
 }
-- (void)onNotificationTapData:(NSDictionary<NSString *, id> *)arg_data completion:(void (^)(FlutterError *_Nullable))completion {
+- (void)onNotificationTapMessage:(NSDictionary<NSString *, id> *)arg_message completion:(void (^)(FlutterError *_Nullable))completion {
   NSString *channelName = [NSString stringWithFormat:@"%@%@", @"dev.flutter.pigeon.push.PushFlutterApi.onNotificationTap", _messageChannelSuffix];
   FlutterBasicMessageChannel *channel =
     [FlutterBasicMessageChannel
       messageChannelWithName:channelName
       binaryMessenger:self.binaryMessenger
       codec:PUGetPushApiCodec()];
-  [channel sendMessage:@[arg_data ?: [NSNull null]] reply:^(NSArray<id> *reply) {
+  [channel sendMessage:@[arg_message ?: [NSNull null]] reply:^(NSArray<id> *reply) {
     if (reply != nil) {
       if (reply.count > 1) {
         completion([FlutterError errorWithCode:reply[0] message:reply[1] details:reply[2]]);

@@ -5,7 +5,7 @@ import 'package:push_example/text_row.dart';
 class RemoteMessagesWidget extends StatelessWidget {
   final List<RemoteMessage> remoteMessages;
 
-  const RemoteMessagesWidget(this.remoteMessages, {Key? key}) : super(key: key);
+  const RemoteMessagesWidget(this.remoteMessages, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,19 +14,17 @@ class RemoteMessagesWidget extends StatelessWidget {
     }
     return Column(
       children: [
-        ...remoteMessages
-            .map((message) => Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 4),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      TextRow("Title", message.notification?.title.toString()),
-                      TextRow("Body", message.notification?.body.toString()),
-                      TextRow("Data", message.data?.toString())
-                    ],
-                  ),
-                ))
-            .toList()
+        ...remoteMessages.map((message) => Padding(
+              padding: const EdgeInsets.symmetric(vertical: 4),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  TextRow("Title", message.notification?.title.toString()),
+                  TextRow("Body", message.notification?.body.toString()),
+                  TextRow("Data", message.data?.toString())
+                ],
+              ),
+            ))
       ],
     );
   }

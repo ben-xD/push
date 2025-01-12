@@ -6,7 +6,7 @@ class TextRow extends StatelessWidget {
   final String label;
   final String? text;
 
-  const TextRow(this.label, this.text, {Key? key}) : super(key: key);
+  const TextRow(this.label, this.text, {super.key});
 
   @override
   Widget build(BuildContext context) => RichText(

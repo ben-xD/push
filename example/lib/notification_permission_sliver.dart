@@ -6,7 +6,7 @@ import 'package:push/push.dart';
 import 'package:push_example/text_row.dart';
 
 class NotificationPermissionSliver extends HookWidget {
-  const NotificationPermissionSliver({Key? key}) : super(key: key);
+  const NotificationPermissionSliver({super.key});
 
   @override
   Widget build(BuildContext context) {
