@@ -9,9 +9,18 @@
 
 ## Usage
 
-Run your app. Get the device token and update `config.yaml`
+- Set up example app
+- Connect a device or launch an iOS/Android emulator/simulator: `flutter emulators` and `flutter emulators --launch $` 
+  - skip this step for macOS
+- get a device id from the output of `flutter devices`
+  - skip this step for macOS
+- Run your app: `flutter run -d $device_id`
+  - on macOS, run `flutter run -d macos`
+- Get the device token from the Flutter output or your app, and update `config.yaml`
 
-Run `pnpm start`, e.g. `pnpm start --android` or `pnpm start --ios`
+Run `pnpm start`. For example, run
+- `pnpm start` to send to all devices
+- `pnpm start [--android] [--macos] [--ios]`, e.g. `pnpm start --ios` to send to specific platforms
 
 For more information, run `pnpm start --help`
 
