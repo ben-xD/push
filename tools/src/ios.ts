@@ -82,7 +82,6 @@ export const sendIos = async (config: AppleApnsConfig | undefined, messageType: 
     const jwt = generateJWT(config.key_id, config.team_id, config.key_path);
 
     const response = await fetch(url, {
-        verbose: true,
         method: 'POST',
         headers: {
             'authorization': `bearer ${jwt}`,

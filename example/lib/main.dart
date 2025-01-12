@@ -128,7 +128,7 @@ class MyApp extends HookWidget {
                   Text('Instructions',
                       style: Theme.of(context).textTheme.headlineMedium),
                   const Text(
-                      "Use the push token below to send messages using the tools provided in the folder called `test_manual/`. You should see these messages arrive to the device, and show up on this screen, based on your actions.")
+                      "Use the push token below to send messages using the tools provided in the folder `tools/`. You should see these messages arrive to the device, and show up on this screen, based on your actions.")
                 ],
               ),
               Column(
