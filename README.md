@@ -251,6 +251,12 @@ and
             'RemoteMessage.Data: ${message.data}');
         backgroundMessagesReceived.value += [message];
       });
+
+      // Optional. iOS/macOS only. Does nothing on Android. See https://developer.apple.com/documentation/uikit/uiapplication/unregisterforremotenotifications(): "You should call this method in rare circumstances only".
+      // Note: registerForRemoteNotifications is automatically called when the app starts, so this is only useful if you want to sign someone out. You'll get a new APNs token, and the old one will stop working. 
+      Push.instance.unregisterForRemoteNotifications()
+      // Be sure to have a callback set with `Push.instance.addOnNewToken` to get the latest token when it's ready. It doesn't need to be reset.
+      Push.instance.registerForRemoteNotifications()
 ```
 - When using a `StatefulWidget`, you can store the clean-up function returned when you add a callback. You should listen to these streams in `initState`, and call them in `dispose`. See [`stateful_widget_example.dart`](./example/lib/stateful_widget_example.dart)
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:push/push.dart';
+import 'package:push_example/darwin_register_unregister_widget.dart';
 import 'package:push_example/use_push_token.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -60,6 +61,7 @@ class MetadataSliver extends HookWidget {
               Expanded(child: Text(pushToken.value.toString()))
             ],
           ),
+          DarwinRegisterUnregisterWidget()
         ],
       ),
     );
