@@ -22,14 +22,14 @@ const base64URLSafe = (input: string): string => {
         .replace(/=/g, '');
 };
 
-const sign = async (input: string, secretKeyPath: string): Promise<string> => {
+const sign = (input: string, secretKeyPath: string): string => {
+    const key = readFileSync(secretKeyPath, 'utf8');
     const signer = createSign('sha256');
     signer.update(input);
-    const signature = signer.sign(readFileSync(secretKeyPath, 'utf8'));
-    return base64URLSafe(signature.toString('base64'));
+    return signer.sign(key, "base64url");
 };
 
-const generateJWT = async (keyId: string, teamId: string, secretKeyPath: string): Promise<string> => {
+const generateJWT = (keyId: string, teamId: string, secretKeyPath: string): string => {
     // your header section
     //
     // e.g.
@@ -38,6 +38,8 @@ const generateJWT = async (keyId: string, teamId: string, secretKeyPath: string)
     // "kid" : "ABC123DEFG"
     // }
     const header = base64URLSafe(JSON.stringify({ alg: 'ES256', kid: keyId }));
+    const timeS = Math.floor(Date.now() / 1000);
+    // const timeS = 1736640894;
     // your claims section
     //
     // e.g.
@@ -47,9 +49,11 @@ const generateJWT = async (keyId: string, teamId: string, secretKeyPath: string)
     // }
     const claims = base64URLSafe(JSON.stringify({
         iss: teamId,
-        iat: Math.floor(Date.now() / 1000)
+        iat: timeS
     }));
-    return `${header}.${claims}.${await sign(`${header}.${claims}`, secretKeyPath)}`;
+
+    const signature = sign(`${header}.${claims}`, secretKeyPath);
+    return `${header}.${claims}.${signature}`;
 };
 
 export const sendIos = async (config: AppleApnsConfig | undefined, messageType: "background" | "alert") => {
@@ -75,9 +79,8 @@ export const sendIos = async (config: AppleApnsConfig | undefined, messageType: 
         'https://api.sandbox.push.apple.com' :
         'https://api.push.apple.com';
     const url = `${baseUrl}/3/device/${config.device_token}`;
-    const jwt = await generateJWT(config.key_id, config.team_id, config.key_path);
+    const jwt = generateJWT(config.key_id, config.team_id, config.key_path);
 
-    console.log(`Sending a ${isBackground ? "background" : "alert"} notification...`);
     const response = await fetch(url, {
         verbose: true,
         method: 'POST',
@@ -89,5 +92,5 @@ export const sendIos = async (config: AppleApnsConfig | undefined, messageType: 
         },
         body: JSON.stringify(message)
     });
-    console.log(await response.text());
+    return await response.text();
 }
