@@ -22,7 +22,7 @@ import uk.orth.push.serialization.toPushRemoteMessage
 class PushHostHandlers(
     context: Context,
     binaryMessenger: BinaryMessenger,
-    private val onRequestPushNotificationsPermission: ((callback: (Result<Boolean>) -> Unit) -> Unit)? = null
+    private val onRequestPushNotificationsPermission: ((callback: (Result<Boolean>) -> Unit) -> Unit)? = null,
 ) : PushHostApi {
     var notificationTapPayloadWhichLaunchedApp: Map<String?, Any?>? = null
     private var context: Context? = context
@@ -31,9 +31,10 @@ class PushHostHandlers(
 
     private var appTerminatedRemoteMessage: RemoteMessage? = null
     private var remoteMessageProcessingComplete: (() -> Unit)? = null
+
     fun setupForBackgroundNotificationProcessing(
         appTerminatedRemoteMessage: RemoteMessage? = null,
-        remoteMessageProcessingComplete: (() -> Unit)? = null
+        remoteMessageProcessingComplete: (() -> Unit)? = null,
     ) {
         this.appTerminatedRemoteMessage = appTerminatedRemoteMessage
         this.remoteMessageProcessingComplete = remoteMessageProcessingComplete
@@ -44,52 +45,54 @@ class PushHostHandlers(
         context = null
     }
 
-    override fun getNotificationTapWhichLaunchedTerminatedApp(): Map<String?, Any?>? {
-        return notificationTapPayloadWhichLaunchedApp
-    }
+    override fun getNotificationTapWhichLaunchedTerminatedApp(): Map<String?, Any?>? = notificationTapPayloadWhichLaunchedApp
 
     override fun getToken(callback: (Result<String>) -> Unit) {
-        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
-            if (!task.isSuccessful) {
-                Log.w(TAG, "Fetching FCM registration token failed", task.exception)
-                callback(
-                    Result.failure(
-                        IllegalStateException(
-                            "Fetching FCM registration token failed, but exception was null",
-                            task.exception
-                        )
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(
+            OnCompleteListener { task ->
+                if (!task.isSuccessful) {
+                    Log.w(TAG, "Fetching FCM registration token failed", task.exception)
+                    callback(
+                        Result.failure(
+                            IllegalStateException(
+                                "Fetching FCM registration token failed, but exception was null",
+                                task.exception,
+                            ),
+                        ),
                     )
-                )
-                return@OnCompleteListener
-            } else {
-                val fcmToken = task.result
-                if (fcmToken == null){
-                    Log.w(TAG, "FCM token was null")
-                    callback(Result.failure(IllegalStateException("FCM token was null")))
                     return@OnCompleteListener
+                } else {
+                    val fcmToken = task.result
+                    if (fcmToken == null) {
+                        Log.w(TAG, "FCM token was null")
+                        callback(Result.failure(IllegalStateException("FCM token was null")))
+                        return@OnCompleteListener
+                    }
+                    // Return latest FCM registration token
+                    callback(Result.success(fcmToken))
                 }
-                // Return latest FCM registration token
-                callback(Result.success(fcmToken))
-            }
-        })
+            },
+        )
     }
 
     override fun deleteToken(callback: (Result<Unit>) -> Unit) {
-        FirebaseMessaging.getInstance().deleteToken().addOnCompleteListener(OnCompleteListener { task ->
-            if (!task.isSuccessful) {
-                Log.w(TAG, "Deleting FCM registration token failed", task.exception)
-                callback(
-                    Result.failure(
-                        IllegalStateException(
-                            "Deleting FCM registration token failed",
-                            task.exception
-                        )
+        FirebaseMessaging.getInstance().deleteToken().addOnCompleteListener(
+            OnCompleteListener { task ->
+                if (!task.isSuccessful) {
+                    Log.w(TAG, "Deleting FCM registration token failed", task.exception)
+                    callback(
+                        Result.failure(
+                            IllegalStateException(
+                                "Deleting FCM registration token failed",
+                                task.exception,
+                            ),
+                        ),
                     )
-                )
-                return@OnCompleteListener
-            };
-            callback(Result.success(Unit))
-        });
+                    return@OnCompleteListener
+                }
+                callback(Result.success(Unit))
+            },
+        )
     }
 
     override fun registerForRemoteNotifications() {}
@@ -106,8 +109,9 @@ class PushHostHandlers(
             }
         } ?: run {
             Log.v(
-                TAG, "Ignoring this method because it is used in a separate listener " +
-                        "(`BackgroundFlutterAppLauncher.kt`), when the Flutter app is launched manually."
+                TAG,
+                "Ignoring this method because it is used in a separate listener " +
+                    "(`BackgroundFlutterAppLauncher.kt`), when the Flutter app is launched manually.",
             )
         }
     }
@@ -123,13 +127,19 @@ class PushHostHandlers(
         provisional: Boolean,
         providesAppNotificationSettings: Boolean,
         announcement: Boolean,
-        callback: (Result<Boolean>) -> Unit
+        callback: (Result<Boolean>) -> Unit,
     ) {
         // We use this let ?: run structure so kotlin understands onRequestPushNotificationsPermission was not mutated to be null later
         onRequestPushNotificationsPermission?.let {
             it(callback)
         } ?: run {
-            callback(Result.failure(IllegalAccessException("requestPermission was called but there was no activity. This should only be called when the user has the app in the foreground.")))
+            callback(
+                Result.failure(
+                    IllegalAccessException(
+                        "requestPermission was called but there was no activity. This should only be called when the user has the app in the foreground.",
+                    ),
+                ),
+            )
         }
     }
 
@@ -171,14 +181,15 @@ class PushHostHandlers(
         fun getInstance(
             context: Context,
             binaryMessenger: BinaryMessenger,
-            onRequestPushNotificationsPermission: ((callback: (Result<Boolean>) -> Unit) -> Unit)? = null
+            onRequestPushNotificationsPermission: ((callback: (Result<Boolean>) -> Unit) -> Unit)? = null,
         ): PushHostHandlers =
             instance
                 ?: PushHostHandlers(context, binaryMessenger, onRequestPushNotificationsPermission)
 
         // Send message to Dart side app already running
         fun sendMessageToFlutterApp(
-            context: Context, intent: Intent
+            context: Context,
+            intent: Intent,
         ) {
             val onMessageReceivedIntent = Intent(ON_MESSAGE_RECEIVED)
             onMessageReceivedIntent.putExtras(intent.extras!!)
@@ -186,20 +197,28 @@ class PushHostHandlers(
         }
 
         // Flutter is already running, just send a background message to it.
-        fun sendBackgroundMessageToFlutterApp(context: Context, intent: Intent) {
+        fun sendBackgroundMessageToFlutterApp(
+            context: Context,
+            intent: Intent,
+        ) {
             val onMessageReceivedIntent = Intent(ON_BACKGROUND_MESSAGE_RECEIVED)
             onMessageReceivedIntent.putExtras(intent.extras!!)
             LocalBroadcastManager.getInstance(context).sendBroadcast(onMessageReceivedIntent)
         }
 
-        fun onNewToken(context: Context, token: String) {
+        fun onNewToken(
+            context: Context,
+            token: String,
+        ) {
             val onMessageReceivedIntent = Intent(ON_NEW_TOKEN)
             onMessageReceivedIntent.putExtra(TOKEN, token)
             LocalBroadcastManager.getInstance(context).sendBroadcast(onMessageReceivedIntent)
         }
     }
 
-    private inner class BroadcastReceiver(context: Context) : android.content.BroadcastReceiver() {
+    private inner class BroadcastReceiver(
+        context: Context,
+    ) : android.content.BroadcastReceiver() {
         init {
             register(context)
         }
@@ -216,16 +235,19 @@ class PushHostHandlers(
             LocalBroadcastManager.getInstance(context!!).unregisterReceiver(this)
         }
 
-        override fun onReceive(context: Context, intent: Intent) {
+        override fun onReceive(
+            context: Context,
+            intent: Intent,
+        ) {
             when (val action = intent.action) {
                 ON_MESSAGE_RECEIVED -> {
                     val message = RemoteMessage(intent.extras!!).toPushRemoteMessage()
-                    pushFlutterApi.onMessage(message) {_ -> finish(context)}
+                    pushFlutterApi.onMessage(message) { _ -> finish(context) }
                 }
 
                 ON_BACKGROUND_MESSAGE_RECEIVED -> {
                     val message = RemoteMessage(intent.extras!!).toPushRemoteMessage()
-                    pushFlutterApi.onBackgroundMessage(message) {_ -> finish(context)}
+                    pushFlutterApi.onBackgroundMessage(message) { _ -> finish(context) }
                 }
 
                 ON_NEW_TOKEN -> {
@@ -239,7 +261,8 @@ class PushHostHandlers(
 
         fun finish(context: Context?) {
             val backgroundMessageCompleteIntent = Intent(ON_BACKGROUND_MESSAGE_PROCESSING_COMPLETE)
-            LocalBroadcastManager.getInstance(context!!)
+            LocalBroadcastManager
+                .getInstance(context!!)
                 .sendBroadcast(backgroundMessageCompleteIntent)
         }
     }

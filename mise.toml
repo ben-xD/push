@@ -8,11 +8,11 @@ run = [
 
 [tasks.format]
 description = "Format"
-# TODO Use ktlint?
 run = [
   'dart fix --apply',
   'dart format .', # https://dart.dev/tools/dart-format
-  'swiftformat --exclude example/macos/Flutter/GeneratedPluginRegistrant.swift .', # https://github.com/nicklockwood/SwiftFormat, not https://github.com/apple/swift-format
+  'swiftformat --exclude example/macos/Flutter/GeneratedPluginRegistrant.swift .', # https://github.com/nicklockwood/SwiftFormat, not https://github.com/apple/swift-format 
+  'ktlint --format "android/**/*.kt"', # https://github.com/pinterest/ktlint.
 ]
 
 [tasks.codegen]

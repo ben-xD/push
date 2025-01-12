@@ -26,17 +26,17 @@ import uk.orth.push.serialization.PushHostApi
  * FirebaseMessagingReceiver
  */
 class BackgroundFlutterAppLauncher(
-        context: Context,
-        private val broadcastReceiver: FirebaseMessagingReceiver,
-        intent: Intent) {
-
+    context: Context,
+    private val broadcastReceiver: FirebaseMessagingReceiver,
+    intent: Intent,
+) {
     private val remoteMessage: RemoteMessage = RemoteMessage((intent.extras)!!)
     private val flutterEngine: FlutterEngine = FlutterEngine(context, null)
     private var pushHostHandlers: PushHostHandlers = PushHostHandlers(context, flutterEngine.dartExecutor.binaryMessenger)
 
     init {
         // Setup listener for background processing
-        pushHostHandlers.setupForBackgroundNotificationProcessing(remoteMessage) {finish()}
+        pushHostHandlers.setupForBackgroundNotificationProcessing(remoteMessage) { finish() }
         // Setup listener
         PushHostApi.setUp(flutterEngine.dartExecutor.binaryMessenger, pushHostHandlers)
         // Launch the users app isolate manually
@@ -50,8 +50,11 @@ class BackgroundFlutterAppLauncher(
 
     private fun finish() {
 //        flutterEngine.broadcastReceiverControlSurface.detachFromBroadcastReceiver()
-        Log.i(TAG, "Manually launched Flutter application has finished processing message. " +
-                "Destroying FlutterEngine and finishing asynchronous Broadcast Receiver")
+        Log.i(
+            TAG,
+            "Manually launched Flutter application has finished processing message. " +
+                "Destroying FlutterEngine and finishing asynchronous Broadcast Receiver",
+        )
         flutterEngine.destroy()
         broadcastReceiver.finish()
     }

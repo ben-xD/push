@@ -13,7 +13,11 @@ import uk.orth.push.PushHostHandlers.Companion.ON_BACKGROUND_MESSAGE_PROCESSING_
 class FirebaseMessagingReceiver : BroadcastReceiver() {
     private var asyncProcessingPendingResult: PendingResult? = null
     private var flutterBackgroundMessageProcessingCompleteReceiver: FlutterBackgroundMessageProcessingCompleteReceiver? = null
-    override fun onReceive(context: Context, intent: Intent) {
+
+    override fun onReceive(
+        context: Context,
+        intent: Intent,
+    ) {
         listenForFlutterApplicationToFinishProcessingMessage(context)
         sendMessageToFlutterApplication(context, intent)
     }
@@ -38,7 +42,9 @@ class FirebaseMessagingReceiver : BroadcastReceiver() {
     }
 
     private fun sendMessageToFlutterApplication(
-            context: Context, intent: Intent) {
+        context: Context,
+        intent: Intent,
+    ) {
         val isApplicationInForeground = isApplicationInForeground(context)
         when {
             isApplicationInForeground -> {
@@ -56,7 +62,8 @@ class FirebaseMessagingReceiver : BroadcastReceiver() {
     private fun isApplicationInForeground(context: Context): Boolean {
         val activityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
         // This only shows processes for the current android app.
-        val appProcesses = activityManager.runningAppProcesses
+        val appProcesses =
+            activityManager.runningAppProcesses
                 ?: // If no processes are running, appProcesses are null, not an empty list.
                 // The user's app is definitely not in the foreground if no processes are running.
                 return false
@@ -77,14 +84,19 @@ class FirebaseMessagingReceiver : BroadcastReceiver() {
      * A dynamic broadcast receiver registered to listen to a
      * `PUSH_ON_BACKGROUND_MESSAGE_PROCESSING_COMPLETE`
      */
-    internal inner class FlutterBackgroundMessageProcessingCompleteReceiver(context: Context?) : BroadcastReceiver() {
+    internal inner class FlutterBackgroundMessageProcessingCompleteReceiver(
+        context: Context?,
+    ) : BroadcastReceiver() {
         init {
             val filter = IntentFilter()
             filter.addAction(ON_BACKGROUND_MESSAGE_PROCESSING_COMPLETE)
             LocalBroadcastManager.getInstance(context!!).registerReceiver(this, filter)
         }
 
-        override fun onReceive(context: Context, intent: Intent) {
+        override fun onReceive(
+            context: Context,
+            intent: Intent,
+        ) {
             flutterBackgroundMessageProcessingCompleteReceiver?.let {
                 LocalBroadcastManager.getInstance(context).unregisterReceiver(it)
                 flutterBackgroundMessageProcessingCompleteReceiver = null

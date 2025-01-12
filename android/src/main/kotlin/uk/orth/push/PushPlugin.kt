@@ -16,8 +16,11 @@ import io.flutter.plugin.common.PluginRegistry
 import uk.orth.push.serialization.PushHostApi
 import uk.orth.push.serialization.toPushRemoteMessage
 
-
-class PushPlugin : FlutterPlugin, ActivityAware, PluginRegistry.NewIntentListener, PluginRegistry.RequestPermissionsResultListener {
+class PushPlugin :
+    FlutterPlugin,
+    ActivityAware,
+    PluginRegistry.NewIntentListener,
+    PluginRegistry.RequestPermissionsResultListener {
     private var pushHostHandlers: PushHostHandlers? = null
     private var mainActivity: Activity? = null
     private var applicationContext: Context? = null
@@ -31,6 +34,7 @@ class PushPlugin : FlutterPlugin, ActivityAware, PluginRegistry.NewIntentListene
 
     private var isPushNotificationsPermissionPending = false
     private var requestPermissionsResultCallback: ((Result<Boolean>) -> Unit)? = null
+
     private fun onRequestPushNotificationsPermission(callback: (Result<Boolean>) -> Unit) {
         // if already granted, skip and return successful immediately. Log something though.
         val areNotificationsEnabled = NotificationManagerCompat.from(applicationContext!!).areNotificationsEnabled()
@@ -40,11 +44,14 @@ class PushPlugin : FlutterPlugin, ActivityAware, PluginRegistry.NewIntentListene
             return
         }
 
-        requestPermissionsResultCallback?.invoke(Result.failure(IllegalAccessException("requestPermission was already running. Only call this function once.")))
+        requestPermissionsResultCallback?.invoke(
+            Result.failure(IllegalAccessException("requestPermission was already running. Only call this function once.")),
+        )
         requestPermissionsResultCallback = callback
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            mainActivity?.requestPermissions(arrayOf(Manifest.permission.POST_NOTIFICATIONS),
-                POST_NOTIFICATION_REQUEST_CODE
+            mainActivity?.requestPermissions(
+                arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+                POST_NOTIFICATION_REQUEST_CODE,
             )
             isPushNotificationsPermissionPending = true
         }
@@ -66,7 +73,7 @@ class PushPlugin : FlutterPlugin, ActivityAware, PluginRegistry.NewIntentListene
         binding.addOnNewIntentListener(this)
         binding.addRequestPermissionsResultListener(this)
         handleRemoteMessageIntent(
-                mainActivity.intent
+            mainActivity.intent,
         ) { message ->
             // Notification caused an app to launched
             // Only saving the map because title/body are not provided in the RemoteMessage
@@ -99,7 +106,7 @@ class PushPlugin : FlutterPlugin, ActivityAware, PluginRegistry.NewIntentListene
             mainActivity!!.intent = intent
         }
         handleRemoteMessageIntent(
-                intent
+            intent,
         ) { message ->
             // Application already running when notification is tapped
             pushHostHandlers?.onNotificationTap(message)
@@ -107,7 +114,10 @@ class PushPlugin : FlutterPlugin, ActivityAware, PluginRegistry.NewIntentListene
         return false
     }
 
-    private fun handleRemoteMessageIntent(intent: Intent, callback: (message: RemoteMessage) -> Unit) {
+    private fun handleRemoteMessageIntent(
+        intent: Intent,
+        callback: (message: RemoteMessage) -> Unit,
+    ) {
         intent.extras ?: return
         val message = RemoteMessage(intent.extras!!)
         // Notification is always empty here, even if the RemoteMessage originally had a notification.
@@ -119,11 +129,14 @@ class PushPlugin : FlutterPlugin, ActivityAware, PluginRegistry.NewIntentListene
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
-        grantResults: IntArray
+        grantResults: IntArray,
     ): Boolean {
         if (requestCode == POST_NOTIFICATION_REQUEST_CODE) {
             if (requestPermissionsResultCallback == null) {
-                Log.w(TAG, "Developer error. onRequestPermissionsResult called with POST_NOTIFICATION_REQUEST_CODE but requestPermissionsResult is null")
+                Log.w(
+                    TAG,
+                    "Developer error. onRequestPermissionsResult called with POST_NOTIFICATION_REQUEST_CODE but requestPermissionsResult is null",
+                )
                 // Not handled by this plugin
                 return false
             }
@@ -144,7 +157,10 @@ class PushPlugin : FlutterPlugin, ActivityAware, PluginRegistry.NewIntentListene
 
         // If implementing your own FirebaseMessagingService, be sure to call PushPlugin.onNewToken
         // in your FirebaseMessagingService#onNewToken override.
-        fun onNewToken(context: Context, fcmRegistrationToken: String) {
+        fun onNewToken(
+            context: Context,
+            fcmRegistrationToken: String,
+        ) {
             // Send intent so running application can get it.
             PushHostHandlers.onNewToken(context, fcmRegistrationToken)
         }
