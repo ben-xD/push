@@ -56,7 +56,7 @@ const generateJWT = (keyId: string, teamId: string, secretKeyPath: string): stri
     return `${header}.${claims}.${signature}`;
 };
 
-export const sendIos = async (config: AppleApnsConfig | undefined, messageType: "background" | "alert") => {
+export const sendDarwin = async (config: AppleApnsConfig | undefined, messageType: "background" | "alert", deviceToken: string) => {
     const isBackground = messageType === "background";
     if (!config) {
         throw new Error("Missing apple_apns configuration");
@@ -65,7 +65,7 @@ export const sendIos = async (config: AppleApnsConfig | undefined, messageType: 
     const message: ApnsMessage = {
         "aps": {
             "content-available": 1,
-            "extraData": "The actual date is unknown."
+            "extraData": "This is a custom key sent in the push notification from the `push` CLI"
         }
     };
     if (messageType === "alert") {
@@ -78,7 +78,7 @@ export const sendIos = async (config: AppleApnsConfig | undefined, messageType: 
     const baseUrl = config.is_sandbox ?
         'https://api.sandbox.push.apple.com' :
         'https://api.push.apple.com';
-    const url = `${baseUrl}/3/device/${config.device_token}`;
+    const url = `${baseUrl}/3/device/${deviceToken}`;
     const jwt = generateJWT(config.key_id, config.team_id, config.key_path);
 
     const response = await fetch(url, {

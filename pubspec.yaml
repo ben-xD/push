@@ -22,8 +22,13 @@ flutter:
   plugin:
     implements: push
     platforms:
+      # Shared implementation for darwin (iOS and macOS) as per https://docs.flutter.dev/packages-and-plugins/developing-packages#shared-ios-and-macos-implementations
       ios:
         pluginClass: PushPlugin
+        sharedDarwinSource: true
+      macos:
+        pluginClass: PushPlugin
+        sharedDarwinSource: true
       android:
         package: uk.orth.push
         pluginClass: PushPlugin

@@ -13,7 +13,8 @@ export const AppleApnsConfig = z.object({
     key_id: z.string(),
     key_path: z.string(),
     bundle_id: z.string(),
-    device_token: z.string(),
+    ios_device_token: z.string().optional(),
+    macos_device_token: z.string().optional(),
     is_sandbox: z.boolean().default(true),
 });
 export type AppleApnsConfig = z.infer<typeof AppleApnsConfig>;

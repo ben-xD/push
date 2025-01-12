@@ -1,4 +1,8 @@
 import Foundation
+#if os(macOS)
+    // Needed on macOS, otherwise build won't find e.g. UNUserNotificationCenterDelegate. Optional on iOS.
+    import UserNotifications
+#endif
 
 extension PURemoteMessage {
     static func from(userInfo: [AnyHashable: Any]) -> PURemoteMessage {
@@ -50,10 +54,8 @@ extension PUUNNotificationSettings {
         settings.alertSetting = PUUNNotificationSettingBox(value: unSettings.alertSetting.toSerializable())
         settings.notificationCenterSetting = PUUNNotificationSettingBox(value: unSettings.notificationCenterSetting.toSerializable())
         settings.lockScreenSetting = PUUNNotificationSettingBox(value: unSettings.lockScreenSetting.toSerializable())
-        settings.carPlaySetting = PUUNNotificationSettingBox(value: unSettings.carPlaySetting.toSerializable())
         settings.authorizationStatus = PUUNAuthorizationStatusBox(value: unSettings.authorizationStatus.toSerializable())
         settings.alertStyle = PUUNAlertStyleBox(value: unSettings.alertStyle.toSerializable())
-
         if #available(iOS 11.0, *) {
             settings.showPreviewsSetting = PUUNShowPreviewsSettingBox(value: unSettings.showPreviewsSetting.toSerializable())
         } else {
@@ -70,11 +72,17 @@ extension PUUNNotificationSettings {
             settings.criticalAlertSetting = PUUNNotificationSettingBox(value: .notSupported)
         }
 
-        if #available(iOS 13.0, *) {
-            settings.announcementSetting = PUUNNotificationSettingBox(value: unSettings.announcementSetting.toSerializable())
-        } else {
-            settings.announcementSetting = PUUNNotificationSettingBox(value: .notSupported)
-        }
+        #if os(iOS)
+            // Not available on macOS as per https://developer.apple.com/documentation/usernotifications/unnotificationsettings/carplaysetting
+            settings.carPlaySetting = PUUNNotificationSettingBox(value: unSettings.carPlaySetting.toSerializable())
+
+            // Not available on macOS as per https://developer.apple.com/documentation/usernotifications/unnotificationsettings/announcementsetting
+            if #available(iOS 13.0, *) {
+                settings.announcementSetting = PUUNNotificationSettingBox(value: unSettings.announcementSetting.toSerializable())
+            } else {
+                settings.announcementSetting = PUUNNotificationSettingBox(value: .notSupported)
+            }
+        #endif
 
         return settings
     }
@@ -134,3 +142,12 @@ extension UNShowPreviewsSetting {
         }
     }
 }
+
+#if os(macOS)
+    extension UNNotificationResponse {
+        func toMap() -> [AnyHashable: Any] {
+            // We can get a lot more information from a UNNotificationResponse, but to be consistent with iOS, we return the userInfo only (e.g. {aps: {alert: {title, body}, extraData: "some more data", content-available: 1}}).
+            return notification.request.content.userInfo
+        }
+    }
+#endif
