@@ -1,3 +1,7 @@
+## 3.3.1
+
+- Update description and issue tracker link
+
 ## 3.3.0
 
 - feat: upgrade to kotlin 2.1.0, android build tools 8.7.3
