@@ -24,7 +24,7 @@ run = [
 
 [tasks.publish]
 description = "Publish to pub.dev"
-dir = "push"
 run = [
+  # Try `flutter pub publish --dry-run` first
   'flutter pub publish',
 ]

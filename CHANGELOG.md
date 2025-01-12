@@ -1,3 +1,8 @@
+## 3.2.0
+
+- Add support for macOS
+- [iOS, macOS]: add manual `Push.instance.registerForRemoteNotifications()` and `Push.instance.unregisterForRemoteNotifications()`
+
 ## 3.1.1
 
 - docs: remove references to federation
