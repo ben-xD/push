@@ -1,5 +1,21 @@
 # Tools for push notifications
 
+## Setup
+
+- Install Node
+- Install pnpm: `npm install --global pnpm`
+- Install dependencies: `pnpm install`
+- Create config.yaml and update it: `cp example.config.yaml config.yaml`
+
+## Usage
+
+Run `pnpm start`, e.g. `pnpm start --android` or `pnpm start --ios`
+
+## Known issues
+
+- iOS Simulators don't seem to support background message on simulators (when app is in foreground or background).
+- We can't use bun or node's built-in fetch for connecting to APNs, because they don't support HTTP/2. See https://github.com/oven-sh/bun/issues/7194. We use fetch-h2 to support HTTP/2
+
 ## Resources
 
 - For more help with debugging on iOS, take a look at my
