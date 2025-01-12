@@ -3,6 +3,7 @@ description = "Lint"
 run = [
   'dart format --set-exit-if-changed .',
   'swiftformat --lint --exclude example/macos/Flutter/GeneratedPluginRegistrant.swift .',
+  'flutter analyze',
 ]
 
 [tasks.format]

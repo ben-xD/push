@@ -37,7 +37,7 @@ flutter:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^3.0.2
+  flutter_lints: ^5.0.0
   pigeon: ^22.7.2
 
 # For information on the generic Dart part of this file, see the

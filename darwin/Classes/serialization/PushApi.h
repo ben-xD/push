@@ -141,18 +141,18 @@ NSObject<FlutterMessageCodec> *PUGetPushApiCodec(void);
 ///  will get an error: `Requested entity was not found.`
 - (void)deleteTokenWithCompletion:(void (^)(FlutterError *_Nullable))completion;
 /// iOS only
+/// Registration is done automatically when the application starts.
+/// This is only useful if you previously called [PushHostApi.unregisterForRemoteNotifications].
+/// You'll get the next token from [PushFlutterApi.onNewToken]. Unfortunately, this would most likely be
+/// the same token as before you called [PushHostApi.unregisterForRemoteNotifications].
+- (void)registerForRemoteNotificationsWithError:(FlutterError *_Nullable *_Nonnull)error;
+/// iOS only
 /// Temporary disable receiving push notifications until next app restart. You can re-enable immediately with [PushHostApi.registerForRemoteNotifications].
 /// This might be useful if you're logging someone out or you want to completely disable all notifications.
 /// Trying to send an APNs message to the token will fail, until `registerForRemoteNotifications` is called.
 /// For iOS details, see https://developer.apple.com/documentation/uikit/uiapplication/1623093-unregisterforremotenotifications
 /// Warning: on IOS simulators, no notifications will be delivered when calling unregisterForRemoteNotifications and then `registerForRemoteNotifications`
 - (void)unregisterForRemoteNotificationsWithError:(FlutterError *_Nullable *_Nonnull)error;
-/// iOS only
-/// Registration is done automatically when the application starts.
-/// This is only useful if you previously called [PushHostApi.unregisterForRemoteNotifications].
-/// You'll get the next token from [PushFlutterApi.onNewToken]. Unfortunately, this would most likely be
-/// the same token as before you called [PushHostApi.unregisterForRemoteNotifications].
-- (void)registerForRemoteNotificationsWithError:(FlutterError *_Nullable *_Nonnull)error;
 - (void)backgroundFlutterApplicationReadyWithError:(FlutterError *_Nullable *_Nonnull)error;
 /// Pass true for the option you want permission to use
 /// Returns true if permission was granted.

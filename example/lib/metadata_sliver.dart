@@ -6,7 +6,7 @@ import 'package:push_example/use_push_token.dart';
 import 'package:share_plus/share_plus.dart';
 
 class MetadataSliver extends HookWidget {
-  const MetadataSliver({Key? key}) : super(key: key);
+  const MetadataSliver({super.key});
 
   @override
   Widget build(BuildContext context) {

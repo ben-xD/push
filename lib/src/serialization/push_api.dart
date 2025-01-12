@@ -363,14 +363,13 @@ class PushHostApi {
   }
 
   /// iOS only
-  /// Temporary disable receiving push notifications until next app restart. You can re-enable immediately with [PushHostApi.registerForRemoteNotifications].
-  /// This might be useful if you're logging someone out or you want to completely disable all notifications.
-  /// Trying to send an APNs message to the token will fail, until `registerForRemoteNotifications` is called.
-  /// For iOS details, see https://developer.apple.com/documentation/uikit/uiapplication/1623093-unregisterforremotenotifications
-  /// Warning: on IOS simulators, no notifications will be delivered when calling unregisterForRemoteNotifications and then `registerForRemoteNotifications`
-  Future<void> unregisterForRemoteNotifications() async {
+  /// Registration is done automatically when the application starts.
+  /// This is only useful if you previously called [PushHostApi.unregisterForRemoteNotifications].
+  /// You'll get the next token from [PushFlutterApi.onNewToken]. Unfortunately, this would most likely be
+  /// the same token as before you called [PushHostApi.unregisterForRemoteNotifications].
+  Future<void> registerForRemoteNotifications() async {
     final String pigeonVar_channelName =
-        'dev.flutter.pigeon.push.PushHostApi.unregisterForRemoteNotifications$pigeonVar_messageChannelSuffix';
+        'dev.flutter.pigeon.push.PushHostApi.registerForRemoteNotifications$pigeonVar_messageChannelSuffix';
     final BasicMessageChannel<Object?> pigeonVar_channel =
         BasicMessageChannel<Object?>(
       pigeonVar_channelName,
@@ -393,13 +392,14 @@ class PushHostApi {
   }
 
   /// iOS only
-  /// Registration is done automatically when the application starts.
-  /// This is only useful if you previously called [PushHostApi.unregisterForRemoteNotifications].
-  /// You'll get the next token from [PushFlutterApi.onNewToken]. Unfortunately, this would most likely be
-  /// the same token as before you called [PushHostApi.unregisterForRemoteNotifications].
-  Future<void> registerForRemoteNotifications() async {
+  /// Temporary disable receiving push notifications until next app restart. You can re-enable immediately with [PushHostApi.registerForRemoteNotifications].
+  /// This might be useful if you're logging someone out or you want to completely disable all notifications.
+  /// Trying to send an APNs message to the token will fail, until `registerForRemoteNotifications` is called.
+  /// For iOS details, see https://developer.apple.com/documentation/uikit/uiapplication/1623093-unregisterforremotenotifications
+  /// Warning: on IOS simulators, no notifications will be delivered when calling unregisterForRemoteNotifications and then `registerForRemoteNotifications`
+  Future<void> unregisterForRemoteNotifications() async {
     final String pigeonVar_channelName =
-        'dev.flutter.pigeon.push.PushHostApi.registerForRemoteNotifications$pigeonVar_messageChannelSuffix';
+        'dev.flutter.pigeon.push.PushHostApi.unregisterForRemoteNotifications$pigeonVar_messageChannelSuffix';
     final BasicMessageChannel<Object?> pigeonVar_channel =
         BasicMessageChannel<Object?>(
       pigeonVar_channelName,

@@ -375,6 +375,28 @@ void SetUpPUPushHostApiWithSuffix(id<FlutterBinaryMessenger> binaryMessenger, NS
     }
   }
   /// iOS only
+  /// Registration is done automatically when the application starts.
+  /// This is only useful if you previously called [PushHostApi.unregisterForRemoteNotifications].
+  /// You'll get the next token from [PushFlutterApi.onNewToken]. Unfortunately, this would most likely be
+  /// the same token as before you called [PushHostApi.unregisterForRemoteNotifications].
+  {
+    FlutterBasicMessageChannel *channel =
+      [[FlutterBasicMessageChannel alloc]
+        initWithName:[NSString stringWithFormat:@"%@%@", @"dev.flutter.pigeon.push.PushHostApi.registerForRemoteNotifications", messageChannelSuffix]
+        binaryMessenger:binaryMessenger
+        codec:PUGetPushApiCodec()];
+    if (api) {
+      NSCAssert([api respondsToSelector:@selector(registerForRemoteNotificationsWithError:)], @"PUPushHostApi api (%@) doesn't respond to @selector(registerForRemoteNotificationsWithError:)", api);
+      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+        FlutterError *error;
+        [api registerForRemoteNotificationsWithError:&error];
+        callback(wrapResult(nil, error));
+      }];
+    } else {
+      [channel setMessageHandler:nil];
+    }
+  }
+  /// iOS only
   /// Temporary disable receiving push notifications until next app restart. You can re-enable immediately with [PushHostApi.registerForRemoteNotifications].
   /// This might be useful if you're logging someone out or you want to completely disable all notifications.
   /// Trying to send an APNs message to the token will fail, until `registerForRemoteNotifications` is called.
@@ -391,28 +413,6 @@ void SetUpPUPushHostApiWithSuffix(id<FlutterBinaryMessenger> binaryMessenger, NS
       [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
         FlutterError *error;
         [api unregisterForRemoteNotificationsWithError:&error];
-        callback(wrapResult(nil, error));
-      }];
-    } else {
-      [channel setMessageHandler:nil];
-    }
-  }
-  /// iOS only
-  /// Registration is done automatically when the application starts.
-  /// This is only useful if you previously called [PushHostApi.unregisterForRemoteNotifications].
-  /// You'll get the next token from [PushFlutterApi.onNewToken]. Unfortunately, this would most likely be
-  /// the same token as before you called [PushHostApi.unregisterForRemoteNotifications].
-  {
-    FlutterBasicMessageChannel *channel =
-      [[FlutterBasicMessageChannel alloc]
-        initWithName:[NSString stringWithFormat:@"%@%@", @"dev.flutter.pigeon.push.PushHostApi.registerForRemoteNotifications", messageChannelSuffix]
-        binaryMessenger:binaryMessenger
-        codec:PUGetPushApiCodec()];
-    if (api) {
-      NSCAssert([api respondsToSelector:@selector(registerForRemoteNotificationsWithError:)], @"PUPushHostApi api (%@) doesn't respond to @selector(registerForRemoteNotificationsWithError:)", api);
-      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
-        FlutterError *error;
-        [api registerForRemoteNotificationsWithError:&error];
         callback(wrapResult(nil, error));
       }];
     } else {

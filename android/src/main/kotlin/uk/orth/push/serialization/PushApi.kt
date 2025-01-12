@@ -318,6 +318,14 @@ interface PushHostApi {
   fun deleteToken(callback: (Result<Unit>) -> Unit)
   /**
    * iOS only
+   * Registration is done automatically when the application starts.
+   * This is only useful if you previously called [PushHostApi.unregisterForRemoteNotifications].
+   * You'll get the next token from [PushFlutterApi.onNewToken]. Unfortunately, this would most likely be
+   * the same token as before you called [PushHostApi.unregisterForRemoteNotifications].
+   */
+  fun registerForRemoteNotifications()
+  /**
+   * iOS only
    * Temporary disable receiving push notifications until next app restart. You can re-enable immediately with [PushHostApi.registerForRemoteNotifications].
    * This might be useful if you're logging someone out or you want to completely disable all notifications.
    * Trying to send an APNs message to the token will fail, until `registerForRemoteNotifications` is called.
@@ -325,14 +333,6 @@ interface PushHostApi {
    * Warning: on IOS simulators, no notifications will be delivered when calling unregisterForRemoteNotifications and then `registerForRemoteNotifications`
    */
   fun unregisterForRemoteNotifications()
-  /**
-   * iOS only
-   * Registration is done automatically when the application starts.
-   * This is only useful if you previously called [PushHostApi.unregisterForRemoteNotifications].
-   * You'll get the next token from [PushFlutterApi.onNewToken]. Unfortunately, this would most likely be
-   * the same token as before you called [PushHostApi.unregisterForRemoteNotifications].
-   */
-  fun registerForRemoteNotifications()
   fun backgroundFlutterApplicationReady()
   /**
    * Pass true for the option you want permission to use
@@ -402,11 +402,11 @@ interface PushHostApi {
         }
       }
       run {
-        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.push.PushHostApi.unregisterForRemoteNotifications$separatedMessageChannelSuffix", codec)
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.push.PushHostApi.registerForRemoteNotifications$separatedMessageChannelSuffix", codec)
         if (api != null) {
           channel.setMessageHandler { _, reply ->
             val wrapped: List<Any?> = try {
-              api.unregisterForRemoteNotifications()
+              api.registerForRemoteNotifications()
               listOf(null)
             } catch (exception: Throwable) {
               wrapError(exception)
@@ -418,11 +418,11 @@ interface PushHostApi {
         }
       }
       run {
-        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.push.PushHostApi.registerForRemoteNotifications$separatedMessageChannelSuffix", codec)
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.push.PushHostApi.unregisterForRemoteNotifications$separatedMessageChannelSuffix", codec)
         if (api != null) {
           channel.setMessageHandler { _, reply ->
             val wrapped: List<Any?> = try {
-              api.registerForRemoteNotifications()
+              api.unregisterForRemoteNotifications()
               listOf(null)
             } catch (exception: Throwable) {
               wrapError(exception)

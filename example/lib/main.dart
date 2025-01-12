@@ -38,8 +38,7 @@ Future<FlutterLocalNotificationsPlugin>
 }
 
 class MyApp extends HookWidget {
-  const MyApp(this.flutterLocalNotificationsPlugin, {Key? key})
-      : super(key: key);
+  const MyApp(this.flutterLocalNotificationsPlugin, {super.key});
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 
   @override
@@ -251,7 +250,6 @@ class MyApp extends HookWidget {
             children: [
               ...tappedNotificationPayloads
                   .map((data) => TextRow("Data", data.toString()))
-                  .toList()
             ],
           ),
         ],
