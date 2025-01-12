@@ -1,0 +1,17 @@
+google_fcm:
+  # Generated following https://firebase.google.com/docs/admin/setup#initialize_the_sdk_in_non-google_environments. Place it somewhere out of the project (e.g. in your home folder), and specify the path here.
+  application_credentials_path: /Users/username/.android/push-package-firebase-adminsdk-X-XXXXX.json
+  # Taken from the application (either manually out of the terminal when running app or programatically sent to your servers).
+  device_registration_token: "replace me"
+apple_apns:
+  # your team id located in the developer portal
+  team_id: XXXXXXX
+  # your key id located in the developer portal
+  key_id: XXXXXXX
+  # the path to the key file you have stored in a safe place
+  key_path: /Users/username/.apple/AuthKey_XXXXXXXX.p8"
+  # your app bundle ID
+  bundle_id: com.example.app
+  # Release mode tokens are shorter compared to debug mode.
+  # Got {"reason":"InvalidProviderToken"}? The token might not match the team or key.
+  device_token: XXXXXXX
