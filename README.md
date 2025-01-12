@@ -11,15 +11,15 @@ There are some breaking changes in version 3.0.0. Please see the [breaking chang
 
 ## Features
 
-- Use push notification without Firebase on any platform except Android.
-- Get started testing push notifications quickly with the scripts, tools and commands provided in this project.
-- Consistent behaviour between iOS and Android.
-- It currently only supported iOS and Android.
-- Avoids using deprecated Android classes.
+- Use push notification without Firebase on any platform except Android
+- Get started testing push notifications quickly with the scripts, tools and commands provided in this project
+- Consistent behaviour between iOS and Android
+- It currently only supports Android, iOS and macOS
+- Avoids using deprecated Android classes
 - Receive push notifications when the app is in the foreground, background or terminated on Android
-  and iOS.
+  and iOS
 - Request permission to show notifications to the user, on iOS and Android (including Android 13+).
-- Handle notifications being tapped by users.
+- Handle notifications being tapped by users
 - Set your message handlers anywhere you want, however you want. Unlike other packages, these
   restrictions do not apply:
     - It must not be an anonymous function
@@ -28,7 +28,7 @@ There are some breaking changes in version 3.0.0. Please see the [breaking chang
       possible to update application state or execute any UI impacting logic**. You can however
       perform logic such as HTTP requests, IO operations (updating local storage), communicate with
       other plugins etc.
-- This project uses [semantic versioning](https://semver.org/).
+- This project uses [semantic versioning](https://semver.org/)
 
 ## Comparisons
 
@@ -144,6 +144,43 @@ class ExampleApplication : FlutterApplication() {
 - Create a push notifications key on your apple developer
   account's [Certificates, Identifiers & Profiles](https://developer.apple.com/account/resources/authkeys/list)
   page.
+
+#### macOS
+
+- Pre-requisite: you need an [Apple Developer Program](https://developer.apple.com/programs/) membership -
+  $99 a year.
+
+- Create a push notifications key on your apple developer
+  account's [Certificates, Identifiers & Profiles](https://developer.apple.com/account/resources/authkeys/list)
+  page.
+- You can use [Push Notification Console](https://developer.apple.com/documentation/usernotifications/testing-notifications-using-the-push-notification-console) to test push notifications.
+  - In your MacOS AppDelegate located in root/macos/Runner/AppDelegate add following delegate forwards (this step is required as at the moment the delegates missing for MacOS FlutterPlugin)
+    - if you have custom @NSApplicationMain then you will need to add it there. 
+```swift
+  import Cocoa
+  import push
+  import FlutterMacOS
+
+  @NSApplicationMain
+  class AppDelegate: FlutterAppDelegate {
+
+  ...
+
+    // on macOS, we need to listen to events from the system and forward it to the push package plugin.
+    // This is because the Flutter engine doesn't do this for plugins on macOS.
+    override func application(_ application: NSApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        SwiftPushPlugin.instance?.application(application, didRegisterForRemoteNotificationsWithDeviceToken: deviceToken)
+    }
+
+    override func application(_ application: NSApplication, didFailToRegisterForRemoteNotificationsWithError error: any Error) {
+        SwiftPushPlugin.instance?.application(application, didFailToRegisterForRemoteNotificationsWithError: error)
+    }
+
+    override func application(_ application: NSApplication, didReceiveRemoteNotification userInfo: [String : Any]) {
+        SwiftPushPlugin.instance?.application(application, didReceiveRemoteNotification: userInfo)
+    }
+  ...
+```
 
 ### Usage
 

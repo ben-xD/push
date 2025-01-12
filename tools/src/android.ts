@@ -30,8 +30,8 @@ export const sendAndroid = async (config: GoogleFcmConfig | undefined) => {
     } satisfies Message;
 
     try {
-        const messageId = getMessaging().send(androidMessage);
-        console.info("Successfully sent message:", messageId);
+        const messageId = await getMessaging().send(androidMessage);
+        console.info("Successfully sent message to Android with messageId ", messageId);
     } catch (error) {
         console.error("Error sending message:", error);
     }

@@ -17,7 +17,7 @@ In this guide, I try to help you contribute feature requests, bug reports, bug f
 - Update `CHANGELOG.md`
 - Publish with `mise publish`
 
-## Useful commands
+## Useful commands and resources
 
 - To publish, run `flutter pub publish` in specific folders (and all other packages that depend on it, starting with the leaf packages that have no dependencies)
 

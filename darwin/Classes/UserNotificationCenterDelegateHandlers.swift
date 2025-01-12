@@ -1,4 +1,8 @@
 import Foundation
+#if os(macOS)
+    // Needed on macOS, otherwise build won't find e.g. UNUserNotificationCenterDelegate. Optional on iOS.
+    import UserNotifications
+#endif
 
 class UserNotificationCenterDelegateHandlers: NSObject, UNUserNotificationCenterDelegate {
     private let originalDelegate: UNUserNotificationCenterDelegate?
@@ -79,7 +83,7 @@ class UserNotificationCenterDelegateHandlers: NSObject, UNUserNotificationCenter
         var presentationOptions: UNNotificationPresentationOptions = []
 
         if presentNotification {
-            if #available(iOS 14.0, *) {
+            if #available(iOS 14.0, macOS 11.0, *) {
                 presentationOptions.insert(.banner)
             } else {
                 presentationOptions.insert(.alert)
@@ -95,7 +99,7 @@ class UserNotificationCenterDelegateHandlers: NSObject, UNUserNotificationCenter
         }
 
         if presentList {
-            if #available(iOS 14.0, *) {
+            if #available(iOS 14.0, macOS 11.0, *) {
                 presentationOptions.insert(.list)
             }
         }

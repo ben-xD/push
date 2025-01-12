@@ -68,7 +68,7 @@ class NotificationPermissionSliver extends HookWidget {
 
     Widget buildRequestPermissionsSliver(BuildContext context,
         ValueNotifier<UNNotificationSettings?> notificationSettings) {
-      if (!Platform.isIOS && !Platform.isAndroid) {
+      if (!Platform.isIOS && !Platform.isMacOS && !Platform.isAndroid) {
         return buildNoPermissionsNeededSliver();
       }
 
@@ -115,7 +115,7 @@ class NotificationPermissionSliver extends HookWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Text(
-            "This platform is not supported yet. Only Android and iOS are supported."),
+            "This platform is not supported yet. Only iOS, macOS and Android are supported."),
       ],
     );
   }
