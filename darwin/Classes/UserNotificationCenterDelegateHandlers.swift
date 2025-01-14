@@ -38,7 +38,7 @@ class UserNotificationCenterDelegateHandlers: NSObject, UNUserNotificationCenter
         // We will send that one when the user requests for the "Push.instance.notificationTapWhichLaunchedAppFromTerminated" (Dart code)
         let skip = userTappedOnNotificationCount == 0 && PushHostHandlers.notificationTapWhichLaunchedAppUserInfo != nil
         if !skip {
-            pushFlutterApi.onNotificationTapData(response.notification.request.content.userInfo as! [String: Any]) { _ in }
+            pushFlutterApi.onNotificationTapMessage(response.notification.request.content.userInfo as! [String: Any]) { _ in }
         }
 
         userTappedOnNotificationCount += 1
