@@ -1,3 +1,7 @@
+## 3.3.3
+
+- fix(android): lower java version back to 1.8
+
 ## 3.3.2
 
 - fix(ios): fix(ios): fix swift call after renaming argument in pigeon dart file
