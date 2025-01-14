@@ -1,3 +1,7 @@
+## 3.3.2
+
+- fix(ios): fix(ios): fix swift call after renaming argument in pigeon dart file
+
 ## 3.3.1
 
 - Update description and issue tracker link
