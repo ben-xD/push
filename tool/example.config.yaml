@@ -2,7 +2,9 @@ google_fcm:
   # Generated following https://firebase.google.com/docs/admin/setup#initialize_the_sdk_in_non-google_environments. Place it somewhere out of the project (e.g. in your home folder), and specify the path here.
   application_credentials_path: /Users/username/.android/push-package-firebase-adminsdk-X-XXXXX.json
   # Taken from the application (either manually out of the terminal when running app or programatically sent to your servers).
-  device_registration_token: "replace me"
+  # Got error: `SERVICE_NOT_AVAILABLE`? The emulator might not be set up correctly. Create a new one and start that one instead. Ensure the emulator image used it has "Google Play" on it.
+  # Got error: `Failed to get FIS auth token`? The time is not correct on emulator. Just switch the automatic time setting on and aoff.
+  device_registration_token: XXXXXXX
 apple_apns:
   # your team id located in the developer portal
   team_id: XXXXXXX
@@ -12,8 +14,9 @@ apple_apns:
   key_path: /Users/username/.apple/AuthKey_XXXXXXXX.p8"
   # your app bundle ID
   bundle_id: com.example.app
-  # Release mode tokens are shorter compared to debug mode.
-  # Got {"reason":"InvalidProviderToken"}? The token might not match the team or key.
+  # Taken from the application (either manually out of the terminal when running app or programatically sent to your servers).
+  # APNs tokens for release mode builds are shorter compared to debug mode.
+  # Got {"reason":"InvalidProviderToken"}? The token is invalid, it might not match the team or key. If this was your own APNs script, it might be because you didn't sign the JWT correctly. This is done correctly in this tool CLI. 
   ios_device_token: XXXXXXX
   mac_device_token: XXXXXXX
   is_sandbox: true

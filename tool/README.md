@@ -5,7 +5,8 @@
 - Install Node
 - Install pnpm: `npm install --global pnpm`
 - Install dependencies: `pnpm install`
-- Create config.yaml and update it: `cp example.config.yaml config.yaml`
+- Switch to `tool` directory: `cd tool/`
+- Create config.yaml and update it according to the comments in the file: `cp example.config.yaml config.yaml`
 
 ## Usage
 
